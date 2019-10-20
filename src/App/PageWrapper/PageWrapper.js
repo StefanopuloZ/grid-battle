@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
-import {test} from '../../actions';
+import {UserActions} from '../../actions';
 import {Wrapper} from './PageWrapperStyle';
 
 const PageWrapper = props => {
@@ -33,7 +33,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    test: () => dispatch(test()),
+    test: () => dispatch(UserActions.test()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper);
