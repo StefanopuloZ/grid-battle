@@ -71,7 +71,7 @@
     "test": "node scripts/test.js"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": "eslint-config-react-app"
   },
   "browserslist": {
     "production": [
