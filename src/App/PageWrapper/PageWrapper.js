@@ -2,26 +2,29 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import {connect} from 'react-redux';
 import {test} from '../../actions';
+import {Wrapper} from './PageWrapperStyle';
 
 const PageWrapper = props => {
     console.log('username', props.username);
     props.test();
     return (
-        <div>
+        <Wrapper>
             <nav>
                 <ul>
                     <li>
-                        <Link to="/">{props.username}</Link>
+                        <Link to="/">Home</Link>
                     </li>
                     <li>
-                        <Link to="/about">About</Link>
+                        <Link to="/help">About</Link>
                     </li>
                     <li>
-                        <Link to="/users">Users</Link>
+                        <Link to="/battle">Battle</Link>
                     </li>
                 </ul>
             </nav>
-        </div>
+            {props.children}
+            <footer>Footer</footer>
+        </Wrapper>
     );
 };
 

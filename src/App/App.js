@@ -1,21 +1,22 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import PageWrapper from './PageWrapper';
-import './App.scss';
+import Home from '../pages/home';
+import Help from '../pages/help';
+import Battle from '../pages/battle';
+import {GlobalStyle} from './GlobalStyle';
 
 function App() {
     return (
         <Router>
+            <GlobalStyle />
             <PageWrapper>
                 <Switch>
-                    <Route path="/about">
-                        <h1>About</h1>
-                    </Route>
-                    <Route path="/users">
-                        <h1>Users</h1>
-                    </Route>
-                    <Route path="/">
-                        <h1>Home</h1>
+                    <Route exact path="/help" component={Help}/>
+                    <Route exact path="/battle" component={Battle}/>
+                    <Route exact path="/" component={Home}/>
+                    <Route>
+                        <h1>Page not found</h1>
                     </Route>
                 </Switch>
             </PageWrapper>
