@@ -1,22 +1,32 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import StyledGrid from './styledGrid';
+import { GridActions } from '../../actions';
+import Cell from '../Cell';
 
 const Grid = props => {
-    console.log(props);
-
   return (
     <StyledGrid>
-      {props.children}
+      {props.grid.map(cell => (
+        <Cell key={cell.index} cell={cell} />
+      ))}
     </StyledGrid>
   );
 };
 
 Element.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.element.isRequired
 };
 
-Element.defaultProps = {
-};
+Element.defaultProps = {};
 
-export default Grid;
+const mapStateToProps = state => ({
+  grid: state.GridReducer.grid
+});
+
+const mapDispatchToProps = dispatch => ({
+  updateGrid: () => dispatch(GridActions.updateGrid)
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Grid);

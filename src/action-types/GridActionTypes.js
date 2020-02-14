@@ -1,2 +1,2 @@
-export const GRID_TEST = 'GRID_TEST';
+export const UPDATE_GRID = 'UPDATE_GRID';
 

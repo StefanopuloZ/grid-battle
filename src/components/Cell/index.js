@@ -4,24 +4,29 @@ import { connect } from 'react-redux';
 import { StyledCell, StyledCellContent } from './styledCell';
 
 const Cell = props => {
-  const { columns } = props;
+  const { columns, cell } = props;
   const basis = 100 / columns + '%';
-  console.log(basis);
+  let fill = '';
+  if (cell.fill === 'S') {
+    fill = 'lightgreen';
+  } else if (cell.fill === 'X') {
+    fill = 'brown';
+  };
 
   return (
-    <StyledCell basis={basis}>
-      <StyledCellContent>{props.cell.index}</StyledCellContent>
+    <StyledCell basis={basis} fill={fill}>
+      <StyledCellContent>{`${cell.index} ${cell.fill}`}</StyledCellContent>
     </StyledCell>
   );
 };
 
 Element.propTypes = {
-  index: PropTypes.object,
+  cell: PropTypes.object,
   columns: PropTypes.number.isRequired,
 };
 
 Element.defaultProps = {
-  index: 'null'
+  cell: {},
 };
 
 const mapStateToProps = state => ({

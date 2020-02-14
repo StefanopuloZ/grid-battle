@@ -20,7 +20,15 @@ const makeAdjacentMatrix = (grid, rows, columns) => {
     return grid;
 };
 
-const makeGrid = (rows, columns) => {
+const fillGrid = (grid, start, obstacles) => {
+    grid[start].fill = 'S';
+    grid[start].visited = 1;
+    obstacles.forEach(obstacle => {
+        grid[obstacle].fill = 'X';
+    });
+};
+
+const makeGrid = (rows, columns, start, obstacles) => {
     let grid = [];
     for (let i = 0; i < rows; ++i) {
         for (let j = 0; j < columns; ++j) {
@@ -36,10 +44,13 @@ const makeGrid = (rows, columns) => {
 
     makeAdjacentMatrix(grid, rows, columns);
 
+    fillGrid(grid, start, obstacles);
+
     return grid;
 };
 
 export const Grid = {
     makeAdjacentMatrix,
     makeGrid,
+    fillGrid,
 }

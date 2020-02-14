@@ -1,10 +1,10 @@
 import styled from 'styled-components';
-import { space, layout, color } from 'styled-system';
 
 export const StyledCell = styled.div`
   display: flex;
   position: relative;
   border: 1px solid gray;
+  background-color: ${props => props.fill};
   flex-basis: ${props => props.basis};
   padding-top: ${props => props.basis};
 `;
