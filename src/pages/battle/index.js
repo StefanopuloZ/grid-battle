@@ -1,27 +1,37 @@
-import React from "react";
-import { connect } from "react-redux";
-import { GridActions } from "../../actions";
+import React from 'react';
+import { connect } from 'react-redux';
+import { GridActions } from '../../actions';
+import PropTypes from 'prop-types';
+import Cell from '../../components/Cell';
+import Grid from '../../components/Grid';
 
 const Battle = props => {
   return (
     <div>
       <h1>Battle</h1>
 
-      <div>
+      <Grid>
         {props.grid.map(cell => (
-          <span key={cell.index}>{cell.index}</span>
+          <Cell key={cell.index} cell={cell} />
         ))}
-      </div>
+      </Grid>
     </div>
   );
 };
 
+Element.propTypes = {
+  gird: PropTypes.object.isRequired,
+};
+
+Element.defaultProps = {
+};
+
 const mapStateToProps = state => ({
-  grid: state.GridReducer.grid,
+  grid: state.GridReducer.grid
 });
 
 const mapDispatchToProps = dispatch => ({
-  test: () => dispatch(GridActions.GRID_TEST()),
+  test: () => dispatch(GridActions.GRID_TEST())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Battle);
