@@ -12,7 +12,11 @@ const Grid = props => {
   const [selected, setSelected] = useState(0);
 
   const onClick = cell => {
+    if (cell.fill === 'X') {
+      return;
+    }
     setSelected(cell.index);
+    updateGrid(GridHelper.clearPath(grid));
 
     console.log('cell', cell);
   };
@@ -22,8 +26,6 @@ const Grid = props => {
     if (newGrid) {
       updateGrid(newGrid);
     }
-    console.log('newGrid', newGrid);
-    console.log('searchStarted', cell);
   };
 
   return (

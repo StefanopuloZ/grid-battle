@@ -7,9 +7,9 @@ export const StyledCell = styled.div`
   background-color: ${props => props.fill};
   flex-basis: ${props => props.basis};
   padding-top: ${props => props.basis};
+  cursor: ${props => props.fill === 'brown' ? 'not-allowed' : 'pointer'};
 
   &:hover {
-    cursor: pointer;
     border: 1px solid red;
   }
 `;

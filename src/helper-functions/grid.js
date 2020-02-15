@@ -60,15 +60,16 @@ const clearVisitedCells = grid => {
   });
 }
 
+const clearPath = grid => grid.map(cell => {
+  cell.path = 0;
+  return cell;
+});
+
 const startSearch = (grid, start, target) => {
   let paths = [];
 
   const searchStep = (start, target) => {
-    // let visitedCells = [];
-    // let paths = [];
-  
-    // console.log('paths', paths);
-  
+
     if (paths.length === 0) {
       paths.push([grid[start]]);
     }
@@ -96,11 +97,6 @@ const startSearch = (grid, start, target) => {
       });
     });
   
-    if (finalPath) {
-      console.log('finalPath', finalPath);
-      // fillPath(grid, finalPath);
-    };
-  
     clearVisitedCells(grid);
   
     if (isPathImpossible) {
@@ -108,12 +104,6 @@ const startSearch = (grid, start, target) => {
     }
   
     paths = newPaths;
-  
-    console.log('newPaths', newPaths);
-  
-    // const table = document.getElementById('table');
-    // document.body.removeChild(table);
-    // tableCreate(grid, rows, columns);
   
     if (finalPath) {
       return finalPath;
@@ -123,7 +113,6 @@ const startSearch = (grid, start, target) => {
   };
 
   if (!start && start !== 0) {
-    console.log('no start');
     return;
   }
   if (grid[target].fill === 'X') {
@@ -131,7 +120,7 @@ const startSearch = (grid, start, target) => {
   }
   let counter = 0;
   let result = searchStep(start, target);
-  while (!result && counter < 200) {
+  while (!result && counter < 300) {
       ++counter;
       result = searchStep(start, target);
       if (result) {
@@ -141,7 +130,6 @@ const startSearch = (grid, start, target) => {
   }
   paths = [];
   clearVisitedCells(grid);
-  console.log('counter', counter + 1);
 }
 
 export const GridHelper = {
@@ -150,4 +138,5 @@ export const GridHelper = {
   fillGrid,
   fillPath,
   startSearch,
+  clearPath,
 };
