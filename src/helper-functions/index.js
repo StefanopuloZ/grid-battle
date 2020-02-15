@@ -1,1 +1,1 @@
-export { Grid } from "./grid";
+export { GridHelper } from "./grid";

@@ -4,18 +4,31 @@ import { connect } from 'react-redux';
 import StyledGrid from './styledGrid';
 import { GridActions } from '../../actions';
 import Cell from '../Cell';
+import { GridHelper } from '../../helper-functions';
 
 const Grid = props => {
+  const { grid, updateGrid } = props;
+
   const [selected, setSelected] = useState(0);
 
   const onClick = cell => {
     setSelected(cell.index);
+
     console.log('cell', cell);
+  };
+
+  const startSearch = cell => {
+    let newGrid = GridHelper.startSearch(JSON.parse(JSON.stringify(grid)), selected, cell.index);
+    if (newGrid) {
+      updateGrid(newGrid);
+    }
+    console.log('newGrid', newGrid);
+    console.log('searchStarted', cell);
   };
 
   return (
     <StyledGrid>
-      {props.grid.map(cell => {
+      {grid.map(cell => {
         const cellSelected = cell.index === selected;
 
         return (
@@ -25,6 +38,9 @@ const Grid = props => {
             selected={cellSelected}
             onClick={() => {
               onClick(cell);
+            }}
+            onMouseEnter={() => {
+              startSearch(cell);
             }}
           />
         );
@@ -44,7 +60,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateGrid: () => dispatch(GridActions.updateGrid),
+  updateGrid: grid => dispatch(GridActions.updateGrid(grid)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

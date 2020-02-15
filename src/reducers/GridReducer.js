@@ -1,18 +1,17 @@
 import * as ActionTypes from "../action-types";
-import { Grid } from "../helper-functions";
+import { GridHelper } from "../helper-functions";
 
 //////////////////
 
-const obstacles = [5, 15, 8, 18, 38, 37, 13, 23, 33, 1, 11, 94, 98, 77, 76, 78, 45, 35, 55, 97, 70, 71, 72, 52, 51, 30];
+const settings = {
+obstacles: [5, 15, 8, 18, 38, 37, 13, 23, 33, 1, 11, 94, 98, 77, 76, 78, 79, 45, 35, 55, 97, 70, 71, 72, 52, 51, 30],
+rows: 10,
+columns: 10,
+}
 
 const DEFAULT_STATE = {
-  rows: 10,
-  columns: 10,
-  grid: Grid.makeGrid(10, 10, 0, obstacles),
-  start: 0,
-  obstacles,
-
-  
+  settings,
+  grid: GridHelper.makeGrid(settings),
 };
 
 const GridReducer = (state = DEFAULT_STATE, action) => {
