@@ -4,18 +4,21 @@ import { connect } from 'react-redux';
 import { StyledCell, StyledCellContent } from './styledCell';
 
 const Cell = props => {
-  const { columns, cell } = props;
+  const { columns, cell, selected, onClick } = props;
   const basis = 100 / columns + '%';
   let fill = '';
   if (cell.fill === 'S') {
     fill = 'lightgreen';
   } else if (cell.fill === 'X') {
     fill = 'brown';
-  };
+  }
 
   return (
     <StyledCell basis={basis} fill={fill}>
-      <StyledCellContent>{`${cell.index} ${cell.fill}`}</StyledCellContent>
+      <StyledCellContent
+        onClick={onClick}
+        selected={selected}
+      >{`${cell.index} ${cell.fill}`}</StyledCellContent>
     </StyledCell>
   );
 };
@@ -30,7 +33,7 @@ Element.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  columns: state.GridReducer.columns
+  columns: state.GridReducer.columns,
 });
 
 const mapDispatchToProps = dispatch => ({});

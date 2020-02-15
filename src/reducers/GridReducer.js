@@ -11,6 +11,8 @@ const DEFAULT_STATE = {
   grid: Grid.makeGrid(10, 10, 0, obstacles),
   start: 0,
   obstacles,
+
+  
 };
 
 const GridReducer = (state = DEFAULT_STATE, action) => {

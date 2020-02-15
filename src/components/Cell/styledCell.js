@@ -7,6 +7,11 @@ export const StyledCell = styled.div`
   background-color: ${props => props.fill};
   flex-basis: ${props => props.basis};
   padding-top: ${props => props.basis};
+
+  &:hover {
+    cursor: pointer;
+    border: 1px solid red;
+  }
 `;
 export const StyledCellContent = styled.div`
   justify-content: center;
@@ -18,9 +23,5 @@ export const StyledCellContent = styled.div`
   top: 0;
   left: 0;
   transition: all .3s ease; 
-
-  &:hover {
-    cursor: pointer;
-    border: 2px solid red;
-  }
+  border: ${props => props.selected ? '2px dashed black' : 'none'};
 `;
