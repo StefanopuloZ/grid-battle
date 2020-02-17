@@ -41,8 +41,8 @@ const Grid = props => {
       if (selected === cell.index) {
         clearSelectedCharacter();
       } else {
-        if (cell.fill !== 'X' && cell.path) {
-          updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, cell));
+        if (cell.fill !== 'X' && path.length > 0) {
+          updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid[path[path.length - 1].index]));
           clearSelectedCharacter();
         }
       }
@@ -57,14 +57,13 @@ const Grid = props => {
       selectedCharacter
     );
     if (newGrid && newGrid.grid) {
-      console.log('path', newGrid.result);
       updateGrid(newGrid.grid);
+      setPath(newGrid.result);
     }
   };
 
   return (
     <StyledGrid>
-      {/* {console.log('path', path)} */}
       {grid.map(cell => {
         const cellSelected = cell.index === selected;
 
