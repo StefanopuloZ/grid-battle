@@ -12,12 +12,14 @@ const Grid = props => {
   const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState({});
+  const [path, setPath] = useState([]);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
     setSelected(null);
     setSelectedCharacter({});
     updateGrid(GridHelper.clearPath(grid));
+    setPath([]);
   };
 
   const updateSelectedCharacter = cell => {
@@ -54,13 +56,15 @@ const Grid = props => {
       cell.index,
       selectedCharacter
     );
-    if (newGrid) {
-      updateGrid(newGrid);
+    if (newGrid && newGrid.grid) {
+      console.log('path', newGrid.result);
+      updateGrid(newGrid.grid);
     }
   };
 
   return (
     <StyledGrid>
+      {/* {console.log('path', path)} */}
       {grid.map(cell => {
         const cellSelected = cell.index === selected;
 

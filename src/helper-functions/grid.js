@@ -34,7 +34,7 @@ const fillGrid = (grid, fill) => {
   });
 };
 
-const makeGrid = ({rows, columns, fill}) => {
+const makeGrid = ({ rows, columns, fill }) => {
   let grid = [];
   for (let i = 0; i < rows; ++i) {
     for (let j = 0; j < columns; ++j) {
@@ -65,29 +65,29 @@ const fillPath = (grid, path) => {
 
 const clearVisitedCells = grid => {
   grid.forEach(cell => {
-      cell.visited = 0;
-      cell.path = 0;
+    cell.visited = 0;
+    cell.path = 0;
   });
-}
+};
 
-const clearPath = grid => grid.map(cell => {
-  cell.path = 0;
-  return cell;
-});
+const clearPath = grid =>
+  grid.map(cell => {
+    cell.path = 0;
+    return cell;
+  });
 
 const startSearch = (grid, start, target, character) => {
   let paths = [];
 
   const searchStep = (start, target) => {
-
     if (paths.length === 0) {
       paths.push([grid[start]]);
     }
-  
+
     const newPaths = [];
     let finalPath;
     let isPathImpossible = true;
-  
+
     paths.forEach(path => {
       path[path.length - 1].adjecent.forEach(adjecentCell => {
         if (grid[adjecentCell].index === target) {
@@ -106,19 +106,19 @@ const startSearch = (grid, start, target, character) => {
         }
       });
     });
-  
+
     clearVisitedCells(grid);
-  
+
     if (isPathImpossible) {
       return grid;
     }
-  
+
     paths = newPaths;
-  
+
     if (finalPath) {
       return finalPath.slice(0, character.speed);
-    };
-  
+    }
+
     return false;
   };
 
@@ -126,21 +126,23 @@ const startSearch = (grid, start, target, character) => {
     return;
   }
   if (grid[target].fill) {
-      return;
+    return;
   }
   let counter = 0;
   let result = searchStep(start, target);
-  while (!result && counter < 300) {
-      ++counter;
-      if (counter > 299) {
-        console.log('time out!');
-      }
-      result = searchStep(start, target);
-      if (result) {
-        fillPath(grid, result);
-        return grid;
-      }
-  }
+
+  do {
+    ++counter;
+    if (counter > 299) {
+      console.log('time out!');
+    }
+    result = searchStep(start, target);
+    if (result) {
+      fillPath(grid, result);
+      return { grid, result };
+    }
+  } while (!result && counter < 300);
+
   paths = [];
   clearVisitedCells(grid);
 };
@@ -159,7 +161,7 @@ const moveCharacter = (grid, character, target, path) => {
   grid[target.index].stats.index = target.index;
 
   return grid;
-}
+};
 
 export const GridHelper = {
   makeAdjacentMatrix,
