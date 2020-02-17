@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyledCell, StyledCellContent } from './styledCell';
+import CellContent from '../CellContent';
 
 const Cell = props => {
   const { columns, cell, selected, onClick, onMouseEnter } = props;
@@ -14,13 +15,15 @@ const Cell = props => {
   }
 
   return (
-    <StyledCell basis={basis} fill={fill}>
+    <StyledCell basis={basis} fill={fill} image={cell.terrain}>
       <StyledCellContent
         onClick={onClick}
         selected={selected}
         onMouseEnter={onMouseEnter}
         path={cell.path}
-      >{`${cell.index} ${cell.fill}`}</StyledCellContent>
+      >
+        <CellContent cell={cell} />
+      </StyledCellContent>
     </StyledCell>
   );
 };

@@ -20,13 +20,21 @@ const makeAdjacentMatrix = (grid, rows, columns) => {
   return grid;
 };
 
-const fillGrid = (grid, obstacles) => {
-  obstacles.forEach(obstacle => {
+const fillGrid = (grid, fill) => {
+  fill.obstacles.forEach(obstacle => {
     grid[obstacle].fill = 'X';
+    grid[obstacle].image = 'tree';
+    grid[obstacle].terrain = 'grass';
+  });
+
+  fill.characters.forEach(character => {
+    grid[character.index].fill = character.fill;
+    grid[character.index].image = character.image;
+    grid[character.index].stats = character;
   });
 };
 
-const makeGrid = ({rows, columns, obstacles}) => {
+const makeGrid = ({rows, columns, fill}) => {
   let grid = [];
   for (let i = 0; i < rows; ++i) {
     for (let j = 0; j < columns; ++j) {
@@ -36,13 +44,15 @@ const makeGrid = ({rows, columns, obstacles}) => {
         adjecent: [],
         visited: 0,
         path: 0,
+        image: '',
+        terrain: 'grass',
       });
     }
   }
 
   makeAdjacentMatrix(grid, rows, columns);
 
-  fillGrid(grid, obstacles);
+  fillGrid(grid, fill);
 
   return grid;
 };

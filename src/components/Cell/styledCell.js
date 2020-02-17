@@ -1,10 +1,14 @@
 import styled from 'styled-components';
+import grass from './assets/grass.jpg';
+
+const background = { grass };
 
 export const StyledCell = styled.div`
   display: flex;
   position: relative;
   border: 1px solid gray;
-  background-color: ${props => props.fill};
+  background: url(${props => background[props.image]}) center center/cover
+    no-repeat;
   flex-basis: ${props => props.basis};
   padding-top: ${props => props.basis};
   cursor: ${props => props.fill === 'brown' ? 'not-allowed' : 'pointer'};

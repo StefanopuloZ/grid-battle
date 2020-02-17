@@ -9,7 +9,7 @@ import { GridHelper } from '../../helper-functions';
 const Grid = props => {
   const { grid, updateGrid } = props;
 
-  const [selected, setSelected] = useState(0);
+  const [selected, setSelected] = useState();
 
   const onClick = cell => {
     if (cell.fill === 'X') {
