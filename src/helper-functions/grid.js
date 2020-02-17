@@ -3,7 +3,7 @@ const makeAdjacentMatrix = (grid, rows, columns) => {
     let adjecent = [];
 
     let up = index - columns;
-    up > 0 && adjecent.push(up);
+    up > -1 && adjecent.push(up);
 
     let down = index + columns;
     down < grid.length && adjecent.push(down);
@@ -75,7 +75,7 @@ const clearPath = grid => grid.map(cell => {
   return cell;
 });
 
-const startSearch = (grid, start, target) => {
+const startSearch = (grid, start, target, character) => {
   let paths = [];
 
   const searchStep = (start, target) => {
@@ -96,7 +96,7 @@ const startSearch = (grid, start, target) => {
           isPathImpossible = false;
         } else if (
           grid[adjecentCell].visited === 0 &&
-          grid[adjecentCell].fill !== 'X'
+          !grid[adjecentCell].fill
         ) {
           grid[adjecentCell].visited = 1;
           const newPath = JSON.parse(JSON.stringify(path));
@@ -116,7 +116,7 @@ const startSearch = (grid, start, target) => {
     paths = newPaths;
   
     if (finalPath) {
-      return finalPath;
+      return finalPath.slice(0, character.speed);
     };
   
     return false;
@@ -125,13 +125,16 @@ const startSearch = (grid, start, target) => {
   if (!start && start !== 0) {
     return;
   }
-  if (grid[target].fill === 'X') {
+  if (grid[target].fill) {
       return;
   }
   let counter = 0;
   let result = searchStep(start, target);
   while (!result && counter < 300) {
       ++counter;
+      if (counter > 299) {
+        console.log('time out!');
+      }
       result = searchStep(start, target);
       if (result) {
         fillPath(grid, result);
@@ -140,6 +143,22 @@ const startSearch = (grid, start, target) => {
   }
   paths = [];
   clearVisitedCells(grid);
+};
+
+const moveCharacter = (grid, character, target, path) => {
+  console.log(character);
+  console.log(target);
+
+  grid[character.index].fill = '';
+  grid[character.index].image = '';
+  grid[character.index].stats = '';
+
+  grid[target.index].image = character.image;
+  grid[target.index].fill = character.fill;
+  grid[target.index].stats = character;
+  grid[target.index].stats.index = target.index;
+
+  return grid;
 }
 
 export const GridHelper = {
@@ -149,4 +168,5 @@ export const GridHelper = {
   fillPath,
   startSearch,
   clearPath,
+  moveCharacter,
 };

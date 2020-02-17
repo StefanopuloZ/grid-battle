@@ -28,5 +28,5 @@ export const StyledCellContent = styled.div`
   left: 0;
   transition: all .3s ease; 
   border: ${props => props.selected ? '2px dashed black' : 'none'};
-  background: ${props => props.path ? 'pink' : 'transparent'};
+  background: ${props => props.path ? 'rgba(255, 192, 203, 0.6)' : 'transparent'};
 `;
