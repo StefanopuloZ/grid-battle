@@ -13,42 +13,47 @@ const Grid = props => {
   const [isSelected, setIsSelected] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState({});
 
+  const clearSelectedCharacter = () => {
+    setIsSelected(false);
+    setSelected(null);
+    setSelectedCharacter({});
+    updateGrid(GridHelper.clearPath(grid));
+  };
+
+  const updateSelectedCharacter = cell => {
+    setIsSelected(true);
+    setSelected(cell.index);
+    setSelectedCharacter(cell.stats);
+    updateGrid(GridHelper.clearPath(grid));
+  };
+
   const onClick = cell => {
     console.log('cell', cell);
 
     if (!isSelected) {
       if (cell.fill !== 'C') {
         return;
-      };
-
-      setIsSelected(true);
-      setSelected(cell.index);
-      setSelectedCharacter(cell.stats);
-      console.log('selectedCharacter', cell.stats);
-      updateGrid(GridHelper.clearPath(grid));
+      }
+      updateSelectedCharacter(cell);
     } else {
       if (selected === cell.index) {
-        setIsSelected(false);
-        setSelected(null);
-        setSelectedCharacter({});
-        updateGrid(GridHelper.clearPath(grid));
+        clearSelectedCharacter();
       } else {
         if (cell.fill !== 'X' && cell.path) {
-          console.log('move character!');
           updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, cell));
-          updateGrid(GridHelper.clearPath(grid));
-          
-          setIsSelected(false);
-          setSelected(null);
-          setSelectedCharacter({});
+          clearSelectedCharacter();
         }
       }
     }
-
   };
 
   const startSearch = cell => {
-    let newGrid = GridHelper.startSearch(JSON.parse(JSON.stringify(grid)), selected, cell.index, selectedCharacter);
+    let newGrid = GridHelper.startSearch(
+      JSON.parse(JSON.stringify(grid)),
+      selected,
+      cell.index,
+      selectedCharacter
+    );
     if (newGrid) {
       updateGrid(newGrid);
     }
