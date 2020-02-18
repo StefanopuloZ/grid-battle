@@ -42,7 +42,7 @@ const Grid = props => {
     newGrid[selected].animation = Animations.moveAnimationBuilder(path, 'move');
     updateGrid(newGrid);
 
-    await waitFor(1000);
+    await waitFor(path.length * 300);
     updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid[path[path.length - 1].index]));
     clearSelectedCharacter();
   }

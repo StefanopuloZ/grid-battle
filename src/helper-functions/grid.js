@@ -3,16 +3,16 @@ const makeAdjacentMatrix = (grid, rows, columns) => {
     let adjecent = [];
 
     let up = index - columns;
-    up > -1 && adjecent.push(up);
+    up > -1 && adjecent.push({index: up, direction: 'up'});
 
     let down = index + columns;
-    down < grid.length && adjecent.push(down);
+    down < grid.length && adjecent.push({index: down, direction: 'down'});
 
     let left = index - 1;
-    left >= 0 && index % columns !== 0 && adjecent.push(left);
+    left >= 0 && index % columns !== 0 && adjecent.push({index: left, direction: 'left'});
 
     let right = index + 1;
-    right < grid.length && right % columns !== 0 && adjecent.push(right);
+    right < grid.length && right % columns !== 0 && adjecent.push({index: right, direction: 'right'});
 
     cell.adjecent = adjecent;
   });
@@ -59,7 +59,9 @@ const makeGrid = ({ rows, columns, fill }) => {
 };
 
 const fillPath = (grid, path) => {
+  console.log('path', path);
   path.forEach(cell => {
+    console.log('cell', cell);
     grid[cell.index].path = 1;
   });
 };
@@ -91,17 +93,17 @@ const startSearch = (grid, start, target, character) => {
 
     paths.forEach(path => {
       path[path.length - 1].adjecent.forEach(adjecentCell => {
-        if (grid[adjecentCell].index === target) {
+        if (grid[adjecentCell.index].index === target) {
           finalPath = path;
-          finalPath.push(grid[adjecentCell]);
+          finalPath.push(grid[adjecentCell.index]);
           isPathImpossible = false;
         } else if (
-          grid[adjecentCell].visited === 0 &&
-          !grid[adjecentCell].fill
+          grid[adjecentCell.index].visited === 0 &&
+          !grid[adjecentCell.index].fill
         ) {
-          grid[adjecentCell].visited = 1;
+          grid[adjecentCell.index].visited = 1;
           const newPath = JSON.parse(JSON.stringify(path));
-          newPath.push(grid[adjecentCell]);
+          newPath.push(grid[adjecentCell.index]);
           newPaths.push(newPath);
           isPathImpossible = false;
         }
