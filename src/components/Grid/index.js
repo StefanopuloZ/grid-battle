@@ -39,7 +39,7 @@ const Grid = props => {
 
   async function animateAndMove() {
     const newGrid = JSON.parse(JSON.stringify(grid));
-    newGrid[selected].animation = Animations.moveAnimation;
+    newGrid[selected].animation = Animations.moveAnimationBuilder(path, 'move');
     updateGrid(newGrid);
 
     await waitFor(1000);
