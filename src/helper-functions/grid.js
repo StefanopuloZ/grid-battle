@@ -130,6 +130,10 @@ const startSearch = (grid, start, target, character) => {
   }
   let counter = 0;
   let result = searchStep(start, target);
+  if (result) {
+    fillPath(grid, result);
+    return { grid, result };
+  }
 
   do {
     ++counter;

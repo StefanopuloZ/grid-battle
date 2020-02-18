@@ -76,7 +76,7 @@ const Grid = props => {
               onClick(cell);
             }}
             onMouseEnter={() => {
-              startSearch(cell);
+              isSelected && startSearch(cell);
             }}
           />
         );

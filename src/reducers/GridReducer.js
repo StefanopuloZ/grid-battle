@@ -7,12 +7,12 @@ const settings = {
 rows: 10,
 columns: 10,
 fill: {
-  obstacles: [5, 15, 8, 18, 38, 37, 13, 23, 33, 1, 11, 94, 98, 77, 76, 78, 79, 45, 35, 55, 97, 70, 71, 72, 52, 51, 30],
+  obstacles: [5, 15, 8, 18, 38, 37, 13, 1, 23, 33, 94, 98, 77, 76, 78, 79, 45, 35, 55, 97, 70, 71, 72, 52, 51, 30],
   characters: [
     {
       name: 'Victor',
       type: 'hero',
-      speed: 5,
+      speed: 7,
       image: 'warrior',
       index: 0,
       fill: 'C',
