@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import StyledGrid from './styledGrid';
 import { GridActions } from '../../actions';
 import Cell from '../Cell';
-import { GridHelper } from '../../helper-functions';
+import { GridHelper, Animations } from '../../helper-functions';
 
 const Grid = props => {
   const { grid, updateGrid } = props;
@@ -29,6 +29,24 @@ const Grid = props => {
     updateGrid(GridHelper.clearPath(grid));
   };
 
+  const waitFor = time => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, time);
+    });
+  }
+
+  async function animateAndMove() {
+    const newGrid = JSON.parse(JSON.stringify(grid));
+    newGrid[selected].animation = Animations.moveAnimation;
+    updateGrid(newGrid);
+
+    await waitFor(1000);
+    updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid[path[path.length - 1].index]));
+    clearSelectedCharacter();
+  }
+
   const onClick = cell => {
     console.log('cell', cell);
 
@@ -42,8 +60,8 @@ const Grid = props => {
         clearSelectedCharacter();
       } else {
         if (cell.fill !== 'X' && path.length > 0) {
-          updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid[path[path.length - 1].index]));
-          clearSelectedCharacter();
+
+          animateAndMove();
         }
       }
     }

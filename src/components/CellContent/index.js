@@ -6,7 +6,7 @@ const CellContent = props => {
   const { cell } = props;
 
   return (
-    <StyledCellContent image={cell.image}>
+    <StyledCellContent image={cell.image} animation={cell.animation}>
       <p>{`${cell.index} ${cell.fill}`}</p>
     </StyledCellContent>
   );

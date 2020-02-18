@@ -46,6 +46,7 @@ const makeGrid = ({ rows, columns, fill }) => {
         path: 0,
         image: '',
         terrain: 'grass',
+        animation: null,
       });
     }
   }

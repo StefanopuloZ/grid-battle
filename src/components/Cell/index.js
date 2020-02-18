@@ -22,7 +22,7 @@ const Cell = props => {
         onMouseEnter={onMouseEnter}
         path={cell.path}
       >
-        <CellContent cell={cell} />
+        <CellContent cell={cell}/>
       </StyledCellContent>
     </StyledCell>
   );
@@ -30,15 +30,15 @@ const Cell = props => {
 
 Element.propTypes = {
   cell: PropTypes.object,
-  columns: PropTypes.number.isRequired,
+  columns: PropTypes.number.isRequired
 };
 
 Element.defaultProps = {
-  cell: {},
+  cell: {}
 };
 
 const mapStateToProps = state => ({
-  columns: state.GridReducer.settings.columns,
+  columns: state.GridReducer.settings.columns
 });
 
 const mapDispatchToProps = dispatch => ({});
