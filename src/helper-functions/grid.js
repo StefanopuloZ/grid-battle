@@ -47,6 +47,7 @@ const makeGrid = ({ rows, columns, fill }) => {
         image: '',
         terrain: 'grass',
         animation: null,
+        direction: null,
       });
     }
   }
@@ -59,9 +60,7 @@ const makeGrid = ({ rows, columns, fill }) => {
 };
 
 const fillPath = (grid, path) => {
-  console.log('path', path);
   path.forEach(cell => {
-    console.log('cell', cell);
     grid[cell.index].path = 1;
   });
 };
@@ -76,6 +75,7 @@ const clearVisitedCells = grid => {
 const clearPath = grid =>
   grid.map(cell => {
     cell.path = 0;
+    cell.direction = null;
     return cell;
   });
 
@@ -95,6 +95,7 @@ const startSearch = (grid, start, target, character) => {
       path[path.length - 1].adjecent.forEach(adjecentCell => {
         if (grid[adjecentCell.index].index === target) {
           finalPath = path;
+          grid[adjecentCell.index].direction = adjecentCell.direction;
           finalPath.push(grid[adjecentCell.index]);
           isPathImpossible = false;
         } else if (
@@ -104,6 +105,7 @@ const startSearch = (grid, start, target, character) => {
           grid[adjecentCell.index].visited = 1;
           const newPath = JSON.parse(JSON.stringify(path));
           newPath.push(grid[adjecentCell.index]);
+          newPath[newPath.length - 1].direction = adjecentCell.direction;
           newPaths.push(newPath);
           isPathImpossible = false;
         }
@@ -155,9 +157,6 @@ const startSearch = (grid, start, target, character) => {
 };
 
 const moveCharacter = (grid, character, target, path) => {
-  console.log(character);
-  console.log(target);
-
   grid[character.index].fill = '';
   grid[character.index].image = '';
   grid[character.index].stats = '';

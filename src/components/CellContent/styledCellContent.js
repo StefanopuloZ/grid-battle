@@ -15,11 +15,13 @@ export const StyledCellContent = styled.div`
   align-items: center;
   background: url(${props => background[props.image]}) center center/cover
     no-repeat;
+  border: ${props => (props.selected ? '2px dashed black' : '2px dashed transparent')};
 
   p {
     background-color: rgba(0, 0, 0, 0.1);
     color: white;
   }
 
-  animation: ${props => props.animation && props.animation} 2s linear;
+  animation: ${props => props.animation && props.animation.animation}
+    ${props => props.animation && props.animation.time}ms linear forwards;
 `;

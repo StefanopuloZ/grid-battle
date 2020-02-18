@@ -3,10 +3,14 @@ import PropTypes from 'prop-types';
 import { StyledCellContent } from './styledCellContent';
 
 const CellContent = props => {
-  const { cell } = props;
+  const { cell, selected } = props;
+
+  if (cell.animation) {
+    console.log('cell.animation', cell.animation);
+  }
 
   return (
-    <StyledCellContent image={cell.image} animation={cell.animation}>
+    <StyledCellContent selected={selected} image={cell.image} animation={cell.animation}>
       <p>{`${cell.index} ${cell.fill}`}</p>
     </StyledCellContent>
   );

@@ -13,6 +13,7 @@ const Grid = props => {
   const [isSelected, setIsSelected] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState({});
   const [path, setPath] = useState([]);
+  const [animationProgress, setAnimationProgress] = useState(false);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
@@ -38,12 +39,14 @@ const Grid = props => {
   }
 
   async function animateAndMove() {
+    setAnimationProgress(true);
     const newGrid = JSON.parse(JSON.stringify(grid));
-    newGrid[selected].animation = Animations.moveAnimationBuilder(path, 'move');
+    newGrid[selected].animation = Animations.moveAnimationBuilder(path, 'move', 300);
     updateGrid(newGrid);
 
     await waitFor(path.length * 300);
     updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid[path[path.length - 1].index]));
+    setAnimationProgress(false);
     clearSelectedCharacter();
   }
 
@@ -94,7 +97,7 @@ const Grid = props => {
               onClick(cell);
             }}
             onMouseEnter={() => {
-              isSelected && startSearch(cell);
+              isSelected && !animationProgress && startSearch(cell);
             }}
           />
         );
@@ -105,6 +108,7 @@ const Grid = props => {
 
 Element.propTypes = {
   children: PropTypes.element.isRequired,
+  updateGrid: PropTypes.func.isRequired,
 };
 
 Element.defaultProps = {};

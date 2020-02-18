@@ -22,7 +22,7 @@ const Cell = props => {
         onMouseEnter={onMouseEnter}
         path={cell.path}
       >
-        <CellContent cell={cell}/>
+        <CellContent cell={cell} selected={selected}/>
       </StyledCellContent>
     </StyledCell>
   );

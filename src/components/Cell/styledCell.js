@@ -6,16 +6,11 @@ const background = { grass };
 export const StyledCell = styled.div`
   display: flex;
   position: relative;
-  border: 1px solid gray;
   background: url(${props => background[props.image]}) center center/cover
     no-repeat;
   flex-basis: ${props => props.basis};
   padding-top: ${props => props.basis};
   cursor: ${props => props.fill === 'brown' ? 'not-allowed' : 'pointer'};
-
-  &:hover {
-    border: 1px solid red;
-  }
 `;
 export const StyledCellContent = styled.div`
   justify-content: center;
@@ -27,6 +22,8 @@ export const StyledCellContent = styled.div`
   top: 0;
   left: 0;
   transition: all .3s ease; 
-  border: ${props => props.selected ? '2px dashed black' : 'none'};
   background: ${props => props.path ? 'rgba(255, 192, 203, 0.6)' : 'transparent'};
+  &:hover {
+    border: 1px solid red;
+  }
 `;
