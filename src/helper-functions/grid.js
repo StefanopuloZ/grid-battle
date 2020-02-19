@@ -76,7 +76,6 @@ const makeGrid = ({ rows, columns, fill }) => {
   return grid;
 };
 
-
 // **** Grid Cleanup and Paint functions ***** //
 // **                                       ** //
 
@@ -104,11 +103,14 @@ const clearVisitedCells = grid => {
   });
 };
 
-
 // **** Grid Search functions ***** //
 // **                            ** //
 
 const startSearch = (grid, start, target, character) => {
+  let newGrid = JSON.parse(JSON.stringify(grid));
+  if (newGrid[target].fill || (!start && start !== 0)) {
+    return;
+  }
   let paths = [];
 
   const searchStep = (start, target) => {
@@ -143,31 +145,16 @@ const startSearch = (grid, start, target, character) => {
 
     clearVisitedCells(grid);
 
-    if (isPathImpossible) {
-      return grid;
-    }
-
     paths = newPaths;
 
-    if (finalPath) {
+    if (finalPath && !isPathImpossible) {
       return finalPath.slice(0, character.speed);
     }
-
-    return false;
   };
 
-  if (!start && start !== 0) {
-    return;
-  }
-  if (grid[target].fill) {
-    return;
-  }
   let counter = 0;
-  let result = searchStep(start, target);
-  if (result) {
-    grid = fillPath(grid, result);
-    return { grid, result };
-  }
+
+  let result;
 
   do {
     ++counter;
@@ -176,12 +163,11 @@ const startSearch = (grid, start, target, character) => {
     }
     result = searchStep(start, target);
     if (result) {
-      grid = fillPath(grid, result);
-      return { grid, result };
+      newGrid = fillPath(grid, result);
+      return { grid: newGrid, result };
     }
   } while (!result && counter < 300);
 
-  paths = [];
   clearVisitedCells(grid);
 };
 
