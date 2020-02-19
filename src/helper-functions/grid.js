@@ -1,37 +1,51 @@
+// import { Map } from 'immutable';
+
+// const x = Map({});
+
 const makeAdjacentMatrix = (grid, rows, columns) => {
-  grid.forEach((cell, index) => {
+  let newGrid = JSON.parse(JSON.stringify(grid));
+
+  newGrid.forEach((cell, index) => {
     let adjecent = [];
 
     let up = index - columns;
-    up > -1 && adjecent.push({index: up, direction: 'up'});
+    up > -1 && adjecent.push({ index: up, direction: 'up' });
 
     let down = index + columns;
-    down < grid.length && adjecent.push({index: down, direction: 'down'});
+    down < newGrid.length && adjecent.push({ index: down, direction: 'down' });
 
     let left = index - 1;
-    left >= 0 && index % columns !== 0 && adjecent.push({index: left, direction: 'left'});
+    left >= 0 &&
+      index % columns !== 0 &&
+      adjecent.push({ index: left, direction: 'left' });
 
     let right = index + 1;
-    right < grid.length && right % columns !== 0 && adjecent.push({index: right, direction: 'right'});
+    right < newGrid.length &&
+      right % columns !== 0 &&
+      adjecent.push({ index: right, direction: 'right' });
 
     cell.adjecent = adjecent;
   });
 
-  return grid;
+  return newGrid;
 };
 
 const fillGrid = (grid, fill) => {
+  let newGrid = JSON.parse(JSON.stringify(grid));
+
   fill.obstacles.forEach(obstacle => {
-    grid[obstacle].fill = 'X';
-    grid[obstacle].image = 'tree';
-    grid[obstacle].terrain = 'grass';
+    newGrid[obstacle].fill = 'X';
+    newGrid[obstacle].image = 'tree';
+    newGrid[obstacle].terrain = 'grass';
   });
 
   fill.characters.forEach(character => {
-    grid[character.index].fill = character.fill;
-    grid[character.index].image = character.image;
-    grid[character.index].stats = character;
+    newGrid[character.index].fill = character.fill;
+    newGrid[character.index].image = character.image;
+    newGrid[character.index].stats = character;
   });
+
+  return newGrid;
 };
 
 const makeGrid = ({ rows, columns, fill }) => {
@@ -47,14 +61,14 @@ const makeGrid = ({ rows, columns, fill }) => {
         image: '',
         terrain: 'grass',
         animation: null,
-        direction: null,
+        direction: null
       });
     }
   }
 
-  makeAdjacentMatrix(grid, rows, columns);
+  grid = makeAdjacentMatrix(grid, rows, columns);
 
-  fillGrid(grid, fill);
+  grid = fillGrid(grid, fill);
 
   return grid;
 };
@@ -170,11 +184,9 @@ const moveCharacter = (grid, character, target, path) => {
 };
 
 export const GridHelper = {
-  makeAdjacentMatrix,
   makeGrid,
-  fillGrid,
   fillPath,
   startSearch,
   clearPath,
-  moveCharacter,
+  moveCharacter
 };
