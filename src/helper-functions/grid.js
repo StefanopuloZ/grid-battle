@@ -2,6 +2,9 @@
 
 // const x = Map({});
 
+// **** Grid Creator functions ***** //
+// **                             ** //
+
 const makeAdjacentMatrix = (grid, rows, columns) => {
   let newGrid = JSON.parse(JSON.stringify(grid));
 
@@ -73,17 +76,18 @@ const makeGrid = ({ rows, columns, fill }) => {
   return grid;
 };
 
-const fillPath = (grid, path) => {
-  path.forEach(cell => {
-    grid[cell.index].path = 1;
-  });
-};
 
-const clearVisitedCells = grid => {
-  grid.forEach(cell => {
-    cell.visited = 0;
-    cell.path = 0;
+// **** Grid Cleanup and Paint functions ***** //
+// **                                       ** //
+
+const fillPath = (grid, path) => {
+  let newGrid = JSON.parse(JSON.stringify(grid));
+
+  path.forEach(cell => {
+    newGrid[cell.index].path = 1;
   });
+
+  return newGrid;
 };
 
 const clearPath = grid =>
@@ -92,6 +96,17 @@ const clearPath = grid =>
     cell.direction = null;
     return cell;
   });
+
+const clearVisitedCells = grid => {
+  grid.forEach(cell => {
+    cell.visited = 0;
+    cell.path = 0;
+  });
+};
+
+
+// **** Grid Search functions ***** //
+// **                            ** //
 
 const startSearch = (grid, start, target, character) => {
   let paths = [];
@@ -150,7 +165,7 @@ const startSearch = (grid, start, target, character) => {
   let counter = 0;
   let result = searchStep(start, target);
   if (result) {
-    fillPath(grid, result);
+    grid = fillPath(grid, result);
     return { grid, result };
   }
 
@@ -161,7 +176,7 @@ const startSearch = (grid, start, target, character) => {
     }
     result = searchStep(start, target);
     if (result) {
-      fillPath(grid, result);
+      grid = fillPath(grid, result);
       return { grid, result };
     }
   } while (!result && counter < 300);
@@ -169,6 +184,9 @@ const startSearch = (grid, start, target, character) => {
   paths = [];
   clearVisitedCells(grid);
 };
+
+// **** Grid Move functions ***** //
+// **                          ** //
 
 const moveCharacter = (grid, character, target, path) => {
   grid[character.index].fill = '';
@@ -185,7 +203,6 @@ const moveCharacter = (grid, character, target, path) => {
 
 export const GridHelper = {
   makeGrid,
-  fillPath,
   startSearch,
   clearPath,
   moveCharacter
