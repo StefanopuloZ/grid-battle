@@ -64,7 +64,7 @@ const makeGrid = ({ rows, columns, fill }) => {
         image: '',
         terrain: 'grass',
         animation: null,
-        direction: null
+        direction: null,
       });
     }
   }
@@ -79,8 +79,16 @@ const makeGrid = ({ rows, columns, fill }) => {
 // **** Grid Cleanup and Paint functions ***** //
 // **                                       ** //
 
+const clearPath = grid =>
+  grid.map(cell => {
+    cell.path = 0;
+    cell.direction = null;
+    return cell;
+  });
+
 const fillPath = (grid, path) => {
   let newGrid = JSON.parse(JSON.stringify(grid));
+  clearPath(newGrid);
 
   path.forEach(cell => {
     newGrid[cell.index].path = 1;
@@ -88,13 +96,6 @@ const fillPath = (grid, path) => {
 
   return newGrid;
 };
-
-const clearPath = grid =>
-  grid.map(cell => {
-    cell.path = 0;
-    cell.direction = null;
-    return cell;
-  });
 
 const clearVisitedCells = grid => {
   grid.forEach(cell => {
@@ -106,10 +107,57 @@ const clearVisitedCells = grid => {
 // **** Grid Search functions ***** //
 // **                            ** //
 
-// const searchForPath = (grid, start, target, character) => {
-//   if (paths.length === 0) {
-//     paths.push([newGrid[start]]);
-//   }
+const searchForPath = (grid, start, target, character) => {
+  let newGrid = JSON.parse(JSON.stringify(grid));
+
+  let paths = [[newGrid[start]]];
+  let counter = 0;
+  let result = null;
+  let finalPath;
+
+  const searchStep = () => {
+    const newPaths = [];
+    paths.forEach(path => {
+      path[path.length - 1].adjecent.forEach(adjecentCell => {
+        // console.log('adjecentCell', newGrid[adjecentCell.index]);
+        // console.log((
+        //   newGrid[adjecentCell.index].visited === 0 &&
+        //   !newGrid[adjecentCell.index].fill
+        // ))
+        if (newGrid[adjecentCell.index].index === target) {
+          finalPath = path;
+          newGrid[adjecentCell.index].direction = adjecentCell.direction;
+          finalPath.push(newGrid[adjecentCell.index]);
+          console.log('finalPath', finalPath);
+        } else if (
+          newGrid[adjecentCell.index].visited === 0 &&
+          !newGrid[adjecentCell.index].fill
+        ) {
+          console.log('createNewPath');
+          newGrid[adjecentCell.index].visited = 1;
+          const newPath = JSON.parse(JSON.stringify(path));
+          newPath.push(newGrid[adjecentCell.index]);
+          newPath[newPath.length - 1].direction = adjecentCell.direction;
+          newPaths.push(newPath);
+        }
+      });
+    });
+    console.log(newPaths);
+    return newPaths;
+  };
+
+  do {
+    ++counter;
+    if (counter > 10) {
+      console.log('time out!');
+    }
+    console.log('inputPaths', paths);
+    paths = searchStep();
+    if (finalPath) {
+      return finalPath;
+    }
+  } while (!result && counter < 10);
+};
 
 //   const newPaths = [];
 //   let finalPath;
@@ -146,6 +194,7 @@ const clearVisitedCells = grid => {
 // };
 
 const startSearch = (grid, start, target, character) => {
+  console.log('startSerch');
   let newGrid = JSON.parse(JSON.stringify(grid));
   if (newGrid[target].fill || (!start && start !== 0)) {
     return;
@@ -154,6 +203,7 @@ const startSearch = (grid, start, target, character) => {
   const result = searchForPath(grid, start, target, character);
 
   if (result) {
+    console.log('result', result);
     newGrid = fillPath(grid, result);
     return { grid: newGrid, result };
   } else {
@@ -199,5 +249,5 @@ export const GridHelper = {
   makeGrid,
   startSearch,
   clearPath,
-  moveCharacter
+  moveCharacter,
 };
