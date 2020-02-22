@@ -45,9 +45,9 @@ const Grid = props => {
     updateGrid(newGrid);
 
     await waitFor(path.length * 300);
+    clearSelectedCharacter();
     updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid[path[path.length - 1].index]));
     setAnimationProgress(false);
-    clearSelectedCharacter();
   }
 
   const onClick = cell => {

@@ -97,43 +97,27 @@ const fillPath = (grid, path) => {
   return newGrid;
 };
 
-const clearVisitedCells = grid => {
-  grid.forEach(cell => {
-    cell.visited = 0;
-    cell.path = 0;
-  });
-};
-
 // **** Grid Search functions ***** //
 // **                            ** //
 
-const searchForPath = (grid, start, target, character) => {
+const searchForPath = (grid, start, target) => {
   let newGrid = JSON.parse(JSON.stringify(grid));
 
   let paths = [[newGrid[start]]];
-  let counter = 0;
-  let result = null;
   let finalPath;
 
   const searchStep = () => {
     const newPaths = [];
     paths.forEach(path => {
       path[path.length - 1].adjecent.forEach(adjecentCell => {
-        // console.log('adjecentCell', newGrid[adjecentCell.index]);
-        // console.log((
-        //   newGrid[adjecentCell.index].visited === 0 &&
-        //   !newGrid[adjecentCell.index].fill
-        // ))
         if (newGrid[adjecentCell.index].index === target) {
           finalPath = path;
           newGrid[adjecentCell.index].direction = adjecentCell.direction;
           finalPath.push(newGrid[adjecentCell.index]);
-          console.log('finalPath', finalPath);
         } else if (
           newGrid[adjecentCell.index].visited === 0 &&
           !newGrid[adjecentCell.index].fill
         ) {
-          console.log('createNewPath');
           newGrid[adjecentCell.index].visited = 1;
           const newPath = JSON.parse(JSON.stringify(path));
           newPath.push(newGrid[adjecentCell.index]);
@@ -142,107 +126,55 @@ const searchForPath = (grid, start, target, character) => {
         }
       });
     });
-    console.log(newPaths);
     return newPaths;
   };
 
+  let counter = 0;
   do {
     ++counter;
-    if (counter > 10) {
+    if (counter > 299) {
       console.log('time out!');
     }
-    console.log('inputPaths', paths);
     paths = searchStep();
     if (finalPath) {
       return finalPath;
     }
-  } while (!result && counter < 10);
+  } while (!finalPath && counter < 300);
 };
 
-//   const newPaths = [];
-//   let finalPath;
-//   let isPathImpossible = true;
-
-//   paths.forEach(path => {
-//     path[path.length - 1].adjecent.forEach(adjecentCell => {
-//       if (newGrid[adjecentCell.index].index === target) {
-//         finalPath = path;
-//         newGrid[adjecentCell.index].direction = adjecentCell.direction;
-//         finalPath.push(newGrid[adjecentCell.index]);
-//         isPathImpossible = false;
-//       } else if (
-//         newGrid[adjecentCell.index].visited === 0 &&
-//         !newGrid[adjecentCell.index].fill
-//       ) {
-//         newGrid[adjecentCell.index].visited = 1;
-//         const newPath = JSON.parse(JSON.stringify(path));
-//         newPath.push(newGrid[adjecentCell.index]);
-//         newPath[newPath.length - 1].direction = adjecentCell.direction;
-//         newPaths.push(newPath);
-//         isPathImpossible = false;
-//       }
-//     });
-//   });
-
-//   clearVisitedCells(grid);
-
-//   paths = newPaths;
-
-//   if (finalPath && !isPathImpossible) {
-//     return finalPath.slice(0, character.speed);
-//   }
-// };
-
 const startSearch = (grid, start, target, character) => {
-  console.log('startSerch');
   let newGrid = JSON.parse(JSON.stringify(grid));
   if (newGrid[target].fill || (!start && start !== 0)) {
     return;
   }
 
-  const result = searchForPath(grid, start, target, character);
+  let result = searchForPath(grid, start, target);
 
   if (result) {
-    console.log('result', result);
+    result = result.splice(0, character.speed);
     newGrid = fillPath(grid, result);
     return { grid: newGrid, result };
   } else {
     return null;
   }
-
-  // let paths = [];
-
-  // let counter = 0;
-
-  // let result;
-
-  // do {
-  //   ++counter;
-  //   if (counter > 299) {
-  //     console.log('time out!');
-  //   }
-  //   result = searchStep(start, target, character);
-  //   if (result) {
-  //     newGrid = fillPath(grid, result);
-  //     return { grid: newGrid, result };
-  //   }
-  // } while (!result && counter < 300);
 };
 
 // **** Grid Move functions ***** //
 // **                          ** //
 
-const moveCharacter = (grid, character, target, path) => {
-  grid[character.index].fill = '';
-  grid[character.index].image = '';
-  grid[character.index].stats = '';
+const moveCharacter = (grid, character, target) => {
+  let newGrid = JSON.parse(JSON.stringify(grid));
+  
+  newGrid[character.index].fill = '';
+  newGrid[character.index].image = '';
+  newGrid[character.index].stats = '';
 
-  grid[target.index].image = character.image;
-  grid[target.index].fill = character.fill;
-  grid[target.index].stats = character;
-  grid[target.index].stats.index = target.index;
+  newGrid[target.index].image = character.image;
+  newGrid[target.index].fill = character.fill;
+  newGrid[target.index].stats = character;
+  newGrid[target.index].stats.index = target.index;
 
-  return grid;
+  return newGrid;
 };
 
 export const GridHelper = {
