@@ -7,7 +7,7 @@ import Cell from '../Cell';
 import { GridHelper, Animations } from '../../helper-functions';
 
 const Grid = props => {
-  const { grid, updateGrid } = props;
+  let { grid, updateGrid } = props;
 
   const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
@@ -36,18 +36,28 @@ const Grid = props => {
         resolve();
       }, time);
     });
-  }
+  };
 
   async function animateAndMove() {
     setAnimationProgress(true);
-    const newGrid = JSON.parse(JSON.stringify(grid));
-    newGrid[selected].animation = Animations.moveAnimationBuilder(path, 'move', 300);
-    updateGrid(newGrid);
+
+    updateGrid(
+      grid.setIn(
+        [selected, 'animation'],
+        Animations.moveAnimationBuilder(path, 'move', 300)
+      )
+    );
 
     await waitFor(path.length * 300);
-    updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid[path[path.length - 1].index]));
-    setAnimationProgress(false);
     clearSelectedCharacter();
+    updateGrid(
+      GridHelper.moveCharacter(
+        grid,
+        selectedCharacter,
+        grid.get(path[path.length - 1].index)
+      )
+    );
+    setAnimationProgress(false);
   }
 
   const onClick = cell => {
@@ -63,7 +73,6 @@ const Grid = props => {
         clearSelectedCharacter();
       } else {
         if (cell.fill !== 'X' && path.length > 0) {
-
           animateAndMove();
         }
       }
@@ -71,15 +80,15 @@ const Grid = props => {
   };
 
   const startSearch = cell => {
-    let newGrid = GridHelper.startSearch(
-      JSON.parse(JSON.stringify(grid)),
+    const result = GridHelper.startSearch(
+      grid,
       selected,
       cell.index,
       selectedCharacter
     );
-    if (newGrid && newGrid.grid) {
-      updateGrid(newGrid.grid);
-      setPath(newGrid.result);
+    if (result && result.grid) {
+      updateGrid(result.grid);
+      setPath(result.result);
     }
   };
 

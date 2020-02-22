@@ -5,10 +5,6 @@ import { StyledCellContent } from './styledCellContent';
 const CellContent = props => {
   const { cell, selected } = props;
 
-  if (cell.animation) {
-    console.log('cell.animation', cell.animation);
-  }
-
   return (
     <StyledCellContent selected={selected} image={cell.image} animation={cell.animation}>
       <p>{`${cell.index} ${cell.fill}`}</p>
