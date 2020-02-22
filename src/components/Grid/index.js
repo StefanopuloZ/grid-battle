@@ -5,12 +5,9 @@ import StyledGrid from './styledGrid';
 import { GridActions } from '../../actions';
 import Cell from '../Cell';
 import { GridHelper, Animations } from '../../helper-functions';
-import { List } from 'immutable';
 
 const Grid = props => {
   let { grid, updateGrid } = props;
-
-  console.log(grid);
 
   const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
@@ -83,15 +80,15 @@ const Grid = props => {
   };
 
   const startSearch = cell => {
-    let newGrid = GridHelper.startSearch(
-      JSON.parse(JSON.stringify(grid)),
+    const result = GridHelper.startSearch(
+      grid,
       selected,
       cell.index,
       selectedCharacter
     );
-    if (newGrid && newGrid.grid) {
-      updateGrid(newGrid.grid);
-      setPath(newGrid.result);
+    if (result && result.grid) {
+      updateGrid(result.grid);
+      setPath(result.result);
     }
   };
 

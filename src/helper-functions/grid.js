@@ -1,4 +1,4 @@
-import { Map, List } from 'immutable';
+import { List } from 'immutable';
 
 // **** Grid Creator functions ***** //
 // **                             ** //
@@ -77,29 +77,29 @@ const makeGrid = ({ rows, columns, fill }) => {
 // **** Grid Cleanup and Paint functions ***** //
 // **                                       ** //
 
-const clearPath = grid =>
-  List(grid.map(cell => {
+const clearPath = grid => {
+  return grid.map(cell => {
     cell.path = 0;
     cell.direction = null;
     return cell;
-  }));
+  });
+}
 
 const fillPath = (grid, path) => {
-  let newGrid = JSON.parse(JSON.stringify(grid));
-  clearPath(newGrid);
+  let newGrid = clearPath(grid);
 
-  path.forEach(cell => {
-    newGrid[cell.index].path = 1;
+  return newGrid.withMutations(newGrid => {
+    path.forEach(cell => {
+      newGrid.setIn([cell.index, 'path'], 1);
+    });
   });
-
-  return List(newGrid);
 };
 
 // **** Grid Search functions ***** //
 // **                            ** //
 
 const searchForPath = (grid, start, target) => {
-  let newGrid = JSON.parse(JSON.stringify(grid));
+  let newGrid = grid.toJS();
 
   let paths = [[newGrid[start]]];
   let finalPath;
@@ -141,9 +141,10 @@ const searchForPath = (grid, start, target) => {
 };
 
 const startSearch = (grid, start, target, character) => {
-  let newGrid = JSON.parse(JSON.stringify(grid));
-  if (newGrid[target].fill || (!start && start !== 0)) {
-    return;
+  let newGrid = grid;
+
+  if (newGrid.get([target, 'fill']) || (!start && start !== 0)) {
+    return null;
   }
 
   let result = searchForPath(grid, start, target);
