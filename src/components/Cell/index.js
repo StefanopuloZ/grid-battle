@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyledCell, StyledCellContent } from './styledCell';
 import CellContent from '../CellContent';
+import Sound from 'react-sound';
+import Sounds from '../../assets/sounds';
 
 const Cell = props => {
   const { columns, cell, selected, onClick, onMouseEnter } = props;
+  const [playClickSound, setPlayClickSound] = useState(false);
+  const sound = cell.stats ? cell.stats.sound : '';
+
   const basis = 100 / columns + '%';
   let fill = '';
   if (cell.fill === 'S') {
@@ -16,13 +21,26 @@ const Cell = props => {
 
   return (
     <StyledCell basis={basis} fill={fill} image={cell.terrain}>
+      {playClickSound && sound && selected && (
+        <Sound
+          url={Sounds[sound]}
+          playStatus="PLAYING"
+          volume={100}
+          autoLoad
+          onFinishedPlaying={() => setPlayClickSound(false)}
+          loop={false}
+        />
+      )}
       <StyledCellContent
-        onClick={onClick}
+        onClick={() => {
+          onClick();
+          setPlayClickSound(true);
+        }}
         selected={selected}
         onMouseEnter={onMouseEnter}
         path={cell.path}
       >
-        <CellContent cell={cell} selected={selected}/>
+        <CellContent cell={cell} selected={selected} />
       </StyledCellContent>
     </StyledCell>
   );
@@ -30,15 +48,15 @@ const Cell = props => {
 
 Element.propTypes = {
   cell: PropTypes.object,
-  columns: PropTypes.number.isRequired
+  columns: PropTypes.number.isRequired,
 };
 
 Element.defaultProps = {
-  cell: {}
+  cell: {},
 };
 
 const mapStateToProps = state => ({
-  columns: state.GridReducer.settings.columns
+  columns: state.GridReducer.settings.columns,
 });
 
 const mapDispatchToProps = dispatch => ({});

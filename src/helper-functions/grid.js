@@ -63,6 +63,7 @@ const makeGrid = ({ rows, columns, fill }) => {
         terrain: 'grass',
         animation: null,
         direction: null,
+        sound: 'click',
       });
     }
   }

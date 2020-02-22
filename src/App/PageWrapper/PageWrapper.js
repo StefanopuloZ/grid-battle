@@ -1,14 +1,24 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { UserActions } from "../../actions";
-import { Wrapper } from "./PageWrapperStyle";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { UserActions } from '../../actions';
+import { Wrapper } from './PageWrapperStyle';
+import Sound from 'react-sound';
+import Sounds from '../../assets/sounds';
 
 const PageWrapper = props => {
-  console.log("username", props.username);
+  console.log('username', props.username);
   props.test();
   return (
     <Wrapper>
+      <Sound
+        url={Sounds.theme_song1}
+        playStatus="PLAYING"
+        volume={50}
+        autoLoad
+        onFinishedPlaying={() => {}}
+        loop={true}
+      />
       <nav>
         <ul>
           <li>
@@ -29,11 +39,11 @@ const PageWrapper = props => {
 };
 
 const mapStateToProps = state => ({
-  username: state.UserReducer.username
+  username: state.UserReducer.username,
 });
 
 const mapDispatchToProps = dispatch => ({
-  test: () => dispatch(UserActions.test())
+  test: () => dispatch(UserActions.test()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper);

@@ -16,6 +16,7 @@ fill: {
       image: 'warrior',
       index: 0,
       fill: 'C',
+      sound: 'warrior',
     }
   ]
 }
