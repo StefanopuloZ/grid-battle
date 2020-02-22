@@ -143,7 +143,7 @@ const searchForPath = (grid, start, target) => {
 const startSearch = (grid, start, target, character) => {
   let newGrid = grid;
 
-  if (newGrid.get([target, 'fill']) || (!start && start !== 0)) {
+  if (newGrid.get(target).fill || (!start && start !== 0)) {  
     return null;
   }
 
