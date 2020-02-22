@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { UserActions } from '../../actions';
@@ -7,18 +7,25 @@ import Sound from 'react-sound';
 import Sounds from '../../assets/sounds';
 
 const PageWrapper = props => {
-  console.log('username', props.username);
   props.test();
+  const [interacted, setInteracted] = useState(false);
+
   return (
-    <Wrapper>
-      <Sound
-        url={Sounds.theme_song1}
-        playStatus="PLAYING"
-        volume={50}
-        autoLoad
-        onFinishedPlaying={() => {}}
-        loop={true}
-      />
+    <Wrapper
+      onClick={() => {
+        !interacted && setInteracted(true);
+      }}
+    >
+      {interacted && (
+        <Sound
+          url={Sounds.theme_song1}
+          playStatus="PLAYING"
+          volume={50}
+          autoLoad
+          onFinishedPlaying={() => {}}
+          loop={true}
+        />
+      )}
       <nav>
         <ul>
           <li>
