@@ -10,7 +10,7 @@ import { List } from 'immutable';
 const Grid = props => {
   let { grid, updateGrid } = props;
 
-  grid = List(grid);
+  console.log(grid);
 
   const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
@@ -39,17 +39,27 @@ const Grid = props => {
         resolve();
       }, time);
     });
-  }
+  };
 
   async function animateAndMove() {
     setAnimationProgress(true);
-    const newGrid = JSON.parse(JSON.stringify(grid));
-    newGrid[selected].animation = Animations.moveAnimationBuilder(path, 'move', 300);
-    updateGrid(newGrid);
+
+    updateGrid(
+      grid.setIn(
+        [selected, 'animation'],
+        Animations.moveAnimationBuilder(path, 'move', 300)
+      )
+    );
 
     await waitFor(path.length * 300);
     clearSelectedCharacter();
-    updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid.get(path[path.length - 1].index)));
+    updateGrid(
+      GridHelper.moveCharacter(
+        grid,
+        selectedCharacter,
+        grid.get(path[path.length - 1].index)
+      )
+    );
     setAnimationProgress(false);
   }
 
@@ -66,7 +76,6 @@ const Grid = props => {
         clearSelectedCharacter();
       } else {
         if (cell.fill !== 'X' && path.length > 0) {
-
           animateAndMove();
         }
       }

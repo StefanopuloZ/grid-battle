@@ -71,18 +71,18 @@ const makeGrid = ({ rows, columns, fill }) => {
 
   grid = fillGrid(grid, fill);
 
-  return grid;
+  return List(grid);
 };
 
 // **** Grid Cleanup and Paint functions ***** //
 // **                                       ** //
 
 const clearPath = grid =>
-  grid.map(cell => {
+  List(grid.map(cell => {
     cell.path = 0;
     cell.direction = null;
     return cell;
-  });
+  }));
 
 const fillPath = (grid, path) => {
   let newGrid = JSON.parse(JSON.stringify(grid));
@@ -92,7 +92,7 @@ const fillPath = (grid, path) => {
     newGrid[cell.index].path = 1;
   });
 
-  return newGrid;
+  return List(newGrid);
 };
 
 // **** Grid Search functions ***** //
@@ -151,7 +151,7 @@ const startSearch = (grid, start, target, character) => {
   if (result) {
     result = result.splice(0, character.speed);
     newGrid = fillPath(grid, result);
-    return { grid: newGrid, result };
+    return { grid: List(newGrid), result };
   } else {
     return null;
   }
