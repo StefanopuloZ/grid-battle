@@ -1,6 +1,4 @@
-// import { Map } from 'immutable';
-
-// const x = Map({});
+import { Map, List } from 'immutable';
 
 // **** Grid Creator functions ***** //
 // **                             ** //
@@ -162,20 +160,15 @@ const startSearch = (grid, start, target, character) => {
 // **** Grid Move functions ***** //
 // **                          ** //
 
-const moveCharacter = (grid, character, target) => {
-  let newGrid = JSON.parse(JSON.stringify(grid));
-  
-  newGrid[character.index].fill = '';
-  newGrid[character.index].image = '';
-  newGrid[character.index].stats = '';
-
-  newGrid[target.index].image = character.image;
-  newGrid[target.index].fill = character.fill;
-  newGrid[target.index].stats = character;
-  newGrid[target.index].stats.index = target.index;
-
-  return newGrid;
-};
+const moveCharacter = (grid, character, target) =>
+  grid
+    .setIn([character.index, 'fill'], '')
+    .setIn([character.index, 'image'], '')
+    .setIn([character.index, 'stats'], '')
+    .setIn([target.index, 'image'], character.image)
+    .setIn([target.index, 'fill'], character.fill)
+    .setIn([target.index, 'stats'], character)
+    .setIn([target.index, 'stats', 'index'], target.index);
 
 export const GridHelper = {
   makeGrid,

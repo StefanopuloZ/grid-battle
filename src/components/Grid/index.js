@@ -5,9 +5,12 @@ import StyledGrid from './styledGrid';
 import { GridActions } from '../../actions';
 import Cell from '../Cell';
 import { GridHelper, Animations } from '../../helper-functions';
+import { List } from 'immutable';
 
 const Grid = props => {
-  const { grid, updateGrid } = props;
+  let { grid, updateGrid } = props;
+
+  grid = List(grid);
 
   const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
@@ -46,7 +49,7 @@ const Grid = props => {
 
     await waitFor(path.length * 300);
     clearSelectedCharacter();
-    updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid[path[path.length - 1].index]));
+    updateGrid(GridHelper.moveCharacter(grid, selectedCharacter, grid.get(path[path.length - 1].index)));
     setAnimationProgress(false);
   }
 
