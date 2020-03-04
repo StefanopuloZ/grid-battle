@@ -137,6 +137,9 @@ const searchForPath = (grid, start, target) => {
     paths = searchStep();
     if (finalPath) {
       return finalPath;
+    } else if (paths.length === 0) {
+      console.log('path impossible!');
+      return false;
     }
   } while (!finalPath && counter < 300);
 };

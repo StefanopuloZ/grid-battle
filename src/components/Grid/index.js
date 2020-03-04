@@ -17,6 +17,7 @@ const Grid = props => {
   const [path, setPath] = useState([]);
   const [animationProgress, setAnimationProgress] = useState(false);
   const [playWalkingSound, setPlayWalkingSound] = useState(false);
+  const [moveAllowed, setMoveAllowed] = useState(false);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
@@ -63,6 +64,7 @@ const Grid = props => {
       )
     );
     setAnimationProgress(false);
+    setMoveAllowed(false);
   }
 
   const onClick = cell => {
@@ -77,7 +79,7 @@ const Grid = props => {
       if (selected === cell.index) {
         clearSelectedCharacter();
       } else {
-        if (cell.fill !== 'X' && path.length > 0) {
+        if (cell.fill !== 'X' && path.length > 0 && moveAllowed) {
           animateAndMove();
         }
       }
@@ -94,6 +96,9 @@ const Grid = props => {
     if (result && result.grid) {
       updateGrid(result.grid);
       setPath(result.result);
+      setMoveAllowed(true);
+    } else {
+      setMoveAllowed(false);
     }
   };
 

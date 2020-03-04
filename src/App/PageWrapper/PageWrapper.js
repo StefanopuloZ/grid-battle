@@ -19,7 +19,7 @@ const PageWrapper = props => {
       {interacted && (
         <Sound
           url={Sounds.theme_song1}
-          playStatus="PLAYING"
+          playStatus="STOPPED"
           volume={50}
           autoLoad
           onFinishedPlaying={() => {}}
