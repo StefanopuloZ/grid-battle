@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { UserActions } from '../../actions';
 import { Wrapper } from './PageWrapperStyle';
 import Sounds from '../../assets/sounds';
 import AudioComponent from '../../components/AudioComponent';
@@ -16,19 +15,17 @@ const PageWrapper = props => {
         !interacted && setInteracted(true);
       }}
     >
-      {interacted && (
-        <AudioComponent url={Sounds.theme_song1} loop/>
-      )}
+      {interacted && <AudioComponent url={Sounds.theme_song1} loop />}
       <nav>
         <ul>
           <li>
-            <Link to="/">Home</Link>
+            <Link to='/'>Home</Link>
           </li>
           <li>
-            <Link to="/help">About</Link>
+            <Link to='/help'>About</Link>
           </li>
           <li>
-            <Link to="/battle">Battle</Link>
+            <Link to='/battle'>Battle</Link>
           </li>
         </ul>
       </nav>
@@ -38,12 +35,8 @@ const PageWrapper = props => {
   );
 };
 
-const mapStateToProps = state => ({
-  username: state.UserReducer.username,
-});
+const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({
-  test: () => dispatch(UserActions.test()),
-});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper);
