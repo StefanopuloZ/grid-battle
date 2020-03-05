@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyledCell, StyledCellContent } from './styledCell';
 import CellContent from '../CellContent';
-import Sound from 'react-sound';
+import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
 
 const Cell = props => {
@@ -22,14 +22,7 @@ const Cell = props => {
   return (
     <StyledCell basis={basis} fill={fill} image={cell.terrain}>
       {playClickSound && sound && selected && (
-        <Sound
-          url={Sounds[sound]}
-          playStatus="PLAYING"
-          volume={100}
-          autoLoad
-          onFinishedPlaying={() => setPlayClickSound(false)}
-          loop={false}
-        />
+        <AudioComponent url={Sounds[sound]} />
       )}
       <StyledCellContent
         onClick={() => {

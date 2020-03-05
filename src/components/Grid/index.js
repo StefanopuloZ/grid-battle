@@ -5,7 +5,7 @@ import StyledGrid from './styledGrid';
 import { GridActions } from '../../actions';
 import Cell from '../Cell';
 import { GridHelper, Animations } from '../../helper-functions';
-import Sound from 'react-sound';
+import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
 
 const Grid = props => {
@@ -49,8 +49,8 @@ const Grid = props => {
     updateGrid(
       grid.setIn(
         [selected, 'animation'],
-        Animations.moveAnimationBuilder(path, 'move', 300)
-      )
+        Animations.moveAnimationBuilder(path, 'move', 300),
+      ),
     );
 
     await waitFor(path.length * 300);
@@ -60,8 +60,8 @@ const Grid = props => {
       GridHelper.moveCharacter(
         grid,
         selectedCharacter,
-        grid.get(path[path.length - 1].index)
-      )
+        grid.get(path[path.length - 1].index),
+      ),
     );
     setAnimationProgress(false);
     setMoveAllowed(false);
@@ -91,7 +91,7 @@ const Grid = props => {
       grid,
       selected,
       cell.index,
-      selectedCharacter
+      selectedCharacter,
     );
     if (result && result.grid) {
       updateGrid(result.grid);
@@ -105,14 +105,7 @@ const Grid = props => {
   return (
     <StyledGrid>
       {playWalkingSound && (
-        <Sound
-          url={Sounds.walking}
-          playStatus="PLAYING"
-          volume={100}
-          autoLoad
-          onFinishedPlaying={() => {}}
-          loop={true}
-        />
+        <AudioComponent url={Sounds.walking} />
       )}
       {grid.map(cell => {
         const cellSelected = cell.index === selected;

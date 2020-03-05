@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { UserActions } from '../../actions';
 import { Wrapper } from './PageWrapperStyle';
-import Sound from 'react-sound';
 import Sounds from '../../assets/sounds';
+import AudioComponent from '../../components/AudioComponent';
 
 const PageWrapper = props => {
   props.test();
@@ -17,14 +17,7 @@ const PageWrapper = props => {
       }}
     >
       {interacted && (
-        <Sound
-          url={Sounds.theme_song1}
-          playStatus="STOPPED"
-          volume={50}
-          autoLoad
-          onFinishedPlaying={() => {}}
-          loop={true}
-        />
+        <AudioComponent url={Sounds.theme_song1} loop/>
       )}
       <nav>
         <ul>
