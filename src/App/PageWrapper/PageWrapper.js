@@ -6,7 +6,6 @@ import Sounds from '../../assets/sounds';
 import AudioComponent from '../../components/AudioComponent';
 
 const PageWrapper = props => {
-  props.test();
   const [interacted, setInteracted] = useState(false);
 
   return (

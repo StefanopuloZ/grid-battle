@@ -17,6 +17,23 @@ fill: {
       index: 0,
       fill: 'C',
       sound: 'warrior',
+      hp: 10,
+      attack: +2,
+      ac: 15,
+      damage: [2, 6],
+    },
+    {
+      name: 'Goblin',
+      type: 'enemy',
+      speed: 5,
+      image: 'goblin',
+      index: 42,
+      fill: 'C',
+      sound: 'goblin',
+      hp: 6,
+      attack: 0,
+      ac: 11,
+      damage: [1, 4],
     }
   ]
 }

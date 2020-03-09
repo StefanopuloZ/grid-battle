@@ -1,8 +1,9 @@
 import styled from 'styled-components';
 import warrior from './assets/warrior.jpg';
 import tree from './assets/tree.png';
+import goblin from './assets/goblin.jpg';
 
-const background = { warrior, tree };
+const background = { warrior, tree, goblin };
 
 export const StyledCellContent = styled.div`
   position: relative;
