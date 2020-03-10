@@ -1,8 +1,12 @@
 import styled from 'styled-components';
 
-const StyledGrid = styled.div`
+export const StyledGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
   border: 2px solid green;
+  width: 80%;
 `;
-export default StyledGrid;
+
+export const StyledGridWrapper = styled.div`
+  display: flex;
+`;

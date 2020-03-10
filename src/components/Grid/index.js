@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import StyledGrid from './styledGrid';
+import { StyledGrid, StyledGridWrapper } from './styledGrid';
 import { GridActions } from '../../actions';
-import Cell from '../Cell';
 import { GridHelper, Animations } from '../../helper-functions';
+import Cell from '../Cell';
+import Sidebar from '../Sidebar';
 import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
 
@@ -16,6 +17,7 @@ const Grid = props => {
   const [selectedCharacter, setSelectedCharacter] = useState({});
   const [animationProgress, setAnimationProgress] = useState(false);
   const [playWalkingSound, setPlayWalkingSound] = useState(false);
+  const [action, setAction] = useState();
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
@@ -62,9 +64,9 @@ const Grid = props => {
       newGrid.get(path[path.length - 1].index),
     );
 
+    let defender = attackResult ? newGrid.getIn([defenderIndex]) : null;
+
     if (attackResult && attackResult.attackResult.isHit) {
-      console.log('hit!', attackResult);
-      let defender = newGrid.getIn([defenderIndex]);
       defender.stats.hp = attackResult.damageResult.hp;
       if (defender.stats.hp > 0) {
         newGrid = GridHelper.updateCharacter(newGrid, defender);
@@ -72,6 +74,13 @@ const Grid = props => {
         newGrid = GridHelper.clearTile(newGrid, defenderIndex);
       }
     }
+
+    setAction({
+      selected: grid.getIn([selected]),
+      path,
+      attackResult,
+      defender,
+    });
 
     updateGrid(newGrid);
     setAnimationProgress(false);
@@ -96,7 +105,11 @@ const Grid = props => {
           searchResult.moveAllowed
         ) {
           console.log('attackResult', searchResult.attackResult);
-          animateAndMove(searchResult.path, searchResult.attackResult, searchResult.defenderIndex);
+          animateAndMove(
+            searchResult.path,
+            searchResult.attackResult,
+            searchResult.defenderIndex,
+          );
         }
       }
     }
@@ -121,30 +134,34 @@ const Grid = props => {
       moveAllowed = true;
     }
 
-    return { moveAllowed, path, attackResult, defenderIndex: cell.index};
+    return { moveAllowed, path, attackResult, defenderIndex: cell.index };
   };
 
   return (
-    <StyledGrid>
-      {playWalkingSound && <AudioComponent url={Sounds.walking} />}
-      {grid.map(cell => {
-        const cellSelected = cell.index === selected;
+    <StyledGridWrapper>
+      <StyledGrid>
+        {playWalkingSound && <AudioComponent url={Sounds.walking} />}
+        {grid.map(cell => {
+          const cellSelected = cell.index === selected;
 
-        return (
-          <Cell
-            key={cell.index}
-            cell={cell}
-            selected={cellSelected}
-            onClick={() => {
-              onClick(cell);
-            }}
-            onMouseEnter={() => {
-              isSelected && !animationProgress && startSearch(cell);
-            }}
-          />
-        );
-      })}
-    </StyledGrid>
+          return (
+            <Cell
+              key={cell.index}
+              cell={cell}
+              selected={cellSelected}
+              onClick={() => {
+                onClick(cell);
+              }}
+              onMouseEnter={() => {
+                isSelected && !animationProgress && startSearch(cell);
+              }}
+            />
+          );
+        })}
+      </StyledGrid>
+
+      <Sidebar action={action} />
+    </StyledGridWrapper>
   );
 };
 

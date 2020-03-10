@@ -10,7 +10,7 @@ fill: {
   obstacles: [5, 15, 8, 18, 24, 26, 38, 37, 13, 1, 23, 33, 94, 98, 77, 76, 78, 79, 45, 35, 55, 97, 70, 71, 72, 52, 51, 30],
   characters: [
     {
-      name: 'Victor Clone',
+      name: 'Victor',
       type: 'hero',
       speed: 6,
       image: 'warrior',
