@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import warrior from './assets/warrior.jpg';
 import tree from './assets/tree.png';
 import goblin from './assets/goblin.jpg';
+import attack from './assets/attack-inf.gif';
 
 const background = { warrior, tree, goblin };
 
@@ -25,4 +26,12 @@ export const StyledCellContent = styled.div`
 
   animation: ${props => props.animation && props.animation.animation}
     ${props => props.animation && props.animation.time}ms linear forwards;
+
+  &::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: ${props => props.attack ? `url(${attack}) center center/cover` : ''};
+  }
 `;

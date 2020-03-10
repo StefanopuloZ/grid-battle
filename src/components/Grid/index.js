@@ -42,6 +42,7 @@ const Grid = props => {
   };
 
   async function animateAndMove(path, attackResult, defenderIndex) {
+    console.log('attackResult', attackResult);
     setPlayWalkingSound(true);
     setAnimationProgress(true);
 
@@ -66,6 +67,10 @@ const Grid = props => {
 
     let defender = attackResult ? newGrid.getIn([defenderIndex]) : null;
 
+    if (defender) {
+      newGrid = newGrid.setIn([defender.index, 'attack'], true);
+    }
+
     if (attackResult && attackResult.attackResult.isHit) {
       defender.stats.hp = attackResult.damageResult.hp;
       if (defender.stats.hp > 0) {
@@ -89,7 +94,7 @@ const Grid = props => {
   const onClick = cell => {
     console.log('cell', cell);
 
-    if (!isSelected) {
+    if (!isSelected || animationProgress) {
       if (cell.fill !== 'C') {
         return;
       }
@@ -104,7 +109,6 @@ const Grid = props => {
           searchResult.path.length > 0 &&
           searchResult.moveAllowed
         ) {
-          console.log('attackResult', searchResult.attackResult);
           animateAndMove(
             searchResult.path,
             searchResult.attackResult,

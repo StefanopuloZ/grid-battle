@@ -10,7 +10,6 @@ const Sidebar = props => {
   useEffect(() => {
     if (action) {
       let story = '';
-      console.log('action', action);
       const character = action.selected.stats;
       const index = action.selected.index;
       const path = action.path;
@@ -48,8 +47,6 @@ const Sidebar = props => {
     }
     // eslint-disable-next-line
   }, [action]);
-
-  console.log('actions', actions);
 
   return (
     <StyledSidebar>
