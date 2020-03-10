@@ -89,7 +89,13 @@ const calculateAttack = (attacker, defender) => {
   const attack = attacker.attack + attackRoll;
   const isHit = attack >= defender.ac;
 
-  return { isHit, attack, attackRoll, attackBonus: attacker.attack, defenderAC: defender.ac };
+  return {
+    isHit,
+    attack,
+    attackRoll,
+    attackBonus: attacker.attack,
+    defenderAC: defender.ac,
+  };
 };
 
 const calculateDamage = (attacker, defender) => {
@@ -229,9 +235,21 @@ const moveCharacter = (grid, character, target) =>
     .setIn([target.index, 'stats'], character)
     .setIn([target.index, 'stats', 'index'], target.index);
 
+const clearTile = (grid, tile) =>
+  grid
+    .setIn([tile, 'image'], '')
+    .setIn([tile, 'stats'], '')
+    .setIn([tile, 'fill'], '')
+    .setIn([tile, 'sound'], 'click');
+
+const updateCharacter = (grid, character) =>
+  grid.setIn([character.index, 'stats'], character.stats);
+
 export const GridHelper = {
   makeGrid,
   startSearch,
   clearPath,
   moveCharacter,
+  clearTile,
+  updateCharacter,
 };

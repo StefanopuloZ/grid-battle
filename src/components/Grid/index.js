@@ -39,7 +39,7 @@ const Grid = props => {
     });
   };
 
-  async function animateAndMove(path) {
+  async function animateAndMove(path, attackResult, defenderIndex) {
     setPlayWalkingSound(true);
     setAnimationProgress(true);
 
@@ -53,13 +53,27 @@ const Grid = props => {
     await waitFor(path.length * 300);
     clearSelectedCharacter();
     setPlayWalkingSound(false);
-    updateGrid(
-      GridHelper.moveCharacter(
-        grid,
-        selectedCharacter,
-        grid.get(path[path.length - 1].index),
-      ),
+
+    let newGrid = grid;
+
+    newGrid = GridHelper.moveCharacter(
+      newGrid,
+      selectedCharacter,
+      newGrid.get(path[path.length - 1].index),
     );
+
+    if (attackResult && attackResult.attackResult.isHit) {
+      console.log('hit!', attackResult);
+      let defender = newGrid.getIn([defenderIndex]);
+      defender.stats.hp = attackResult.damageResult.hp;
+      if (defender.stats.hp > 0) {
+        newGrid = GridHelper.updateCharacter(newGrid, defender);
+      } else {
+        newGrid = GridHelper.clearTile(newGrid, defenderIndex);
+      }
+    }
+
+    updateGrid(newGrid);
     setAnimationProgress(false);
   }
 
@@ -76,15 +90,19 @@ const Grid = props => {
         clearSelectedCharacter();
       } else {
         const searchResult = startSearch(cell);
-        if (cell.fill !== 'X' && searchResult.path.length > 0 && searchResult.moveAllowed) {
-          console.log('attackResult', searchResult.possibleAttack);
-          animateAndMove(searchResult.path);
+        if (
+          cell.fill !== 'X' &&
+          searchResult.path.length > 0 &&
+          searchResult.moveAllowed
+        ) {
+          console.log('attackResult', searchResult.attackResult);
+          animateAndMove(searchResult.path, searchResult.attackResult, searchResult.defenderIndex);
         }
       }
     }
   };
 
-  const startSearch = (cell, check) => {
+  const startSearch = cell => {
     const result = GridHelper.startSearch(
       grid,
       selected,
@@ -94,24 +112,21 @@ const Grid = props => {
 
     let moveAllowed = false;
     let path = [];
-    let possibleAttack = false;
-    
+    let attackResult = false;
+
     if (result && result.grid) {
       updateGrid(result.grid);
-      // setPath(result.result);
       path = result.result;
-      possibleAttack = result.attackResult;
+      attackResult = result.attackResult;
       moveAllowed = true;
     }
 
-    return {moveAllowed, path, possibleAttack};
+    return { moveAllowed, path, attackResult, defenderIndex: cell.index};
   };
 
   return (
     <StyledGrid>
-      {playWalkingSound && (
-        <AudioComponent url={Sounds.walking} />
-      )}
+      {playWalkingSound && <AudioComponent url={Sounds.walking} />}
       {grid.map(cell => {
         const cellSelected = cell.index === selected;
 
