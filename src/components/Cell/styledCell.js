@@ -22,8 +22,8 @@ export const StyledCellContent = styled.div`
   top: 0;
   left: 0;
   transition: all .3s ease; 
-  background: ${props => props.path ? 'rgba(255, 192, 203, 0.6)' : 'transparent'};
+  background: ${props => props.path ? 'rgba(255, 192, 203, 0.3)' : 'transparent'};
   &:hover {
-    border: 1px solid red;
+    background: rgba(0, 0, 0, 0.178);
   }
 `;

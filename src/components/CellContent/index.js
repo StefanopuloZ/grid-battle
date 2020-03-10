@@ -6,8 +6,9 @@ import { StyledCellContent } from './styledCellContent';
 
 const CellContent = props => {
   const { cell, selected, grid, updateGrid } = props;
-  const { index, fill, stats } = cell;
+  const { index, stats } = cell;
   const hp = stats && stats.hp ? stats.hp : null;
+  const player = stats && stats.player;
 
   if (cell.attack) {
     let newGrid = grid;
@@ -23,12 +24,13 @@ const CellContent = props => {
       image={cell.image}
       animation={cell.animation}
       attack={cell.attack}
+      player={player}
     >
       <p
         style={{
-          backgroundColor: hp ? 'gray' : '',
+          backgroundColor: hp ? 'rgba(94, 94, 94, 0.6)' : '',
         }}
-      >{`${index} ${fill} ${hp ? 'hp:' + hp : ''}`}</p>
+      >{`${hp ? 'hp:' + hp : ''}`}</p>
     </StyledCellContent>
   );
 };
