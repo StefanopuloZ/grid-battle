@@ -202,7 +202,7 @@ const startSearch = (grid, start, target, character) => {
   let tilesToMove = character.speed;
   let attackResult;
   const isAttackPossible =
-    isAttack && result && result.length < character.speed + 1;
+    isAttack && result && result.length <= character.speed + 1;
 
   if (isAttackPossible) {
     if (result.length > character.speed) {
