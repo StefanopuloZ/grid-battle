@@ -146,15 +146,29 @@ const searchForPath = (grid, start, target) => {
 
 const startSearch = (grid, start, target, character) => {
   let newGrid = grid;
+  let newGridJS = newGrid.toJS();
 
-  if (newGrid.get(target).fill || (!start && start !== 0)) {  
+  const actingCharacter = newGridJS[start].stats;
+  const isAttack = newGridJS[target].stats && newGridJS[target].stats.player !== actingCharacter.player;
+
+  if ((newGrid.get(target).fill && !isAttack) || (!start && start !== 0)) {  
     return null;
   }
 
   let result = searchForPath(grid, start, target);
 
+  let tilesToMove = character.speed;
+
+  if (isAttack && result && (result.length < character.speed + 1)) {
+    if (result.length > character.speed) {
+      tilesToMove = character.speed;
+    } else {
+      tilesToMove = result.length - 1;
+    }
+  }
+
   if (result) {
-    result = result.splice(0, character.speed);
+    result = result.splice(0, tilesToMove);
     newGrid = fillPath(grid, result);
     return { grid: List(newGrid), result };
   } else {

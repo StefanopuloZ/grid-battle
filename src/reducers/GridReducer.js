@@ -12,7 +12,7 @@ fill: {
     {
       name: 'Victor',
       type: 'hero',
-      speed: 7,
+      speed: 6,
       image: 'warrior',
       index: 0,
       fill: 'C',
@@ -21,6 +21,21 @@ fill: {
       attack: +2,
       ac: 15,
       damage: [2, 6],
+      player: 'human',
+    },
+    {
+      name: 'Victor Clone',
+      type: 'hero',
+      speed: 6,
+      image: 'warrior',
+      index: 2,
+      fill: 'C',
+      sound: 'warrior',
+      hp: 10,
+      attack: +2,
+      ac: 15,
+      damage: [2, 6],
+      player: 'human',
     },
     {
       name: 'Goblin',
@@ -34,6 +49,7 @@ fill: {
       attack: 0,
       ac: 11,
       damage: [1, 4],
+      player: 'ai',
     }
   ]
 }

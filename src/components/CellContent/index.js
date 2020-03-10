@@ -15,7 +15,7 @@ const CellContent = props => {
       animation={cell.animation}
     >
       <p style={{
-        color: hp ? 'red' : ''
+        backgroundColor: hp ? 'gray' : ''
       }}>{`${index} ${fill} ${hp ? 'hp:' + hp : ''}`}</p>
     </StyledCellContent>
   );
