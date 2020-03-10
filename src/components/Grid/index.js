@@ -14,17 +14,14 @@ const Grid = props => {
   const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState({});
-  const [path, setPath] = useState([]);
   const [animationProgress, setAnimationProgress] = useState(false);
   const [playWalkingSound, setPlayWalkingSound] = useState(false);
-  const [moveAllowed, setMoveAllowed] = useState(false);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
     setSelected(null);
     setSelectedCharacter({});
     updateGrid(GridHelper.clearPath(grid));
-    setPath([]);
   };
 
   const updateSelectedCharacter = cell => {
@@ -42,7 +39,7 @@ const Grid = props => {
     });
   };
 
-  async function animateAndMove() {
+  async function animateAndMove(path) {
     setPlayWalkingSound(true);
     setAnimationProgress(true);
 
@@ -64,7 +61,6 @@ const Grid = props => {
       ),
     );
     setAnimationProgress(false);
-    setMoveAllowed(false);
   }
 
   const onClick = cell => {
@@ -79,27 +75,36 @@ const Grid = props => {
       if (selected === cell.index) {
         clearSelectedCharacter();
       } else {
-        if (cell.fill !== 'X' && path.length > 0 && moveAllowed) {
-          animateAndMove();
+        const searchResult = startSearch(cell);
+        if (cell.fill !== 'X' && searchResult.path.length > 0 && searchResult.moveAllowed) {
+          console.log('attackResult', searchResult.possibleAttack);
+          animateAndMove(searchResult.path);
         }
       }
     }
   };
 
-  const startSearch = cell => {
+  const startSearch = (cell, check) => {
     const result = GridHelper.startSearch(
       grid,
       selected,
       cell.index,
       selectedCharacter,
     );
+
+    let moveAllowed = false;
+    let path = [];
+    let possibleAttack = false;
+    
     if (result && result.grid) {
       updateGrid(result.grid);
-      setPath(result.result);
-      setMoveAllowed(true);
-    } else {
-      setMoveAllowed(false);
+      // setPath(result.result);
+      path = result.result;
+      possibleAttack = result.attackResult;
+      moveAllowed = true;
     }
+
+    return {moveAllowed, path, possibleAttack};
   };
 
   return (

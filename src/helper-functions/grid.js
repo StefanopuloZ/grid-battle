@@ -1,5 +1,11 @@
 import { List } from 'immutable';
 
+// **** Helper Functions ***** //
+// **                       ** //
+function random(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
+
 // **** Grid Creator functions ***** //
 // **                             ** //
 
@@ -75,6 +81,34 @@ const makeGrid = ({ rows, columns, fill }) => {
   return List(grid);
 };
 
+// **** Attack Function ***** //
+// **                      ** //
+
+const calculateAttack = (attacker, defender) => {
+  const attackRoll = random(1, 20);
+  const attack = attacker.attack + attackRoll;
+  const isHit = attack >= defender.ac;
+
+  return { isHit, attack, attackRoll, attackBonus: attacker.attack, defenderAC: defender.ac };
+};
+
+const calculateDamage = (attacker, defender) => {
+  const damage = random(attacker.damage[0], attacker.damage[1]);
+  const hp = defender.hp - damage;
+  const isDead = hp <= 0;
+
+  return { isDead, damage, hp };
+};
+
+const performAttack = (attacker, defender) => {
+  const attackResult = calculateAttack(attacker, defender);
+  const damageResult = attackResult.isHit
+    ? calculateDamage(attacker, defender)
+    : false;
+
+  return { attackResult, damageResult };
+};
+
 // **** Grid Cleanup and Paint functions ***** //
 // **                                       ** //
 
@@ -84,7 +118,7 @@ const clearPath = grid => {
     cell.direction = null;
     return cell;
   });
-}
+};
 
 const fillPath = (grid, path) => {
   let newGrid = clearPath(grid);
@@ -149,28 +183,34 @@ const startSearch = (grid, start, target, character) => {
   let newGridJS = newGrid.toJS();
 
   const actingCharacter = newGridJS[start].stats;
-  const isAttack = newGridJS[target].stats && newGridJS[target].stats.player !== actingCharacter.player;
+  const isAttack =
+    newGridJS[target].stats &&
+    newGridJS[target].stats.player !== actingCharacter.player;
 
-  if ((newGrid.get(target).fill && !isAttack) || (!start && start !== 0)) {  
+  if ((newGrid.get(target).fill && !isAttack) || (!start && start !== 0)) {
     return null;
   }
 
   let result = searchForPath(grid, start, target);
 
   let tilesToMove = character.speed;
+  let attackResult;
+  const isAttackPossible =
+    isAttack && result && result.length < character.speed + 1;
 
-  if (isAttack && result && (result.length < character.speed + 1)) {
+  if (isAttackPossible) {
     if (result.length > character.speed) {
       tilesToMove = character.speed;
     } else {
       tilesToMove = result.length - 1;
     }
+    attackResult = performAttack(actingCharacter, newGridJS[target].stats);
   }
 
   if (result) {
     result = result.splice(0, tilesToMove);
     newGrid = fillPath(grid, result);
-    return { grid: List(newGrid), result };
+    return { grid: List(newGrid), result, attackResult };
   } else {
     return null;
   }
