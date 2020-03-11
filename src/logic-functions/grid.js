@@ -78,7 +78,16 @@ const makeGrid = ({ rows, columns, fill }) => {
 
   grid = fillGrid(grid, fill);
 
-  return List(grid);
+  grid = List(grid);
+
+  const characters = grid.filter((value, index) => value.fill === 'C');
+
+  const humanCharacters = characters.filter(value => value.stats.player === 'human');
+  const aiCharacters = characters.filter(value => value.stats.player === 'ai');
+
+  console.log('characters', humanCharacters, aiCharacters);
+
+  return grid;
 };
 
 // **** Attack Function ***** //

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyledGrid, StyledGridWrapper } from './styledGrid';
@@ -10,7 +10,7 @@ import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
 
 const Grid = props => {
-  let { grid, updateGrid } = props;
+  let { grid, updateGrid, settings, createGrid, destroyGrid } = props;
 
   const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
@@ -18,6 +18,13 @@ const Grid = props => {
   const [animationProgress, setAnimationProgress] = useState(false);
   const [playWalkingSound, setPlayWalkingSound] = useState(false);
   const [action, setAction] = useState();
+
+  useEffect(() => {
+    createGrid(settings);
+
+    return () => destroyGrid();
+    // eslint-disable-next-line
+  }, []);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
@@ -178,10 +185,13 @@ Element.defaultProps = {};
 
 const mapStateToProps = state => ({
   grid: state.GridReducer.grid,
+  settings: state.ConfigReducer.settings,
 });
 
 const mapDispatchToProps = dispatch => ({
   updateGrid: grid => dispatch(GridActions.updateGrid(grid)),
+  createGrid: settings => dispatch(GridActions.createGrid(settings)),
+  destroyGrid: () => dispatch(GridActions.destroyGrid()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);
