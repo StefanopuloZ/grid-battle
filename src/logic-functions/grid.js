@@ -80,12 +80,12 @@ const makeGrid = ({ rows, columns, fill }) => {
 
   grid = List(grid);
 
-  const characters = grid.filter((value, index) => value.fill === 'C');
+  // const characters = grid.filter((value, index) => value.fill === 'C');
 
-  const humanCharacters = characters.filter(value => value.stats.player === 'human');
-  const aiCharacters = characters.filter(value => value.stats.player === 'ai');
+  // const humanCharacters = characters.filter(value => value.stats.player === 'human');
+  // const aiCharacters = characters.filter(value => value.stats.player === 'ai');
 
-  console.log('characters', humanCharacters, aiCharacters);
+  // console.log('characters', humanCharacters, aiCharacters);
 
   return grid;
 };

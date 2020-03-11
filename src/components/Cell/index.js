@@ -49,7 +49,7 @@ Element.defaultProps = {
 };
 
 const mapStateToProps = state => ({
-  columns: state.GridReducer.settings.columns,
+  columns: state.ConfigReducer.settings.columns,
 });
 
 const mapDispatchToProps = dispatch => ({});

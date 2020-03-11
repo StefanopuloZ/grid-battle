@@ -49,7 +49,6 @@ const Grid = props => {
   };
 
   async function animateAndMove(path, attackResult, defenderIndex) {
-    console.log('attackResult', attackResult);
     setPlayWalkingSound(true);
     setAnimationProgress(true);
 
