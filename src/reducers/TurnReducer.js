@@ -1,5 +1,4 @@
 import * as ActionTypes from '../action-types';
-// import { GridHelper } from '../logic-functions';
 import { Map } from 'immutable';
 
 //////////////////
@@ -20,7 +19,7 @@ const TurnReducer = (state = DEFAULT_STATE, action) => {
     case ActionTypes.UPDATE_TURN_INFO: {
       return {
         ...state,
-        turnInfo: action.turnInfo,
+        turnInfo: new Map(action.turnInfo),
       };
     }
     default:

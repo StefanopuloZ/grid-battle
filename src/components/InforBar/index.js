@@ -6,10 +6,12 @@ import { TurnFunctions } from '../../logic-functions';
 import { TurnActions } from '../../actions';
 
 const InfoBar = props => {
-  const { turnInfo, grid, updateTurnInfo } = props;
-  const [characters, setCharacters] = useState([]);
+  const { turnInfo, grid, updateTurnInfo, activeCharacter, allCharacters } = props;
 
   const mapCharactersToView = characters => {
+    if (!characters) {
+      return;
+    }
     return characters.map((character, index) => (
       <StyledPortrait
         key={index}
@@ -36,32 +38,44 @@ const InfoBar = props => {
   };
 
   useEffect(() => {
-    const characters = TurnFunctions.findCharacters(grid);
-    if (characters.size > 0) {
-      setCharacters(mapCharactersToView(characters.get('allCharacters')));
+    if (allCharacters.length === 0 && grid.size > 0) {
+      const characters = TurnFunctions.findCharactersSorted(grid);
+      let newTurnInfo = turnInfo.setIn(['allCharacters'], characters.allCharacters);
+      newTurnInfo = newTurnInfo.setIn(['activeCharacter'], characters.allCharacters[0]);
+      updateTurnInfo(newTurnInfo);
     }
+
+    // eslint-disable-next-line
   }, [grid]);
 
-  console.log('characters', characters);
+  useEffect(() => {
+    if (activeCharacter) {
+      
+    }
+  }, [activeCharacter]);
 
   return (
     <>
       <h3>Turn order:</h3>
-      <StyledInfoBar>{characters}</StyledInfoBar>
+      <StyledInfoBar>{mapCharactersToView(allCharacters)}</StyledInfoBar>
     </>
   );
 };
 
 Element.propTypes = {
   grid: PropTypes.object.isRequired,
-  turnInfo: PropTypes.func.isRequired,
+  turnInfo: PropTypes.object.isRequired,
   updateTurnInfo: PropTypes.func.isRequired,
+  allCharacters: PropTypes.array,
 };
 
-Element.defaultProps = {};
+Element.defaultProps = {
+  allCharacters: [],
+};
 
 const mapStateToProps = state => ({
-  turnInfo: state.TurnReducer,
+  turnInfo: state.TurnReducer.turnInfo,
+  allCharacters: state.TurnReducer.turnInfo.get('allCharacters'),
 });
 
 const mapDispatchToProps = dispatch => ({

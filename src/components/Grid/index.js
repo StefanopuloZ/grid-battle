@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyledGrid, StyledGridWrapper } from './styledGrid';
-import { GridActions } from '../../actions';
-import { GridHelper, Animations } from '../../logic-functions';
+import { GridActions, TurnActions } from '../../actions';
+import { GridHelper, Animations, TurnFunctions } from '../../logic-functions';
 import Cell from '../Cell';
 import Sidebar from '../Sidebar';
 import AudioComponent from '../AudioComponent';
@@ -11,7 +11,17 @@ import Sounds from '../../assets/sounds';
 import InforBar from '../InforBar';
 
 const Grid = props => {
-  let { grid, updateGrid, settings, createGrid, destroyGrid } = props;
+  let {
+    grid,
+    updateGrid,
+    settings,
+    createGrid,
+    destroyGrid,
+    activeCharacter,
+    updateTurnInfo,
+    allCharacters,
+    turnInfo,
+  } = props;
 
   const [selected, setSelected] = useState();
   const [isSelected, setIsSelected] = useState(false);
@@ -26,6 +36,14 @@ const Grid = props => {
     return () => destroyGrid();
     // eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (activeCharacter && activeCharacter.name) {
+      console.log('activeCharacter', activeCharacter);
+      updateSelectedCharacter(grid.get(activeCharacter.index));
+    }
+    // eslint-disable-next-line
+  }, [activeCharacter]);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
@@ -56,8 +74,8 @@ const Grid = props => {
     updateGrid(
       grid.setIn(
         [selected, 'animation'],
-        Animations.moveAnimationBuilder(path, 'move', 300),
-      ),
+        Animations.moveAnimationBuilder(path, 'move', 300)
+      )
     );
 
     await waitFor(path.length * 300);
@@ -69,7 +87,7 @@ const Grid = props => {
     newGrid = GridHelper.moveCharacter(
       newGrid,
       selectedCharacter,
-      newGrid.get(path[path.length - 1].index),
+      newGrid.get(path[path.length - 1].index)
     );
 
     let defender = attackResult ? newGrid.getIn([defenderIndex]) : null;
@@ -96,6 +114,10 @@ const Grid = props => {
 
     updateGrid(newGrid);
     setAnimationProgress(false);
+    let newAllCharacters = TurnFunctions.findCharacters(newGrid).allCharacters;
+    let newTurnInfo = turnInfo.setIn(['allCharacters'], TurnFunctions.setNextCharacter(newAllCharacters));
+    newTurnInfo = newTurnInfo.setIn(['activeCharacter'], newAllCharacters[0]);
+    updateTurnInfo(newTurnInfo);
   }
 
   const onClick = cell => {
@@ -105,10 +127,11 @@ const Grid = props => {
       if (cell.fill !== 'C') {
         return;
       }
-      updateSelectedCharacter(cell);
+      // updateSelectedCharacter(cell);
     } else {
       if (selected === cell.index) {
         clearSelectedCharacter();
+
       } else {
         const searchResult = startSearch(cell);
         if (
@@ -119,7 +142,7 @@ const Grid = props => {
           animateAndMove(
             searchResult.path,
             searchResult.attackResult,
-            searchResult.defenderIndex,
+            searchResult.defenderIndex
           );
         }
       }
@@ -131,7 +154,7 @@ const Grid = props => {
       grid,
       selected,
       cell.index,
-      selectedCharacter,
+      selectedCharacter
     );
 
     let moveAllowed = false;
@@ -187,12 +210,16 @@ Element.defaultProps = {};
 const mapStateToProps = state => ({
   grid: state.GridReducer.grid,
   settings: state.ConfigReducer.settings,
+  turnInfo: state.TurnReducer.turnInfo,
+  activeCharacter: state.TurnReducer.turnInfo.get('activeCharacter'),
+  allCharacters: state.TurnReducer.turnInfo.get('allCharacters'),
 });
 
 const mapDispatchToProps = dispatch => ({
   updateGrid: grid => dispatch(GridActions.updateGrid(grid)),
   createGrid: settings => dispatch(GridActions.createGrid(settings)),
   destroyGrid: () => dispatch(GridActions.destroyGrid()),
+  updateTurnInfo: turnInfo => dispatch(TurnActions.updateTurnInfo(turnInfo)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);
