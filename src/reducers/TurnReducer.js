@@ -4,33 +4,23 @@ import { Map } from 'immutable';
 
 //////////////////
 
-const DEFAULT_STATE = new Map({
-  currentPlayer: null,
-  activeCharacter: {},
-  turnOrder: [],
-  allCharacters: [],
-  humanCharacters: [],
-  aiCharacters: [],
-});
+const DEFAULT_STATE = {
+  turnInfo: new Map({
+    currentPlayer: null,
+    activeCharacter: {},
+    turnOrder: [],
+    allCharacters: [],
+    humanCharacters: [],
+    aiCharacters: [],
+  }),
+};
 
 const TurnReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
-    case ActionTypes.UPDATE_CURRENT_PLAYER: {
+    case ActionTypes.UPDATE_TURN_INFO: {
       return {
         ...state,
-        currentPlayer: action.currentPlayer,
-      };
-    }
-    case ActionTypes.UPDATE_TURN_ORDER: {
-      return {
-        ...state,
-        turnOrder: action.turnOrder,
-      };
-    }
-    case ActionTypes.UPDATE_ACTIVE_CHARACTER: {
-      return {
-        ...state,
-        activeCharacter: action.character,
+        turnInfo: action.turnInfo,
       };
     }
     default:

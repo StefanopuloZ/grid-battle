@@ -11,7 +11,7 @@ const StyledSidebar = styled.div`
   padding: 2px;
   font-size: 14px;
   overflow: scroll;
-  max-height: 80vh;
+  max-height: 80vw;
 `;
 
 export default StyledSidebar;

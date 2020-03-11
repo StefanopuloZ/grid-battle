@@ -9,4 +9,5 @@ export const StyledGrid = styled.div`
 
 export const StyledGridWrapper = styled.div`
   display: flex;
+  flex-wrap: wrap;
 `;

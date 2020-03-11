@@ -8,6 +8,7 @@ import Cell from '../Cell';
 import Sidebar from '../Sidebar';
 import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
+import InforBar from '../InforBar';
 
 const Grid = props => {
   let { grid, updateGrid, settings, createGrid, destroyGrid } = props;
@@ -149,6 +150,7 @@ const Grid = props => {
 
   return (
     <StyledGridWrapper>
+      <InforBar grid={grid} />
       <StyledGrid>
         {playWalkingSound && <AudioComponent url={Sounds.walking} />}
         {grid.map(cell => {
