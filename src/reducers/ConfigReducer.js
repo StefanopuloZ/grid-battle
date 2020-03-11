@@ -68,7 +68,7 @@ const DEFAULT_STATE = {
           initiative: 13,
         },
         {
-          name: 'Goblin Fast',
+          name: 'Goblin F',
           type: 'enemy',
           speed: 5,
           image: 'goblin',

@@ -1,26 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { StyledInfoBar } from './styledInfoBar';
+import { StyledInfoBar, StyledPortrait } from './styledInfoBar';
 import { TurnFunctions } from '../../logic-functions';
 import { TurnActions } from '../../actions';
 
 const InfoBar = props => {
   const { turnInfo, grid, updateTurnInfo } = props;
+  const [characters, setCharacters] = useState([]);
+
+  const mapCharactersToView = characters => {
+    return characters.map((character, index) => (
+      <StyledPortrait
+        key={index}
+        image={character.image}
+        player={character.player}
+      >
+        <p
+          style={{
+            backgroundColor: 'rgba(94, 94, 94, 0.6)',
+          }}
+        >
+          name: {character.name}
+          <br />
+          init: {character.initiative}
+          <br />
+          hp: {character.hp}
+          <br />
+          att: {character.attack}
+          <br />
+          dmg: {character.damage[0]}-{character.damage[1]}
+        </p>
+      </StyledPortrait>
+    ));
+  };
 
   useEffect(() => {
-    if (grid) {
-      const characters = TurnFunctions.findCharacters(grid);
-      console.log('characters', characters);
+    const characters = TurnFunctions.findCharacters(grid);
+    if (characters.size > 0) {
+      setCharacters(mapCharactersToView(characters.get('allCharacters')));
     }
   }, [grid]);
 
-  console.log('turnInfo', turnInfo);
+  console.log('characters', characters);
 
   return (
-    <StyledInfoBar>
-      <div>Info Bar</div>
-    </StyledInfoBar>
+    <>
+      <h3>Turn order:</h3>
+      <StyledInfoBar>{characters}</StyledInfoBar>
+    </>
   );
 };
 

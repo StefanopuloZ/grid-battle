@@ -1,4 +1,9 @@
 import styled from 'styled-components';
+import warrior from '../CellContent/assets/warrior.jpg';
+import goblin from '../CellContent/assets/goblin.jpg';
+
+const background = { warrior, goblin };
+const playerBorders = { human: '2px solid gold', ai: '2px solid red' };
 
 export const StyledInfoBar = styled.div`
   display: flex;
@@ -8,3 +13,20 @@ export const StyledInfoBar = styled.div`
   min-height: 50px;
 `;
 
+export const StyledPortrait = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  width: 100px;
+  margin-left: 5px;
+  border-radius: 50%;
+  background: url(${props => background[props.image]}) center center/cover
+    no-repeat;
+  border: ${props => (props.player ? playerBorders[props.player] : '')};
+
+  p {
+    margin-top: auto;
+    color: rgba(230, 230, 230);
+    font-size: 14px;
+  }
+`;
