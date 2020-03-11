@@ -1,5 +1,5 @@
 import * as ActionTypes from "../action-types";
-import { GridHelper } from "../helper-functions";
+import { GridHelper } from "../logic-functions";
 
 //////////////////
 

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyledGrid, StyledGridWrapper } from './styledGrid';
 import { GridActions } from '../../actions';
-import { GridHelper, Animations } from '../../helper-functions';
+import { GridHelper, Animations } from '../../logic-functions';
 import Cell from '../Cell';
 import Sidebar from '../Sidebar';
 import AudioComponent from '../AudioComponent';
