@@ -5,3 +5,8 @@ export const updateTurnInfo = turnInfo => ({
   turnInfo,
 });
 
+export const startTurn = grid => ({
+  type: ACTION_TYPES.START_TURN,
+  grid,
+});
+

@@ -21,6 +21,7 @@ const Grid = props => {
     updateTurnInfo,
     allCharacters,
     turnInfo,
+    startTurn,
   } = props;
 
   const [selected, setSelected] = useState();
@@ -39,11 +40,23 @@ const Grid = props => {
 
   useEffect(() => {
     if (activeCharacter && activeCharacter.name) {
-      console.log('activeCharacter', activeCharacter);
       updateSelectedCharacter(grid.get(activeCharacter.index));
     }
     // eslint-disable-next-line
   }, [activeCharacter]);
+
+  useEffect(() => {
+    if (allCharacters.length === 0 && grid.size > 0) {
+      startTurn(grid);
+      console.log('startTurn');
+      // const characters = TurnFunctions.findCharactersSorted(grid);
+      // let newTurnInfo = turnInfo.setIn(['allCharacters'], characters.allCharacters);
+      // newTurnInfo = newTurnInfo.setIn(['activeCharacter'], characters.allCharacters[0]);
+      // updateTurnInfo(newTurnInfo);
+    }
+
+    // eslint-disable-next-line
+  }, [grid]);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
@@ -74,8 +87,8 @@ const Grid = props => {
     updateGrid(
       grid.setIn(
         [selected, 'animation'],
-        Animations.moveAnimationBuilder(path, 'move', 300)
-      )
+        Animations.moveAnimationBuilder(path, 'move', 300),
+      ),
     );
 
     await waitFor(path.length * 300);
@@ -87,7 +100,7 @@ const Grid = props => {
     newGrid = GridHelper.moveCharacter(
       newGrid,
       selectedCharacter,
-      newGrid.get(path[path.length - 1].index)
+      newGrid.get(path[path.length - 1].index),
     );
 
     let defender = attackResult ? newGrid.getIn([defenderIndex]) : null;
@@ -115,7 +128,10 @@ const Grid = props => {
     updateGrid(newGrid);
     setAnimationProgress(false);
     let newAllCharacters = TurnFunctions.findCharacters(newGrid).allCharacters;
-    let newTurnInfo = turnInfo.setIn(['allCharacters'], TurnFunctions.setNextCharacter(newAllCharacters));
+    let newTurnInfo = turnInfo.setIn(
+      ['allCharacters'],
+      TurnFunctions.setNextCharacter(newAllCharacters),
+    );
     newTurnInfo = newTurnInfo.setIn(['activeCharacter'], newAllCharacters[0]);
     updateTurnInfo(newTurnInfo);
   }
@@ -131,7 +147,6 @@ const Grid = props => {
     } else {
       if (selected === cell.index) {
         clearSelectedCharacter();
-
       } else {
         const searchResult = startSearch(cell);
         if (
@@ -142,7 +157,7 @@ const Grid = props => {
           animateAndMove(
             searchResult.path,
             searchResult.attackResult,
-            searchResult.defenderIndex
+            searchResult.defenderIndex,
           );
         }
       }
@@ -154,7 +169,7 @@ const Grid = props => {
       grid,
       selected,
       cell.index,
-      selectedCharacter
+      selectedCharacter,
     );
 
     let moveAllowed = false;
@@ -200,12 +215,11 @@ const Grid = props => {
   );
 };
 
-Element.propTypes = {
-  children: PropTypes.element.isRequired,
+Grid.propTypes = {
   updateGrid: PropTypes.func.isRequired,
 };
 
-Element.defaultProps = {};
+Grid.defaultProps = {};
 
 const mapStateToProps = state => ({
   grid: state.GridReducer.grid,
@@ -219,7 +233,7 @@ const mapDispatchToProps = dispatch => ({
   updateGrid: grid => dispatch(GridActions.updateGrid(grid)),
   createGrid: settings => dispatch(GridActions.createGrid(settings)),
   destroyGrid: () => dispatch(GridActions.destroyGrid()),
-  updateTurnInfo: turnInfo => dispatch(TurnActions.updateTurnInfo(turnInfo)),
+  startTurn: grid => dispatch(TurnActions.startTurn(grid)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

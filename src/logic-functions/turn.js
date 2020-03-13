@@ -1,27 +1,8 @@
 import { Map } from 'immutable';
 
 const sortCharacters = (characters, value = 'initiative') => {
-  return characters.sortBy(character => -character[value]);
-};
-
-const findCharactersSorted = grid => {
-  const allCharacters = sortCharacters(
-    grid
-      .filter((value, index) => value.fill === 'C')
-      .map(character => character.stats)
-  );
-
-  const humanCharacters = allCharacters.filter(
-    value => value.player === 'human'
-  );
-
-  const aiCharacters = allCharacters.filter(value => value.player === 'ai');
-
-  return {
-    allCharacters: allCharacters.toJS(),
-    humanCharacters: humanCharacters.toJS(),
-    aiCharacters: aiCharacters.toJS(),
-  };
+  const sortedCharacters = JSON.parse(JSON.stringify(characters));
+  return sortedCharacters.sort((a, b) => b[value] - a[value]);
 };
 
 const findCharacters = grid => {
@@ -48,7 +29,7 @@ const setNextCharacter = (allCharacters) => {
 };
 
 export const TurnFunctions = {
-  findCharactersSorted,
+  sortCharacters,
   setNextCharacter,
   findCharacters,
 };
