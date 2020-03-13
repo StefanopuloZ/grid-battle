@@ -18,7 +18,6 @@ const DEFAULT_STATE = {
 const TurnReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case ActionTypes.START_TURN: {
-      console.log(state, 'state', action.grid);
       let {
         allCharacters,
         humanCharacters,
@@ -28,11 +27,31 @@ const TurnReducer = (state = DEFAULT_STATE, action) => {
       allCharacters = TurnFunctions.sortCharacters(allCharacters);
 
       let turnInfo = state.turnInfo;
-      turnInfo   = turnInfo
+      turnInfo = turnInfo
         .setIn(['allCharacters'], allCharacters)
         .setIn(['humanCharacters'], humanCharacters)
         .setIn(['aiCharacters'], aiCharacters)
         .setIn(['activeCharacter'], allCharacters[0]);
+
+      return {
+        ...state,
+        turnInfo,
+      };
+    }
+    case ActionTypes.NEXT_MOVE: {
+      let {
+        allCharacters,
+        humanCharacters,
+        aiCharacters,
+        activeCharacter,
+      } = TurnFunctions.updateCharacters(state, action.grid);
+
+      let turnInfo = state.turnInfo;
+      turnInfo = turnInfo
+        .setIn(['allCharacters'], allCharacters)
+        .setIn(['humanCharacters'], humanCharacters)
+        .setIn(['aiCharacters'], aiCharacters)
+        .setIn(['activeCharacter'], activeCharacter);
 
       return {
         ...state,

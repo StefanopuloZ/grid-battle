@@ -18,10 +18,10 @@ const Grid = props => {
     createGrid,
     destroyGrid,
     activeCharacter,
-    updateTurnInfo,
     allCharacters,
     turnInfo,
     startTurn,
+    nextMOve
   } = props;
 
   const [selected, setSelected] = useState();
@@ -49,12 +49,7 @@ const Grid = props => {
     if (allCharacters.length === 0 && grid.size > 0) {
       startTurn(grid);
       console.log('startTurn');
-      // const characters = TurnFunctions.findCharactersSorted(grid);
-      // let newTurnInfo = turnInfo.setIn(['allCharacters'], characters.allCharacters);
-      // newTurnInfo = newTurnInfo.setIn(['activeCharacter'], characters.allCharacters[0]);
-      // updateTurnInfo(newTurnInfo);
     }
-
     // eslint-disable-next-line
   }, [grid]);
 
@@ -127,13 +122,7 @@ const Grid = props => {
 
     updateGrid(newGrid);
     setAnimationProgress(false);
-    let newAllCharacters = TurnFunctions.findCharacters(newGrid).allCharacters;
-    let newTurnInfo = turnInfo.setIn(
-      ['allCharacters'],
-      TurnFunctions.setNextCharacter(newAllCharacters),
-    );
-    newTurnInfo = newTurnInfo.setIn(['activeCharacter'], newAllCharacters[0]);
-    updateTurnInfo(newTurnInfo);
+    nextMOve(newGrid);
   }
 
   const onClick = cell => {
@@ -234,6 +223,7 @@ const mapDispatchToProps = dispatch => ({
   createGrid: settings => dispatch(GridActions.createGrid(settings)),
   destroyGrid: () => dispatch(GridActions.destroyGrid()),
   startTurn: grid => dispatch(TurnActions.startTurn(grid)),
+  nextMOve: grid => dispatch(TurnActions.nextMove(grid)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

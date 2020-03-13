@@ -38,6 +38,7 @@ const DEFAULT_STATE = {
       ],
       characters: [
         {
+          id: 1,
           name: 'Victor',
           type: 'hero',
           speed: 6,
@@ -53,6 +54,7 @@ const DEFAULT_STATE = {
           initiative: 14,
         },
         {
+          id: 2,
           name: 'Goblin',
           type: 'enemy',
           speed: 5,
@@ -68,6 +70,7 @@ const DEFAULT_STATE = {
           initiative: 13,
         },
         {
+          id: 3,
           name: 'Goblin F',
           type: 'enemy',
           speed: 5,
