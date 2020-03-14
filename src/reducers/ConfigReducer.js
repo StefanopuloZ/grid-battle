@@ -7,6 +7,7 @@ const DEFAULT_STATE = {
     columns: 10,
     fill: {
       obstacles: [
+        0,
         5,
         15,
         8,
@@ -15,8 +16,6 @@ const DEFAULT_STATE = {
         26,
         38,
         37,
-        13,
-        1,
         23,
         33,
         94,
