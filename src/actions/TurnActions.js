@@ -10,3 +10,7 @@ export const nextMove = grid => ({
   grid,
 });
 
+export const resetTurn = () => ({
+  type: ACTION_TYPES.RESET_TURN,
+});
+

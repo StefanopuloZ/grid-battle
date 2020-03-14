@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { StyledGrid, StyledGridWrapper } from './styledGrid';
 import { GridActions, TurnActions } from '../../actions';
-import { GridHelper, Animations, TurnFunctions } from '../../logic-functions';
+import { GridHelper, Animations } from '../../logic-functions';
 import Cell from '../Cell';
 import Sidebar from '../Sidebar';
 import AudioComponent from '../AudioComponent';
@@ -19,9 +19,9 @@ const Grid = props => {
     destroyGrid,
     activeCharacter,
     allCharacters,
-    turnInfo,
     startTurn,
-    nextMOve
+    nextMOve,
+    resetTurn,
   } = props;
 
   const [selected, setSelected] = useState();
@@ -34,7 +34,10 @@ const Grid = props => {
   useEffect(() => {
     createGrid(settings);
 
-    return () => destroyGrid();
+    return () => {
+      resetTurn();
+      destroyGrid();
+    }
     // eslint-disable-next-line
   }, []);
 
@@ -82,8 +85,8 @@ const Grid = props => {
     updateGrid(
       grid.setIn(
         [selected, 'animation'],
-        Animations.moveAnimationBuilder(path, 'move', 300),
-      ),
+        Animations.moveAnimationBuilder(path, 'move', 300)
+      )
     );
 
     await waitFor(path.length * 300);
@@ -95,7 +98,7 @@ const Grid = props => {
     newGrid = GridHelper.moveCharacter(
       newGrid,
       selectedCharacter,
-      newGrid.get(path[path.length - 1].index),
+      newGrid.get(path[path.length - 1].index)
     );
 
     let defender = attackResult ? newGrid.getIn([defenderIndex]) : null;
@@ -132,23 +135,18 @@ const Grid = props => {
       if (cell.fill !== 'C') {
         return;
       }
-      // updateSelectedCharacter(cell);
     } else {
-      if (selected === cell.index) {
-        clearSelectedCharacter();
-      } else {
-        const searchResult = startSearch(cell);
-        if (
-          cell.fill !== 'X' &&
-          searchResult.path.length > 0 &&
-          searchResult.moveAllowed
-        ) {
-          animateAndMove(
-            searchResult.path,
-            searchResult.attackResult,
-            searchResult.defenderIndex,
-          );
-        }
+      const searchResult = startSearch(cell);
+      if (
+        cell.fill !== 'X' &&
+        searchResult.path.length > 0 &&
+        searchResult.moveAllowed
+      ) {
+        animateAndMove(
+          searchResult.path,
+          searchResult.attackResult,
+          searchResult.defenderIndex
+        );
       }
     }
   };
@@ -158,7 +156,7 @@ const Grid = props => {
       grid,
       selected,
       cell.index,
-      selectedCharacter,
+      selectedCharacter
     );
 
     let moveAllowed = false;
@@ -224,6 +222,7 @@ const mapDispatchToProps = dispatch => ({
   destroyGrid: () => dispatch(GridActions.destroyGrid()),
   startTurn: grid => dispatch(TurnActions.startTurn(grid)),
   nextMOve: grid => dispatch(TurnActions.nextMove(grid)),
+  resetTurn: () => dispatch(TurnActions.resetTurn()),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Grid);

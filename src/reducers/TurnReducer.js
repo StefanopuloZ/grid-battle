@@ -58,6 +58,21 @@ const TurnReducer = (state = DEFAULT_STATE, action) => {
         turnInfo,
       };
     }
+    case ActionTypes.RESET_TURN: {
+      const turnInfo = new Map({
+        currentPlayer: null,
+        activeCharacter: {},
+        turnOrder: [],
+        allCharacters: [],
+        humanCharacters: [],
+        aiCharacters: [],
+      });
+
+      return {
+        ...state,
+        turnInfo,
+      };
+    }
     default:
       return state;
   }
