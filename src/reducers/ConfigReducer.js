@@ -50,7 +50,7 @@ const DEFAULT_STATE = {
           ac: 10,
           damage: [2, 6],
           player: 'human',
-          initiative: 14,
+          initiative: 24,
         },
         {
           id: 2,

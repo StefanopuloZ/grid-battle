@@ -37,7 +37,7 @@ const Grid = props => {
     return () => {
       resetTurn();
       destroyGrid();
-    }
+    };
     // eslint-disable-next-line
   }, []);
 
@@ -55,6 +55,32 @@ const Grid = props => {
     }
     // eslint-disable-next-line
   }, [grid]);
+
+  useEffect(() => {
+    if (activeCharacter.player === 'ai' && selectedCharacter && selected) {
+      console.log('aiTurn', grid, grid.get(1));
+
+      //
+      // get tile to be attacked (humanCharacters, grid)
+      // let x = activeCharacter.name === 'Goblin' ? 1 : 20;
+
+      // 
+      // startSearch
+      // const searchResult = startSearch(grid.get(x));
+
+      // 
+      // start ai turn
+      // if (searchResult.path.length > 0) {
+      //   animateAndMove(
+      //     searchResult.path,
+      //     searchResult.attackResult,
+      //     searchResult.defenderIndex
+      //   );
+      // }
+    }
+    
+    // eslint-disable-next-line
+  }, [activeCharacter, selectedCharacter, selected]);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
@@ -131,7 +157,7 @@ const Grid = props => {
   const onClick = cell => {
     console.log('cell', cell);
 
-    if (!isSelected || animationProgress) {
+    if (!isSelected || animationProgress || activeCharacter.player === 'ai') {
       if (cell.fill !== 'C') {
         return;
       }
@@ -190,7 +216,10 @@ const Grid = props => {
                 onClick(cell);
               }}
               onMouseEnter={() => {
-                isSelected && !animationProgress && startSearch(cell);
+                isSelected &&
+                  !animationProgress &&
+                  activeCharacter.player !== 'ai' &&
+                  startSearch(cell);
               }}
             />
           );
