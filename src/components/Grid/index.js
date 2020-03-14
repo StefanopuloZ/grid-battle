@@ -20,7 +20,7 @@ const Grid = props => {
     activeCharacter,
     allCharacters,
     startTurn,
-    nextMOve,
+    nextMove,
     resetTurn,
   } = props;
 
@@ -125,7 +125,7 @@ const Grid = props => {
 
     updateGrid(newGrid);
     setAnimationProgress(false);
-    nextMOve(newGrid);
+    nextMove(newGrid);
   }
 
   const onClick = cell => {
@@ -204,9 +204,20 @@ const Grid = props => {
 
 Grid.propTypes = {
   updateGrid: PropTypes.func.isRequired,
+  grid: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
+  createGrid: PropTypes.func.isRequired,
+  destroyGrid: PropTypes.func.isRequired,
+  activeCharacter: PropTypes.object,
+  allCharacters: PropTypes.array.isRequired,
+  startTurn: PropTypes.func.isRequired,
+  nextMove: PropTypes.func.isRequired,
+  resetTurn: PropTypes.func.isRequired,
 };
 
-Grid.defaultProps = {};
+Grid.defaultProps = {
+  activeCharacter: null,
+};
 
 const mapStateToProps = state => ({
   grid: state.GridReducer.grid,
@@ -221,7 +232,7 @@ const mapDispatchToProps = dispatch => ({
   createGrid: settings => dispatch(GridActions.createGrid(settings)),
   destroyGrid: () => dispatch(GridActions.destroyGrid()),
   startTurn: grid => dispatch(TurnActions.startTurn(grid)),
-  nextMOve: grid => dispatch(TurnActions.nextMove(grid)),
+  nextMove: grid => dispatch(TurnActions.nextMove(grid)),
   resetTurn: () => dispatch(TurnActions.resetTurn()),
 });
 
