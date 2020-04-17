@@ -114,6 +114,7 @@ const Grid = (props) => {
   };
 
   async function animateAndMove(path, attackResult, defenderIndex) {
+    const isHit = attackResult && attackResult.attackResult.isHit;
     setPlayWalkingSound(true);
     setAnimationProgress(true);
 
@@ -142,7 +143,7 @@ const Grid = (props) => {
       newGrid = newGrid.setIn([defender.index, "attack"], true);
     }
 
-    if (attackResult && attackResult.attackResult.isHit) {
+    if (isHit) {
       defender.stats.hp = attackResult.damageResult.hp;
       if (defender.stats.hp > 0) {
         newGrid = GridHelper.updateCharacter(newGrid, defender);
@@ -159,6 +160,7 @@ const Grid = (props) => {
     });
 
     updateGrid(newGrid);
+    await waitFor(attackResult ? 500 : 0);
     setAnimationProgress(false);
     nextMove(newGrid);
   }

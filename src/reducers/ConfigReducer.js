@@ -72,7 +72,7 @@ const DEFAULT_STATE = {
           id: 3,
           name: 'Goblin F',
           type: 'enemy',
-          speed: 7,
+          speed: 5,
           image: 'goblin',
           index: 31,
           fill: 'C',
@@ -82,7 +82,7 @@ const DEFAULT_STATE = {
           ac: 8,
           damage: [1, 4],
           player: 'ai',
-          initiative: 30,
+          initiative: 13,
         },
         {
           id: 4,
