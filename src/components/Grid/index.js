@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { StyledGrid, StyledGridWrapper } from './styledGrid';
-import { GridActions, TurnActions } from '../../actions';
-import { GridHelper, Animations } from '../../logic-functions';
-import Cell from '../Cell';
-import Sidebar from '../Sidebar';
-import AudioComponent from '../AudioComponent';
-import Sounds from '../../assets/sounds';
-import InforBar from '../InforBar';
+import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import { StyledGrid, StyledGridWrapper } from "./styledGrid";
+import { GridActions, TurnActions } from "../../actions";
+import { GridHelper, Animations, AiFunctions } from "../../logic-functions";
+import Cell from "../Cell";
+import Sidebar from "../Sidebar";
+import AudioComponent from "../AudioComponent";
+import Sounds from "../../assets/sounds";
+import InforBar from "../InforBar";
 
-const Grid = props => {
+const Grid = (props) => {
   let {
     grid,
     updateGrid,
@@ -22,6 +22,7 @@ const Grid = props => {
     startTurn,
     nextMove,
     resetTurn,
+    humanCharacters,
   } = props;
 
   const [selected, setSelected] = useState();
@@ -51,34 +52,42 @@ const Grid = props => {
   useEffect(() => {
     if (allCharacters.length === 0 && grid.size > 0) {
       startTurn(grid);
-      console.log('startTurn');
+      console.log("startTurn");
     }
     // eslint-disable-next-line
   }, [grid]);
 
   useEffect(() => {
-    if (activeCharacter.player === 'ai' && selectedCharacter && selected) {
-      console.log('aiTurn', grid, grid.get(1));
+    if (activeCharacter.player === "ai" && selectedCharacter && selected) {
+      console.log("aiTurn", grid, grid.get(1));
+
+      const tileToMove = AiFunctions.calculateAiMove(
+        grid,
+        activeCharacter,
+        humanCharacters
+      );
 
       //
       // get tile to be attacked (humanCharacters, grid)
       // let x = activeCharacter.name === 'Goblin' ? 1 : 20;
 
-      // 
+      //
       // startSearch
-      // const searchResult = startSearch(grid.get(x));
+      const searchResult = startSearch(grid.get(tileToMove));
 
-      // 
+      //
       // start ai turn
-      // if (searchResult.path.length > 0) {
-      //   animateAndMove(
-      //     searchResult.path,
-      //     searchResult.attackResult,
-      //     searchResult.defenderIndex
-      //   );
-      // }
+      if (searchResult.path.length > 0) {
+        setTimeout(() => {
+          animateAndMove(
+            searchResult.path,
+            searchResult.attackResult,
+            searchResult.defenderIndex
+          );
+        }, 300);
+      }
     }
-    
+
     // eslint-disable-next-line
   }, [activeCharacter, selectedCharacter, selected]);
 
@@ -89,15 +98,15 @@ const Grid = props => {
     updateGrid(GridHelper.clearPath(grid));
   };
 
-  const updateSelectedCharacter = cell => {
+  const updateSelectedCharacter = (cell) => {
     setIsSelected(true);
     setSelected(cell.index);
     setSelectedCharacter(cell.stats);
     updateGrid(GridHelper.clearPath(grid));
   };
 
-  const waitFor = time => {
-    return new Promise(resolve => {
+  const waitFor = (time) => {
+    return new Promise((resolve) => {
       setTimeout(() => {
         resolve();
       }, time);
@@ -110,8 +119,8 @@ const Grid = props => {
 
     updateGrid(
       grid.setIn(
-        [selected, 'animation'],
-        Animations.moveAnimationBuilder(path, 'move', 300)
+        [selected, "animation"],
+        Animations.moveAnimationBuilder(path, "move", 300)
       )
     );
 
@@ -130,7 +139,7 @@ const Grid = props => {
     let defender = attackResult ? newGrid.getIn([defenderIndex]) : null;
 
     if (defender) {
-      newGrid = newGrid.setIn([defender.index, 'attack'], true);
+      newGrid = newGrid.setIn([defender.index, "attack"], true);
     }
 
     if (attackResult && attackResult.attackResult.isHit) {
@@ -154,17 +163,17 @@ const Grid = props => {
     nextMove(newGrid);
   }
 
-  const onClick = cell => {
-    console.log('cell', cell);
+  const onClick = (cell) => {
+    console.log("cell", cell);
 
-    if (!isSelected || animationProgress || activeCharacter.player === 'ai') {
-      if (cell.fill !== 'C') {
+    if (!isSelected || animationProgress || activeCharacter.player === "ai") {
+      if (cell.fill !== "C") {
         return;
       }
     } else {
       const searchResult = startSearch(cell);
       if (
-        cell.fill !== 'X' &&
+        cell.fill !== "X" &&
         searchResult.path.length > 0 &&
         searchResult.moveAllowed
       ) {
@@ -177,7 +186,7 @@ const Grid = props => {
     }
   };
 
-  const startSearch = cell => {
+  const startSearch = (cell) => {
     const result = GridHelper.startSearch(
       grid,
       selected,
@@ -204,7 +213,7 @@ const Grid = props => {
       <InforBar grid={grid} />
       <StyledGrid>
         {playWalkingSound && <AudioComponent url={Sounds.walking} />}
-        {grid.map(cell => {
+        {grid.map((cell) => {
           const cellSelected = cell.index === selected;
 
           return (
@@ -218,7 +227,7 @@ const Grid = props => {
               onMouseEnter={() => {
                 isSelected &&
                   !animationProgress &&
-                  activeCharacter.player !== 'ai' &&
+                  activeCharacter.player !== "ai" &&
                   startSearch(cell);
               }}
             />
@@ -248,20 +257,21 @@ Grid.defaultProps = {
   activeCharacter: null,
 };
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   grid: state.GridReducer.grid,
   settings: state.ConfigReducer.settings,
   turnInfo: state.TurnReducer.turnInfo,
-  activeCharacter: state.TurnReducer.turnInfo.get('activeCharacter'),
-  allCharacters: state.TurnReducer.turnInfo.get('allCharacters'),
+  activeCharacter: state.TurnReducer.turnInfo.get("activeCharacter"),
+  allCharacters: state.TurnReducer.turnInfo.get("allCharacters"),
+  humanCharacters: state.TurnReducer.turnInfo.get("humanCharacters"),
 });
 
-const mapDispatchToProps = dispatch => ({
-  updateGrid: grid => dispatch(GridActions.updateGrid(grid)),
-  createGrid: settings => dispatch(GridActions.createGrid(settings)),
+const mapDispatchToProps = (dispatch) => ({
+  updateGrid: (grid) => dispatch(GridActions.updateGrid(grid)),
+  createGrid: (settings) => dispatch(GridActions.createGrid(settings)),
   destroyGrid: () => dispatch(GridActions.destroyGrid()),
-  startTurn: grid => dispatch(TurnActions.startTurn(grid)),
-  nextMove: grid => dispatch(TurnActions.nextMove(grid)),
+  startTurn: (grid) => dispatch(TurnActions.startTurn(grid)),
+  nextMove: (grid) => dispatch(TurnActions.nextMove(grid)),
   resetTurn: () => dispatch(TurnActions.resetTurn()),
 });
 
