@@ -57,6 +57,7 @@ const Grid = (props) => {
     // eslint-disable-next-line
   }, [grid]);
 
+  // ai turn calculator
   useEffect(() => {
     if (activeCharacter.player === "ai" && selectedCharacter && selected) {
       console.log("aiTurn", grid, grid.get(1));
@@ -76,6 +77,10 @@ const Grid = (props) => {
             searchResult.attackResult,
             searchResult.defenderIndex
           );
+        }, 300);
+      } else {
+        setTimeout(() => {
+          nextMove(grid);
         }, 300);
       }
     }
