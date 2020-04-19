@@ -60,7 +60,7 @@ const Grid = (props) => {
   // ai turn calculator
   useEffect(() => {
     if (activeCharacter.player === "ai" && selectedCharacter && selected) {
-      console.log("aiTurn", grid, grid.get(1));
+      console.log("aiTurn", selectedCharacter, activeCharacter);
 
       const tileToMove = AiFunctions.calculateAiMove(
         grid,
@@ -68,25 +68,28 @@ const Grid = (props) => {
         humanCharacters
       );
 
-      const searchResult = startSearch(grid.get(tileToMove));
+      if (tileToMove) {
+        const searchResult = startSearch(grid.get(tileToMove));
 
-      if (searchResult.path.length > 0) {
-        setTimeout(() => {
-          animateAndMove(
-            searchResult.path,
-            searchResult.attackResult,
-            searchResult.defenderIndex
-          );
-        }, 300);
+        if (searchResult.path.length > 0) {
+          setTimeout(() => {
+            animateAndMove(
+              searchResult.path,
+              searchResult.attackResult,
+              searchResult.defenderIndex
+            );
+          }, 300);
+        }
       } else {
+        // setAnimationProgress(true);
         setTimeout(() => {
           nextMove(grid);
-        }, 300);
+        }, 500);
       }
     }
 
     // eslint-disable-next-line
-  }, [activeCharacter, selectedCharacter, selected]);
+  }, [selectedCharacter]);
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);

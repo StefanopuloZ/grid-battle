@@ -5,45 +5,57 @@ function random(min, max) {
 }
 
 const weightValues = {
-  canReach: 200,
   toHitChance: (attack, AC) => {
-    return (attack - AC + 20) * 10;
+    return attack - AC > 0 ? 100 : -50;
   },
   canKill: (targetHP, damageMax) => {
-    return targetHP - damageMax <= 0 ? 50 : 0;
+    return targetHP - damageMax <= 0 ? 200 : 0;
   },
+  remainingHP: targetHP => 10 - targetHP > 0 ? (10 - targetHP) * 20 : 0,
   threatLevel: (targetAttack, targetDamageMax) => {
     return (targetAttack + targetDamageMax) * 10;
   },
 };
 
 const assignWeight = (moves) => {
-  let calculatedWeight = 0;
-  let moveWeights = '';
-
   const weightedMoves = moves.map((move) => {
     const activeCharacter = move.stats;
     const target = move.target;
+    let calculatedWeight = 0;
+    let weightBreakdown = {};
 
     let weight = 0;
-    weight += move.result.attackResult ? weightValues.canReach : 0;
-    moveWeights += `canReach: ${moveWeights}`;
-    weight += weightValues.toHitChance(activeCharacter.attack, target.ac);
-    weight += weightValues.canKill(target.hp, activeCharacter.damage[1]);
-    weight += weightValues.threatLevel(target.attack, target.damage[1]);
+
+    const toHitChance = weightValues.toHitChance(activeCharacter.attack, target.ac);
+    weight += toHitChance;
+    weightBreakdown.toHitChance = toHitChance;
+
+    const remainingHP = weightValues.remainingHP(target.hp);
+    weight += remainingHP;
+    weightBreakdown.remainingHP = remainingHP;
+
+    const canKill = weightValues.canKill(target.hp, activeCharacter.damage[1]);
+    weight += canKill;
+    weightBreakdown.canKill = canKill;
+
+    const threatLevel = weightValues.threatLevel(target.attack, target.damage[1]);
+    weight += threatLevel;
+    weightBreakdown.threatLevel = threatLevel;
 
     calculatedWeight = calculatedWeight + weight;
 
-    return { ...move, weight, calculatedWeight};
+    return { ...move, weight, calculatedWeight, weightBreakdown};
   });
 
-  console.log(weightedMoves);
+  // console.log(weightedMoves);
 
   return weightedMoves;
 };
 
 const checkPossibleMoves = (grid, activeCharacter, humanCharacters) => {
-  const possibleMoves = [];
+  let possibleMoves = [];
+  let canAttack = false;
+
   humanCharacters.forEach((character) => {
     const searchResult = GridHelper.startSearch(
       grid,
@@ -59,8 +71,17 @@ const checkPossibleMoves = (grid, activeCharacter, humanCharacters) => {
         target: character,
         stats: activeCharacter,
       });
+
+      if (!canAttack && searchResult.attackResult) {
+        console.log('inininin');
+        canAttack = true;
+      }
     }
   });
+
+  if (canAttack) {
+    possibleMoves = possibleMoves.filter(move => move.result.attackResult);
+  }
 
   return assignWeight(possibleMoves);
 };
@@ -68,8 +89,6 @@ const checkPossibleMoves = (grid, activeCharacter, humanCharacters) => {
 const choseMove = moves => {
   const maxWeight = moves[moves.length - 1].calculatedWeight;
   const randomPick = random(0, maxWeight);
-
-  console.log('randomPick', randomPick, 'maxWeight', maxWeight);
 
   for (let i = 0; i < moves.length; i++) {
     if (randomPick - moves[i].calculatedWeight <= 0) {
@@ -85,11 +104,11 @@ const calculateAiMove = (grid, activeCharacter, humanCharacters) => {
     humanCharacters
   );
 
-  // console.log("possibleMoves", possibleMoves);
-
-  // console.log('Chosen move', choseMove(possibleMoves));
-
-  return choseMove(possibleMoves);
+  if (possibleMoves.length > 0) {
+    return choseMove(possibleMoves);
+  } else {
+    return null;
+  }
 };
 
 export const AiFunctions = {
