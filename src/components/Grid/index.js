@@ -67,16 +67,8 @@ const Grid = (props) => {
         humanCharacters
       );
 
-      //
-      // get tile to be attacked (humanCharacters, grid)
-      // let x = activeCharacter.name === 'Goblin' ? 1 : 20;
-
-      //
-      // startSearch
       const searchResult = startSearch(grid.get(tileToMove));
 
-      //
-      // start ai turn
       if (searchResult.path.length > 0) {
         setTimeout(() => {
           animateAndMove(
