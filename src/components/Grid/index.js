@@ -106,7 +106,7 @@ const Grid = props => {
     if (gameInProgress.current) {
       nextMove(grid);
     }
-  } 
+  };
 
   const startGame = () => {
     gameInProgress.current = true;
@@ -285,6 +285,14 @@ const Grid = props => {
               }}
             >
               END GAME
+            </button>
+            <button
+              onClick={() => {
+                if (activeCharacter.player !== "ai")
+                nextMoveCheck(grid);
+              }}
+            >
+              SKIP TURN
             </button>
           </div>
         </>
