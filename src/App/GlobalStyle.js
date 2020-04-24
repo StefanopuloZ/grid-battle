@@ -1,10 +1,11 @@
 import { createGlobalStyle } from "styled-components";
-import { colors } from "../theme";
+import { colors, fonts } from "../theme";
 
 export const GlobalStyle = createGlobalStyle`
     body {
         text-align: center;
         color: ${colors.black};
+        font-family: ${fonts.regular};
     }
 
     * {
