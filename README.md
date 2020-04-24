@@ -69,12 +69,12 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 
 ## To do:
-    - Start/End flow
+    - Start/End flow *
     - Procedurally generated map
     - App layout and styles
-        - Player can skip turn and skip button
-        - Control bar
-            - Start and reset buttons
+        - Player can skip turn and skip button *
+        - Control bar *
+            - Start and reset buttons *
         - Active Character Window
             - Show active character
             - Show character on hover
