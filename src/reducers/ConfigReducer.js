@@ -6,7 +6,10 @@ const DEFAULT_STATE = {
     rows: 10,
     columns: 10,
     fill: {
-      obstacles: 30,
+      rows: 10,
+      obstacles() {
+        return Math.round((this.rows * (this.rows / 2.5)) - (this.rows * 1.5))
+      },
       characters: [
         {
           id: 1,
@@ -17,7 +20,7 @@ const DEFAULT_STATE = {
           index: 4,
           fill: 'C',
           sound: 'warrior',
-          hp: 1,
+          hp: 4,
           attack: +2,
           ac: 0,
           damage: [2, 6],
@@ -46,7 +49,7 @@ const DEFAULT_STATE = {
           type: 'enemy',
           speed: 5,
           image: 'goblin',
-          index: 92,
+          index: 96,
           fill: 'C',
           sound: 'goblin',
           hp: 6,

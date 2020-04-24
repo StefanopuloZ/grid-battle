@@ -10,10 +10,10 @@ function random(min, max) {
 // **                               ** //
 
 const randomiseFill = (grid, fill, rows) => {
-  const forbiddenTiles = [2, 3, 4, 5, 6, 7, 92, 93, 94, 95, 95, 97, 15, 25, 35, 45, 55, 65, 75, 85];
+  const forbiddenTiles = [2, 3, 4, 5, 6, 7, 92, 93, 94, 95, 95, 96, 97, 15, 25, 35, 45, 55, 65, 75, 85];
   let randomisedFill = [];
 
-  for (let i = 0; i < fill.obstacles; ++i) {
+  for (let i = 0; i < fill.obstacles(); ++i) {
     let randomFill = random(0, rows * rows - 1);
 
     if (forbiddenTiles.includes(randomFill)) {
