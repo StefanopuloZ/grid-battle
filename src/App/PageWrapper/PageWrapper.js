@@ -20,7 +20,7 @@ const PageWrapper = props => {
 
       {props.children}
 
-      <FooterWrapper>Footer</FooterWrapper>
+      <FooterWrapper>Created by - Stefan Deak</FooterWrapper>
     </Wrapper>
   );
 };

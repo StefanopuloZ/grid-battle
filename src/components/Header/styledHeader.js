@@ -1,9 +1,9 @@
 import styled from 'styled-components';
-import { colors, boxShadow, media } from '../../theme';
+import { colors, boxShadow, media, borderRadius } from '../../theme';
 
 export const HeaderWrapper = styled.div`
   box-shadow: ${boxShadow.large};
-  border-radius: 20px;
+  border-radius: ${borderRadius.large};
   position: relative;
   top: -20px;
   padding: 30px 10px 10px 10px;

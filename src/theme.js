@@ -15,6 +15,7 @@ export const boxShadow = {
 
 export const borderRadius = {
   standard: '6px',
+  large: '20px',
 };
 
 const breakpoints = ['425px'];
