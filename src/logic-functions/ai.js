@@ -1,4 +1,4 @@
-import { GridHelper } from "./grid";
+import { GridHelper } from './grid';
 
 function random(min, max) {
   return Math.floor(Math.random() * (max - min) + min);
@@ -11,14 +11,14 @@ const weightValues = {
   canKill: (targetHP, damageMax) => {
     return targetHP - damageMax <= 0 ? 200 : 0;
   },
-  remainingHP: targetHP => 10 - targetHP > 0 ? (10 - targetHP) * 20 : 0,
+  remainingHP: targetHP => (10 - targetHP > 0 ? (10 - targetHP) * 20 : 0),
   threatLevel: (targetAttack, targetDamageMax) => {
     return (targetAttack + targetDamageMax) * 10;
   },
 };
 
-const assignWeight = (moves) => {
-  const weightedMoves = moves.map((move) => {
+const assignWeight = moves => {
+  const weightedMoves = moves.map(move => {
     const activeCharacter = move.stats;
     const target = move.target;
     let calculatedWeight = 0;
@@ -26,7 +26,10 @@ const assignWeight = (moves) => {
 
     let weight = 0;
 
-    const toHitChance = weightValues.toHitChance(activeCharacter.attack, target.ac);
+    const toHitChance = weightValues.toHitChance(
+      activeCharacter.attack,
+      target.ac
+    );
     weight += toHitChance;
     weightBreakdown.toHitChance = toHitChance;
 
@@ -38,16 +41,17 @@ const assignWeight = (moves) => {
     weight += canKill;
     weightBreakdown.canKill = canKill;
 
-    const threatLevel = weightValues.threatLevel(target.attack, target.damage[1]);
+    const threatLevel = weightValues.threatLevel(
+      target.attack,
+      target.damage[1]
+    );
     weight += threatLevel;
     weightBreakdown.threatLevel = threatLevel;
 
     calculatedWeight = calculatedWeight + weight;
 
-    return { ...move, weight, calculatedWeight, weightBreakdown};
+    return { ...move, weight, calculatedWeight, weightBreakdown };
   });
-
-  // console.log(weightedMoves);
 
   return weightedMoves;
 };
@@ -56,7 +60,7 @@ const checkPossibleMoves = (grid, activeCharacter, humanCharacters) => {
   let possibleMoves = [];
   let canAttack = false;
 
-  humanCharacters.forEach((character) => {
+  humanCharacters.forEach(character => {
     const searchResult = GridHelper.startSearch(
       grid,
       activeCharacter.index,
@@ -95,7 +99,7 @@ const choseMove = moves => {
       return moves[i].index;
     }
   }
-}
+};
 
 const calculateAiMove = (grid, activeCharacter, humanCharacters) => {
   const possibleMoves = checkPossibleMoves(

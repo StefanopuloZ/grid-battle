@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import { colors, boxShadow, borderRadius, media } from "../../theme";
+import styled from 'styled-components';
+import { colors, boxShadow, media } from '../../theme';
 
 export const HeaderWrapper = styled.div`
   box-shadow: ${boxShadow.large};
@@ -24,25 +24,5 @@ export const HeaderList = styled.ul`
 
   @media ${media.small} {
     flex-wrap: nowrap;
-  }
-
-  li {
-    padding: 10px 40px;
-    background-color: ${colors.white};
-    min-width: 100px;
-    border-radius: ${borderRadius.standard};
-    box-shadow: ${boxShadow.standardInset}, 0 0 0 rgba(255, 255, 255, 0);
-    transition: all 300ms ease-in-out;
-    cursor: pointer;
-    margin-bottom: 10px;
-
-    &:hover {
-      box-shadow: inset 0 0 0 rgba(255, 255, 255, 0), ${boxShadow.standard};
-      font-size: 17px;
-    }
-
-    @media ${media.small} {
-      margin-bottom: 0;
-    }
   }
 `;
