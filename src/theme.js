@@ -16,9 +16,13 @@ export const borderRadius = {
     standard: '6px',
 }
 
-const breakpoints = ['540px'];
+const breakpoints = ['425px'];
 
 breakpoints.sm = breakpoints[0];
+
+export const media = {
+    small: `(min-width: ${breakpoints[0]})`,
+}
 
 export default {
     colors,
