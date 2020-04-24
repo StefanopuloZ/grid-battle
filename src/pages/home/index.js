@@ -1,12 +1,15 @@
 import React from 'react';
-import { colors } from '../../theme';
+import { StyledHome } from './StyledHome';
+import { StyledContainer } from '../../components/StyledContainer';
 
 const Home = props => {
-    return (
-        <div>
-            <h1>Home page</h1>
-        </div>
-    );
+  return (
+    <StyledContainer>
+      <StyledHome>
+        <h1>Home page</h1>
+      </StyledHome>
+    </StyledContainer>
+  );
 };
 
 export default Home;
