@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { GridActions } from '../../actions';
-import { StyledCellContent } from './styledCellContent';
+import { StyledCellContent, StyledIndicator, StyledCellContentWrapper } from './styledCellContent';
 
 const CellContent = props => {
   const { cell, selected, grid, updateGrid } = props;
@@ -19,19 +19,22 @@ const CellContent = props => {
   }
 
   return (
+    <StyledCellContentWrapper animation={cell.animation}>
     <StyledCellContent
       selected={selected}
       image={cell.image}
-      animation={cell.animation}
       attack={cell.attack}
       player={player}
     >
-      <p
+      {/* <p
         style={{
           backgroundColor: hp ? 'rgba(94, 94, 94, 0.6)' : '',
         }}
-      >{`${hp ? 'hp:' + hp : ''}`}</p>
+      >{`${hp ? 'hp:' + hp : ''}`}</p> */}
     </StyledCellContent>
+    <StyledIndicator player={player}/>
+
+    </StyledCellContentWrapper>
   );
 };
 

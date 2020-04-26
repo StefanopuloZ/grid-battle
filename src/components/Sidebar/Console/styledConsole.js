@@ -15,7 +15,7 @@ const StyledConsole = styled.div`
   overflow-y: scroll;
   box-shadow: ${boxShadow.standard};
   border-radius: ${borderRadius.standard};
-  background-color: ${colors.whiteTransparent};
+  background-color: ${colors.glassTransparent};
 
   &::-webkit-scrollbar {
     -webkit-appearance: none;

@@ -7,7 +7,7 @@ const StyledSidebarInfo = styled.div`
   height: 50%;
   box-shadow: ${boxShadow.standard};
   border-radius: ${borderRadius.standard};
-  background-color: ${colors.whiteTransparent};
+  background-color: ${colors.glass};
   padding: 4px 8px;
 `;
 

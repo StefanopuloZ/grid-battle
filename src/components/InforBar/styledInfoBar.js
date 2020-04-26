@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import warrior from '../CellContent/assets/warrior.jpg';
-import goblin from '../CellContent/assets/goblin.jpg';
+import warrior from '../CellContent/assets/warrior.png';
+import goblin from '../CellContent/assets/goblin_regular.png';
 
 const background = { warrior, goblin };
 const playerBorders = { human: '2px solid gold', ai: '2px solid red' };
