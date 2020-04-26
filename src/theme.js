@@ -15,6 +15,7 @@ export const boxShadow = {
   standard: '2px 1px 5px 2px rgba(0, 0, 0, 0.4)',
   large: '5px 0px 10px 5px rgba(0, 0, 0, 0.8)',
   standardInset: 'inset 1px 1px 5px -2px rgba(0, 0, 0, 0.8)',
+  largeInset: 'inset 1px 1px 20px -4px rgba(0, 0, 0, 0.8)',
 };
 
 export const borderRadius = {

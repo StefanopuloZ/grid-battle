@@ -19,9 +19,9 @@ export const StyledCellContent = styled.div`
   height: 100%;
   top: 0;
   left: 0;
-  transition: all .3s ease; 
+  transition: all 400ms ease; 
   background: ${props => props.path ? 'rgba(255, 192, 203, 0.3)' : 'transparent'};
   &:hover {
-    background: rgba(0, 0, 0, 0.178);
+    box-shadow: ${boxShadow.largeInset};
   }
 `;
