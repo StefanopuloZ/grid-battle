@@ -149,11 +149,13 @@ const Grid = props => {
     updateGridCheck(
       grid.setIn(
         [selected, 'animation'],
-        Animations.moveAnimationBuilder(path, 'move', 300)
+        Animations.moveAnimationBuilder(path, 300, {attackResult, defender: grid.getIn([defenderIndex])})
       )
     );
 
-    await waitFor(path.length * 300);
+    const attackTime = attackResult ? 1200 : 0;
+
+    await waitFor(path.length * 300 + attackTime);
     clearSelectedCharacter();
     setPlayWalkingSound(false);
 

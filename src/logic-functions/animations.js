@@ -1,20 +1,33 @@
 import { keyframes } from 'styled-components';
 
-const moveAnimationBuilder = (path, type, timeUnit) => {
+const oppositeDirections = {
+  up: 'down',
+  down: 'up',
+  left: 'right',
+  right: 'left',
+};
+
+const moveAnimationBuilder = (path, timeUnit, target) => {
+  const isAttacked = target.attackResult;
+  const attackTime = 4;
+
   let animationString = ` 0% {
       top: 0%;
       left: 0%;
     }
   `;
 
-  let timePercentage = 100 / path.length;
+  const timePercentage = isAttacked
+    ? 100 / (path.length + attackTime)
+    : 100 / path.length;
 
   let top = 0,
     left = 0;
+  let percentage;
 
   path.forEach((cell, index) => {
-    const percentage =
-      path.length - 1 === index ? 100 : timePercentage * (index);
+    percentage =
+      path.length - 1 === index && !isAttacked ? 100 : timePercentage * index;
 
     if (cell.direction === 'up') {
       top -= 100;
@@ -28,17 +41,79 @@ const moveAnimationBuilder = (path, type, timeUnit) => {
 
     if (index !== 0) {
       animationString += `
-      ${percentage}% {
-        top: ${top}%;
-        left: ${left}%;
+        ${percentage}% {
+          top: ${top}%;
+          left: ${left}%;
       }`;
     }
   });
 
+  if (isAttacked) {
+    const attackDirection = path[path.length - 1].adjecent.find(
+      cell => cell.index === target.defender.index
+    ).direction;
+    const oppositeDirecetion = oppositeDirections[attackDirection];
+    const topStarting = top;
+    const leftStarting = left;
+
+    percentage = percentage + timePercentage * 2;
+
+    if (oppositeDirecetion === 'up') {
+      top -= 50;
+    } else if (oppositeDirecetion === 'down') {
+      top += 50;
+    } else if (oppositeDirecetion === 'left') {
+      left -= 50;
+    } else if (oppositeDirecetion === 'right') {
+      left += 50;
+    }
+
+    animationString += `
+      ${percentage}% {
+        top: ${top}%;
+        left: ${left}%;
+      }`;
+
+    percentage = percentage + timePercentage / 2;
+
+    animationString += `
+      ${percentage}% {
+        top: ${top}%;
+        left: ${left}%;
+      }`;
+
+    percentage = percentage + timePercentage / 3;
+
+    if (attackDirection === 'up') {
+      top -= 100;
+    } else if (attackDirection === 'down') {
+      top += 100;
+    } else if (attackDirection === 'left') {
+      left -= 100;
+    } else if (attackDirection === 'right') {
+      left += 100;
+    }
+
+    animationString += `
+    ${percentage}% {
+      top: ${top}%;
+      left: ${left}%;
+    }`;
+
+    animationString += `
+      100% {
+        top: ${topStarting}%;
+        left: ${leftStarting}%;
+      }
+    `;
+  }
+
   const animation = keyframes`
   ${animationString}
 `;
-  const time = timeUnit * (path.length - 1);
+  const time = isAttacked
+    ? timeUnit * (path.length + attackTime)
+    : timeUnit * (path.length - 1);
 
   return { animation, time };
 };
