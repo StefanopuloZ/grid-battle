@@ -9,7 +9,7 @@ const oppositeDirections = {
 
 const moveAnimationBuilder = (path, timeUnit, target) => {
   const isAttacked = target.attackResult;
-  const attackTime = 4;
+  const attackTime = 3;
 
   let animationString = ` 0% {
       top: 0%;
@@ -74,7 +74,7 @@ const moveAnimationBuilder = (path, timeUnit, target) => {
         left: ${left}%;
       }`;
 
-    percentage = percentage + timePercentage / 2;
+    percentage = percentage + timePercentage / 4;
 
     animationString += `
       ${percentage}% {
@@ -85,13 +85,13 @@ const moveAnimationBuilder = (path, timeUnit, target) => {
     percentage = percentage + timePercentage / 3;
 
     if (attackDirection === 'up') {
-      top -= 100;
+      top -= 90;
     } else if (attackDirection === 'down') {
-      top += 100;
+      top += 90;
     } else if (attackDirection === 'left') {
-      left -= 100;
+      left -= 90;
     } else if (attackDirection === 'right') {
-      left += 100;
+      left += 90;
     }
 
     animationString += `

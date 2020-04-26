@@ -153,7 +153,7 @@ const Grid = props => {
       )
     );
 
-    const attackTime = attackResult ? 1200 : 0;
+    const attackTime = attackResult ? 900 : 0;
 
     await waitFor(path.length * 300 + attackTime);
     clearSelectedCharacter();
