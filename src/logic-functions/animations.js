@@ -43,6 +43,26 @@ const moveAnimationBuilder = (path, type, timeUnit) => {
   return { animation, time };
 };
 
+const selected = keyframes`
+  0% {
+    transform: rotate(0deg);
+  }
+
+  33.2% {
+    transform: rotate(-16deg);
+  }
+
+  83.18% {
+    transform: rotate(8deg);
+  }
+
+  100% {
+    transform: rotate(0deg);
+  }
+  
+`;
+
 export const Animations = {
   moveAnimationBuilder,
+  selected,
 };

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, boxShadow, borderRadius } from '../../theme';
+import { colors, boxShadow } from '../../theme';
 
 export const StyledCell = styled.div`
   display: flex;
