@@ -383,6 +383,7 @@ module.exports = function(webpackEnv) {
                 ),
                 
                 plugins: [
+                  [require.resolve('babel-plugin-styled-components'), { displayName: true }],
                   [
                     require.resolve('babel-plugin-named-asset-import'),
                     {
@@ -396,7 +397,7 @@ module.exports = function(webpackEnv) {
                   ],
                   [
                     "@babel/plugin-proposal-export-namespace-from"
-                  ]
+                  ],
                 ],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/

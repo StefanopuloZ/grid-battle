@@ -1,39 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import {connect} from 'react-redux';
-import {UserActions} from '../../actions';
-import {Wrapper} from './PageWrapperStyle';
+import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { Wrapper, FooterWrapper } from './PageWrapperStyle';
+import Sounds from '../../assets/sounds';
+import AudioComponent from '../../components/AudioComponent';
+import Header from '../../components/Header';
 
 const PageWrapper = props => {
-    console.log('username', props.username);
-    props.test();
-    return (
-        <Wrapper>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="/">Home</Link>
-                    </li>
-                    <li>
-                        <Link to="/help">About</Link>
-                    </li>
-                    <li>
-                        <Link to="/battle">Battle</Link>
-                    </li>
-                </ul>
-            </nav>
-            {props.children}
-            <footer>Footer</footer>
-        </Wrapper>
-    );
+  const [interacted, setInteracted] = useState(false);
+
+  return (
+    <Wrapper
+      onClick={() => {
+        !interacted && setInteracted(true);
+      }}
+    >
+      {interacted && <AudioComponent url={Sounds.theme_song1} loop />}
+
+      <Header />
+
+      {props.children}
+
+      <FooterWrapper>Created by - Stefan Deak</FooterWrapper>
+    </Wrapper>
+  );
 };
 
-const mapStateToProps = state => ({
-    username: state.UserReducer.username,
-});
+const mapStateToProps = state => ({});
 
-const mapDispatchToProps = dispatch => ({
-    test: () => dispatch(UserActions.test()),
-});
+const mapDispatchToProps = dispatch => ({});
 
 export default connect(mapStateToProps, mapDispatchToProps)(PageWrapper);
