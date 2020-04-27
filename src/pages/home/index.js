@@ -1,12 +1,17 @@
 import React from 'react';
-import { colors } from '../../theme';
+import { StyledHome } from './StyledHome';
+import { StyledContainer } from '../../components/StyledContainer';
 
 const Home = props => {
-    return (
-        <div>
-            <h1>Home page</h1>
-        </div>
-    );
+  return (
+    <StyledContainer>
+      <StyledHome>
+        <h1>React.js Grid Battle</h1>
+        <p>Welcome!</p>
+        <p>Battle AI in procedurally generated maps.</p>
+      </StyledHome>
+    </StyledContainer>
+  );
 };
 
 export default Home;

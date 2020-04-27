@@ -1,14 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import { StyledGrid, StyledGridWrapper } from "./styledGrid";
-import { GridActions, TurnActions } from "../../actions";
-import { GridHelper, Animations, AiFunctions } from "../../logic-functions";
-import Cell from "../Cell";
-import Sidebar from "../Sidebar";
-import AudioComponent from "../AudioComponent";
-import Sounds from "../../assets/sounds";
-import InforBar from "../InforBar";
+import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { StyledGrid, StyledGridWrapper } from './styledGrid';
+import { GridActions, TurnActions } from '../../actions';
+import { GridHelper, Animations, AiFunctions } from '../../logic-functions';
+import Cell from '../Cell';
+import Sidebar from '../Sidebar';
+import AudioComponent from '../AudioComponent';
+import Sounds from '../../assets/sounds';
+import InforBar from '../InforBar';
 
 const Grid = props => {
   let {
@@ -38,12 +38,12 @@ const Grid = props => {
   useEffect(() => {
     if (allCharacters.length > 0) {
       if (aiCharacters.length < 1) {
-        alert("You win!");
+        alert('You win!');
         endGame();
       }
 
       if (humanCharacters.length < 1) {
-        alert("You lose!");
+        alert('You lose!');
         endGame();
       }
     }
@@ -66,7 +66,7 @@ const Grid = props => {
 
   // ai turn calculator
   useEffect(() => {
-    if (activeCharacter.player === "ai" && selectedCharacter && selected) {
+    if (activeCharacter.player === 'ai' && selectedCharacter && selected) {
       const tileToMove = AiFunctions.calculateAiMove(
         grid,
         activeCharacter,
@@ -148,12 +148,14 @@ const Grid = props => {
 
     updateGridCheck(
       grid.setIn(
-        [selected, "animation"],
-        Animations.moveAnimationBuilder(path, "move", 300)
+        [selected, 'animation'],
+        Animations.moveAnimationBuilder(path, 300, {attackResult, defender: grid.getIn([defenderIndex])})
       )
     );
 
-    await waitFor(path.length * 300);
+    const attackTime = attackResult ? 900 : 0;
+
+    await waitFor(path.length * 300 + attackTime);
     clearSelectedCharacter();
     setPlayWalkingSound(false);
 
@@ -168,7 +170,7 @@ const Grid = props => {
     let defender = attackResult ? newGrid.getIn([defenderIndex]) : null;
 
     if (defender) {
-      newGrid = newGrid.setIn([defender.index, "attack"], true);
+      newGrid = newGrid.setIn([defender.index, 'attack'], true);
     }
 
     if (isHit) {
@@ -194,16 +196,16 @@ const Grid = props => {
   }
 
   const onClick = cell => {
-    console.log("cell", cell);
+    console.log('cell', cell);
 
-    if (!isSelected || animationProgress || activeCharacter.player === "ai") {
-      if (cell.fill !== "C") {
+    if (!isSelected || animationProgress || activeCharacter.player === 'ai') {
+      if (cell.fill !== 'C') {
         return;
       }
     } else {
       const searchResult = startSearch(cell);
       if (
-        cell.fill !== "X" &&
+        cell.fill !== 'X' &&
         searchResult.path.length > 0 &&
         searchResult.moveAllowed
       ) {
@@ -240,24 +242,13 @@ const Grid = props => {
 
   return (
     <StyledGridWrapper>
-      {allCharacters.length === 0 ? (
-        <div>
-          <button
-            onClick={() => {
-              startGame();
-            }}
-          >
-            START
-          </button>
-        </div>
-      ) : (
-        <>
-          <InforBar grid={grid} />
-          <StyledGrid>
-            {playWalkingSound && <AudioComponent url={Sounds.walking} />}
-            {grid.map(cell => {
-              const cellSelected = cell.index === selected;
+      {/* <InforBar grid={grid} /> */}
+      <StyledGrid empty={allCharacters.length === 0}>
+        {playWalkingSound && <AudioComponent url={Sounds.walking} />}
 
+        {allCharacters.length > 0
+          ? grid.map(cell => {
+              const cellSelected = cell.index === selected;
               return (
                 <Cell
                   key={cell.index}
@@ -269,34 +260,39 @@ const Grid = props => {
                   onMouseEnter={() => {
                     isSelected &&
                       !animationProgress &&
-                      activeCharacter.player !== "ai" &&
+                      activeCharacter.player !== 'ai' &&
                       startSearch(cell);
                   }}
                 />
               );
-            })}
-          </StyledGrid>
+            })
+          : null}
+      </StyledGrid>
 
-          <Sidebar action={action} />
-          <div>
-            <button
-              onClick={() => {
-                endGame();
-              }}
-            >
-              END GAME
-            </button>
-            <button
-              onClick={() => {
-                if (activeCharacter.player !== "ai")
-                nextMoveCheck(grid);
-              }}
-            >
-              SKIP TURN
-            </button>
-          </div>
-        </>
-      )}
+      <Sidebar action={action} />
+      <div>
+        <button
+          onClick={() => {
+            endGame();
+          }}
+        >
+          END GAME
+        </button>
+        <button
+          onClick={() => {
+            if (activeCharacter.player !== 'ai') nextMoveCheck(grid);
+          }}
+        >
+          SKIP TURN
+        </button>
+        <button
+          onClick={() => {
+            startGame();
+          }}
+        >
+          START
+        </button>
+      </div>
     </StyledGridWrapper>
   );
 };
@@ -322,10 +318,10 @@ const mapStateToProps = state => ({
   grid: state.GridReducer.grid,
   settings: state.ConfigReducer.settings,
   turnInfo: state.TurnReducer.turnInfo,
-  activeCharacter: state.TurnReducer.turnInfo.get("activeCharacter"),
-  allCharacters: state.TurnReducer.turnInfo.get("allCharacters"),
-  humanCharacters: state.TurnReducer.turnInfo.get("humanCharacters"),
-  aiCharacters: state.TurnReducer.turnInfo.get("aiCharacters"),
+  activeCharacter: state.TurnReducer.turnInfo.get('activeCharacter'),
+  allCharacters: state.TurnReducer.turnInfo.get('allCharacters'),
+  humanCharacters: state.TurnReducer.turnInfo.get('humanCharacters'),
+  aiCharacters: state.TurnReducer.turnInfo.get('aiCharacters'),
 });
 
 const mapDispatchToProps = dispatch => ({
