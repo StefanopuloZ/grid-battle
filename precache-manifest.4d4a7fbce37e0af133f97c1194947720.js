@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "4048b7ab072b87b086f9ccd8b82b3228",
+    "revision": "de76fdd8817384d6baf446d42d981cf0",
     "url": "/grid-battle/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/grid-battle/static/js/2.d202a001.chunk.js"
   },
   {
-    "revision": "f09a0d88955c94a0b8c6",
-    "url": "/grid-battle/static/js/main.25df8b7a.chunk.js"
+    "revision": "2c94f84c75f033495c8f",
+    "url": "/grid-battle/static/js/main.ab9892c7.chunk.js"
   },
   {
     "revision": "2f950e24afc65990a19c",
