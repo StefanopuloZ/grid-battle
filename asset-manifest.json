@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.js": "/grid-battle/static/js/main.d308cb7d.chunk.js",
-    "main.js.map": "/grid-battle/static/js/main.d308cb7d.chunk.js.map",
+    "main.js": "/grid-battle/static/js/main.5d56e76d.chunk.js",
+    "main.js.map": "/grid-battle/static/js/main.5d56e76d.chunk.js.map",
     "runtime-main.js": "/grid-battle/static/js/runtime-main.5026a2c7.js",
     "runtime-main.js.map": "/grid-battle/static/js/runtime-main.5026a2c7.js.map",
     "static/js/2.d202a001.chunk.js": "/grid-battle/static/js/2.d202a001.chunk.js",
     "static/js/2.d202a001.chunk.js.map": "/grid-battle/static/js/2.d202a001.chunk.js.map",
     "index.html": "/grid-battle/index.html",
-    "precache-manifest.a9078ed63d9dd70d286eaabf54556716.js": "/grid-battle/precache-manifest.a9078ed63d9dd70d286eaabf54556716.js",
+    "precache-manifest.149b0a0cb537530f8ec76493ce61f4d3.js": "/grid-battle/precache-manifest.149b0a0cb537530f8ec76493ce61f4d3.js",
     "service-worker.js": "/grid-battle/service-worker.js",
     "static/media/Lora-Bold.svg": "/grid-battle/static/media/Lora-Bold.06107996.svg",
     "static/media/Lora-Bold.woff2": "/grid-battle/static/media/Lora-Bold.3b866411.woff2",
@@ -29,6 +29,6 @@
   "entrypoints": [
     "static/js/runtime-main.5026a2c7.js",
     "static/js/2.d202a001.chunk.js",
-    "static/js/main.d308cb7d.chunk.js"
+    "static/js/main.5d56e76d.chunk.js"
   ]
 }
