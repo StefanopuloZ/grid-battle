@@ -5,10 +5,10 @@ export const colors = {
   blue: '#007ce0',
   navy: '#004175',
   gray: '#5c5c5c50',
-  greenTransparent: 'rgba(0, 155, 26, 0.6)',
+  greenTransparent: '#5ea56a',
   glassTransparent: 'rgba(190,255,247, 0.6)',
   glass: 'rgba(190,255,247, 0.8)',
-  redTransparent: 'rgba(255, 0, 0, 0.6)',
+  redTransparent: '#df4646',
 };
 
 export const boxShadow = {
