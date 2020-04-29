@@ -9,14 +9,7 @@ import Sidebar from '../Sidebar';
 import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
 import TurnBar from '../TurnBar';
-
-const waitFor = time => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-};
+import { waitFor } from '../../logic-functions/helper-functions';
 
 const Grid = props => {
   let {

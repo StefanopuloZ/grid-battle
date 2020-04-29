@@ -8,22 +8,13 @@ import {
   StyledTBContentWrapper,
   StyledTitle,
 } from './styledTurnBar';
-
-const waitFor = time => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, time);
-  });
-};
+import { waitFor } from '../../logic-functions/helper-functions';
 
 const TurnBar = props => {
   const { allCharacters, selected } = props;
   const [characters, setCharacters] = useState(null);
 
   useEffect(() => {
-    console.log('allCharacters Changed');
-
     if (allCharacters.length > 0) {
       if (!characters) {
         setCharacters(allCharacters);
@@ -87,12 +78,13 @@ const TurnBar = props => {
 };
 
 TurnBar.propTypes = {
-  grid: PropTypes.object.isRequired,
+  selected: PropTypes.number,
   allCharacters: PropTypes.array,
 };
 
 TurnBar.defaultProps = {
   allCharacters: [],
+  selected: null,
 };
 
 const mapStateToProps = state => ({

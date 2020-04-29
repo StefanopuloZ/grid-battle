@@ -1,10 +1,5 @@
 import { List } from "immutable";
-
-// **** Helper Functions ***** //
-// **                       ** //
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-};
+import { random } from './helper-functions';
 
 // **** Map Generation Functions ***** //
 // **                               ** //
