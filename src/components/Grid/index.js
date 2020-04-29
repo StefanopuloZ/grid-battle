@@ -73,7 +73,7 @@ const Grid = props => {
         humanCharacters
       );
 
-      if (tileToMove) {
+      if (tileToMove || tileToMove === 0) {
         const searchResult = startSearch(grid.get(tileToMove));
 
         if (searchResult.path.length > 0) {

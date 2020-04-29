@@ -77,7 +77,6 @@ const checkPossibleMoves = (grid, activeCharacter, humanCharacters) => {
       });
 
       if (!canAttack && searchResult.attackResult) {
-        console.log('inininin');
         canAttack = true;
       }
     }
