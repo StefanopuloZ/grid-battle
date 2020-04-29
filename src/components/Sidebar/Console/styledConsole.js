@@ -7,9 +7,9 @@ const StyledConsole = styled.div`
   flex-wrap: nowrap;
   width: 100%;
   height: calc(50% - 10px);
-  max-height: 50vh;
+  max-height: 315px;
   padding: 4px 8px;
-  margin-top: 10px;
+  margin-top: auto;
   text-align: left;
   font-size: 14px;
   overflow-y: scroll;
