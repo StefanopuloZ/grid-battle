@@ -8,7 +8,15 @@ import Cell from '../Cell';
 import Sidebar from '../Sidebar';
 import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
-import InforBar from '../InforBar';
+import TurnBar from '../TurnBar';
+
+const waitFor = time => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
+};
 
 const Grid = props => {
   let {
@@ -35,6 +43,7 @@ const Grid = props => {
 
   const gameInProgress = useRef(false);
 
+  // end game calculator
   useEffect(() => {
     if (allCharacters.length > 0) {
       if (aiCharacters.length < 1) {
@@ -50,6 +59,7 @@ const Grid = props => {
     // eslint-disable-next-line
   }, [allCharacters]);
 
+  // update selected character
   useEffect(() => {
     if (activeCharacter && activeCharacter.name) {
       updateSelectedCharacter(grid.get(activeCharacter.index));
@@ -57,6 +67,7 @@ const Grid = props => {
     // eslint-disable-next-line
   }, [activeCharacter]);
 
+  // start turn
   useEffect(() => {
     if (allCharacters.length === 0 && grid.size > 0) {
       startTurn(grid);
@@ -83,7 +94,7 @@ const Grid = props => {
               searchResult.attackResult,
               searchResult.defenderIndex
             );
-          }, 300);
+          }, 1300);
         }
       } else {
         // setAnimationProgress(true);
@@ -131,14 +142,6 @@ const Grid = props => {
     setSelected(cell.index);
     setSelectedCharacter(cell.stats);
     updateGridCheck(GridHelper.clearPath(grid));
-  };
-
-  const waitFor = time => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
   };
 
   async function animateAndMove(path, attackResult, defenderIndex) {
@@ -242,7 +245,7 @@ const Grid = props => {
 
   return (
     <StyledGridWrapper>
-      {/* <InforBar grid={grid} /> */}
+      <TurnBar grid={grid} selected={selected} />
       <StyledGrid empty={allCharacters.length === 0}>
         {playWalkingSound && <AudioComponent url={Sounds.walking} />}
 

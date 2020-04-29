@@ -29,13 +29,7 @@ const CellContent = props => {
         image={cell.image}
         attack={cell.attack}
         player={player}
-      >
-        {/* <p
-        style={{
-          backgroundColor: hp ? 'rgba(94, 94, 94, 0.6)' : '',
-        }}
-      >{`${hp ? 'hp:' + hp : ''}`}</p> */}
-      </StyledCellContent>
+      ></StyledCellContent>
       <StyledIndicator player={player} />
     </StyledCellContentWrapper>
   );
