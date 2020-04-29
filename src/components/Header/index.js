@@ -13,13 +13,13 @@ const Header = props => {
       <StyledContainer>
         <nav>
           <HeaderList>
-            <Link to="/">
+            <Link to={routes.home}>
               <StyledLink selected={location === routes.home}>Home</StyledLink>
             </Link>
-            <Link to="/battle">
+            <Link to={routes.battle}>
               <StyledLink selected={location === routes.battle}>Battle</StyledLink>
             </Link>
-            <Link to="/about">
+            <Link to={routes.about}>
               <StyledLink selected={location === routes.about}>About</StyledLink>
             </Link>
           </HeaderList>
