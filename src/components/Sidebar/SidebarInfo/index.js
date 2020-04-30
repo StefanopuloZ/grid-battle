@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import StyledSidebarInfo from './styledSidebarInfo';
 
 const SidebarInfo = props => {
@@ -10,8 +10,8 @@ const SidebarInfo = props => {
   );
 };
 
-Element.propTypes = {};
+SidebarInfo.propTypes = {};
 
-Element.defaultProps = {};
+SidebarInfo.defaultProps = {};
 
 export default SidebarInfo;

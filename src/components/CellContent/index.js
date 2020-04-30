@@ -11,7 +11,7 @@ import {
 const CellContent = props => {
   const { cell, selected, grid, updateGrid } = props;
   const { index, stats } = cell;
-  const hp = stats && stats.hp ? stats.hp : null;
+  // const hp = stats && stats.hp ? stats.hp : null;
   const player = stats && stats.player;
 
   if (cell.attack) {
@@ -35,11 +35,16 @@ const CellContent = props => {
   );
 };
 
-Element.propTypes = {
+CellContent.propTypes = {
   cell: PropTypes.object.isRequired,
+  selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  grid: PropTypes.object.isRequired,
+  updateGrid: PropTypes.func.isRequired,
 };
 
-Element.defaultProps = {};
+CellContent.defaultProps = {
+  selected: false,
+};
 
 const mapStateToProps = state => ({
   grid: state.GridReducer.grid,

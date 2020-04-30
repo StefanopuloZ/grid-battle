@@ -39,13 +39,17 @@ const Cell = props => {
   );
 };
 
-Element.propTypes = {
+Cell.propTypes = {
   cell: PropTypes.object,
   columns: PropTypes.number.isRequired,
+  selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  onClick: PropTypes.func.isRequired,
+  onMouseEnter: PropTypes.func.isRequired,
 };
 
-Element.defaultProps = {
+Cell.defaultProps = {
   cell: {},
+  selected: false,
 };
 
 const mapStateToProps = state => ({

@@ -78,13 +78,13 @@ const TurnBar = props => {
 };
 
 TurnBar.propTypes = {
-  selected: PropTypes.number,
+  selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   allCharacters: PropTypes.array,
 };
 
 TurnBar.defaultProps = {
   allCharacters: [],
-  selected: null,
+  selected: false,
 };
 
 const mapStateToProps = state => ({

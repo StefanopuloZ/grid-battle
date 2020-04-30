@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
@@ -20,9 +20,9 @@ const AudioComponent = props => {
   return null;
 };
 
-Element.propTypes = { url: PropTypes.string.isRequired, loop: PropTypes.bool };
+AudioComponent.propTypes = { url: PropTypes.string.isRequired, loop: PropTypes.bool };
 
-Element.defaultProps = { loop: true };
+AudioComponent.defaultProps = { loop: true };
 
 const mapStateToProps = state => ({ muted: state.ConfigReducer.muted });
 

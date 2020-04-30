@@ -17,14 +17,14 @@ const GridHeader = props => {
 
 GridHeader.propTypes = {
   grid: PropTypes.object.isRequired,
-  selected: PropTypes.number,
+  selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   endGame: PropTypes.func.isRequired,
   startGame: PropTypes.func.isRequired,
   skipTurn: PropTypes.func.isRequired,
 };
 
 GridHeader.defaultProps = {
-  selected: null,
+  selected: false,
 };
 
 export default GridHeader;

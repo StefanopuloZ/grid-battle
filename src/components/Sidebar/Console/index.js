@@ -56,10 +56,13 @@ const Console = props => {
   );
 };
 
-Element.propTypes = {
-  action: PropTypes.object.isRequired,
+Console.propTypes = {
+  action: PropTypes.object,
+  selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
 };
 
-Element.defaultProps = {};
+Console.defaultProps = {
+  selected: false,
+};
 
 export default Console;

@@ -15,10 +15,12 @@ const Sidebar = props => {
   );
 };
 
-Element.propTypes = {
-  action: PropTypes.object.isRequired,
+Sidebar.propTypes = {
+  action: PropTypes.object,
 };
 
-Element.defaultProps = {};
+Sidebar.defaultProps = {
+  action: null,
+};
 
 export default Sidebar;
