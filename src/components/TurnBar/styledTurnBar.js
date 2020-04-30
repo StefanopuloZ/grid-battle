@@ -32,7 +32,6 @@ export const StyledTurnBar = styled.div`
   width: 66.6%;
   align-items: center;
   height: 60px;
-  margin-bottom: 10px;
   overflow-x: auto;
   overflow-y: hidden;
   box-shadow: ${boxShadow.standard};

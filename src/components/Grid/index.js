@@ -10,6 +10,9 @@ import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
 import TurnBar from '../TurnBar';
 import { waitFor } from '../../logic-functions/helper-functions';
+import { StyledLink } from '../Header/StyledLink';
+import ControlBar from '../ControlBar';
+import GridHeader from '../GridHeader';
 
 const Grid = props => {
   let {
@@ -123,6 +126,10 @@ const Grid = props => {
     resetTurn();
   };
 
+  const skipTurn = () => {
+    if (activeCharacter.player !== 'ai') nextMoveCheck(grid);
+  };
+
   const clearSelectedCharacter = () => {
     setIsSelected(false);
     setSelected(null);
@@ -145,7 +152,10 @@ const Grid = props => {
     updateGridCheck(
       grid.setIn(
         [selected, 'animation'],
-        Animations.moveAnimationBuilder(path, 300, {attackResult, defender: grid.getIn([defenderIndex])})
+        Animations.moveAnimationBuilder(path, 300, {
+          attackResult,
+          defender: grid.getIn([defenderIndex]),
+        })
       )
     );
 
@@ -238,7 +248,13 @@ const Grid = props => {
 
   return (
     <StyledGridWrapper>
-      <TurnBar grid={grid} selected={selected} />
+      <GridHeader
+        grid={grid}
+        selected={selected}
+        startGame={startGame}
+        endGame={endGame}
+        skipTurn={skipTurn}
+      />
       <StyledGrid empty={allCharacters.length === 0}>
         {playWalkingSound && <AudioComponent url={Sounds.walking} />}
 
@@ -266,7 +282,7 @@ const Grid = props => {
       </StyledGrid>
 
       <Sidebar action={action} />
-      <div>
+      {/* <div>
         <button
           onClick={() => {
             endGame();
@@ -288,7 +304,7 @@ const Grid = props => {
         >
           START
         </button>
-      </div>
+      </div> */}
     </StyledGridWrapper>
   );
 };

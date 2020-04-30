@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { colors, boxShadow, borderRadius, media } from '../../theme';
 
-export const StyledLink = styled.li`
+export const StyledLink = styled.div`
   padding: 10px 40px;
   background-color: ${colors.white};
   min-width: 100px;
