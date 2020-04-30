@@ -5,18 +5,19 @@ import SidebarInfo from './SidebarInfo';
 import StyledSidebar from './styledSidebar';
 
 const Sidebar = props => {
-  const { action } = props;
+  const { action, gameInProgress } = props;
 
   return (
-      <StyledSidebar>
-          <SidebarInfo />
-          <Console action={action}/>
-      </StyledSidebar>
+    <StyledSidebar>
+      <SidebarInfo />
+      <Console action={action} gameInProgress={gameInProgress} />
+    </StyledSidebar>
   );
 };
 
 Sidebar.propTypes = {
   action: PropTypes.object,
+  gameInProgress: PropTypes.bool.isRequired,
 };
 
 Sidebar.defaultProps = {

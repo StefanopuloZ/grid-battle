@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import StyledConsole from './styledConsole';
 
 const Console = props => {
-  const { action } = props;
+  const { action, gameInProgress } = props;
 
   const [actions, setActions] = useState([]);
 
   useEffect(() => {
-    if (action) {
+    if (action && gameInProgress) {
       let story = '';
       const character = action.selected.stats;
       const index = action.selected.index;
@@ -43,6 +43,8 @@ const Console = props => {
       story += '<br><br>';
 
       setActions([story, ...actions]);
+    } else {
+      setActions([]);
     }
     // eslint-disable-next-line
   }, [action]);
@@ -59,10 +61,12 @@ const Console = props => {
 Console.propTypes = {
   action: PropTypes.object,
   selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  gameInProgress: PropTypes.bool.isRequired,
 };
 
 Console.defaultProps = {
   selected: false,
+  action: {},
 };
 
 export default Console;

@@ -11,9 +11,10 @@ import {
 import { waitFor } from '../../logic-functions/helper-functions';
 
 const TurnBar = props => {
-  const { allCharacters, selected } = props;
+  const { allCharacters, selected, gameInProgress } = props;
   const [characters, setCharacters] = useState(null);
 
+  /* **  Handle character order change  ** */
   useEffect(() => {
     if (allCharacters.length > 0) {
       if (!characters) {
@@ -21,8 +22,9 @@ const TurnBar = props => {
       } else {
         changeTurnOrder();
       }
+    } else {
+      setCharacters(null);
     }
-
     // eslint-disable-next-line
   }, [allCharacters]);
 
@@ -70,8 +72,12 @@ const TurnBar = props => {
   return (
     <>
       <StyledTurnBar>
-        <StyledTitle>Turn<br/>Order:</StyledTitle>
-        {mapCharactersToView(characters)}
+        <StyledTitle>
+          Turn
+          <br />
+          Order:
+        </StyledTitle>
+        {gameInProgress && mapCharactersToView(characters)}
       </StyledTurnBar>
     </>
   );
@@ -80,6 +86,7 @@ const TurnBar = props => {
 TurnBar.propTypes = {
   selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   allCharacters: PropTypes.array,
+  gameInProgress: PropTypes.bool.isRequired,
 };
 
 TurnBar.defaultProps = {

@@ -90,7 +90,6 @@ const Grid = props => {
           }, 1300);
         }
       } else {
-        // setAnimationProgress(true);
         setTimeout(() => {
           nextMoveCheck(grid);
         }, 500);
@@ -119,6 +118,7 @@ const Grid = props => {
 
   const endGame = () => {
     gameInProgress.current = false;
+    setAction();
     destroyGrid();
     resetTurn();
   };
@@ -279,7 +279,7 @@ const Grid = props => {
           : null}
       </StyledGrid>
 
-      <Sidebar action={action} />
+      <Sidebar action={action} gameInProgress={gameInProgress.current} />
     </StyledGridWrapper>
   );
 };
