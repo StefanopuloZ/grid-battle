@@ -251,6 +251,7 @@ const Grid = props => {
         startGame={startGame}
         endGame={endGame}
         skipTurn={skipTurn}
+        gameInProgress={gameInProgress.current}
       />
       <StyledGrid empty={allCharacters.length === 0}>
         {playWalkingSound && <AudioComponent url={Sounds.walking} />}

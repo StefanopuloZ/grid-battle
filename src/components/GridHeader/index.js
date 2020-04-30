@@ -5,12 +5,12 @@ import TurnBar from '../TurnBar';
 import ControlBar from '../ControlBar';
 
 const GridHeader = props => {
-  const { grid, selected, startGame, endGame, skipTurn } = props;
+  const { grid, selected, startGame, endGame, skipTurn, gameInProgress } = props;
 
   return (
     <StyledGridHeader>
-      <TurnBar grid={grid} selected={selected} />
-      <ControlBar startGame={startGame} endGame={endGame} skipTurn={skipTurn} />
+      <TurnBar grid={grid} selected={selected} gameInProgress={gameInProgress} />
+      <ControlBar startGame={startGame} endGame={endGame} skipTurn={skipTurn} gameInProgress={gameInProgress} />
     </StyledGridHeader>
   );
 };
@@ -21,6 +21,7 @@ GridHeader.propTypes = {
   endGame: PropTypes.func.isRequired,
   startGame: PropTypes.func.isRequired,
   skipTurn: PropTypes.func.isRequired,
+  gameInProgress: PropTypes.bool.isRequired,
 };
 
 GridHeader.defaultProps = {

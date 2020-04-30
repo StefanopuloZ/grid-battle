@@ -4,7 +4,6 @@ import { colors, boxShadow, borderRadius } from '../../theme';
 export const StyledControlBarWrapper = styled.div`
   width: 33.3%;
   padding-left: 10px;
-  
 `;
 
 export const StyledControlBar = styled.div`
@@ -14,5 +13,5 @@ export const StyledControlBar = styled.div`
   height: 60px;
   box-shadow: ${boxShadow.standard};
   border-radius: ${borderRadius.standard};
-  background-color: ${colors.glassTransparent};
+  background-color: ${colors.glass};
 `;

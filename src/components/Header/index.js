@@ -2,8 +2,8 @@ import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { HeaderWrapper, HeaderList } from './styledHeader';
 import { StyledContainer } from '../StyledContainer';
-import { StyledLink } from './StyledLink';
 import routes from '../../App/routes';
+import Button from '../Button';
 
 const Header = props => {
   let location = useLocation().pathname;
@@ -14,13 +14,25 @@ const Header = props => {
         <nav>
           <HeaderList>
             <Link to={routes.home}>
-              <StyledLink selected={location === routes.home}>Home</StyledLink>
+              <Button
+                type={'primary'}
+                disabled={location === routes.home}
+                text={'Home'}
+              />
             </Link>
             <Link to={routes.battle}>
-              <StyledLink selected={location === routes.battle}>Battle</StyledLink>
+              <Button
+                type={'primary'}
+                disabled={location === routes.battle}
+                text={'Battle'}
+              />
             </Link>
             <Link to={routes.about}>
-              <StyledLink selected={location === routes.about}>About</StyledLink>
+              <Button
+                type={'primary'}
+                disabled={location === routes.about}
+                text={'About'}
+              />
             </Link>
           </HeaderList>
         </nav>
