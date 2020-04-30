@@ -8,10 +8,7 @@ import Cell from '../Cell';
 import Sidebar from '../Sidebar';
 import AudioComponent from '../AudioComponent';
 import Sounds from '../../assets/sounds';
-import TurnBar from '../TurnBar';
 import { waitFor } from '../../logic-functions/helper-functions';
-import { StyledLink } from '../Header/StyledLink';
-import ControlBar from '../ControlBar';
 import GridHeader from '../GridHeader';
 
 const Grid = props => {
@@ -282,29 +279,6 @@ const Grid = props => {
       </StyledGrid>
 
       <Sidebar action={action} />
-      {/* <div>
-        <button
-          onClick={() => {
-            endGame();
-          }}
-        >
-          END GAME
-        </button>
-        <button
-          onClick={() => {
-            if (activeCharacter.player !== 'ai') nextMoveCheck(grid);
-          }}
-        >
-          SKIP TURN
-        </button>
-        <button
-          onClick={() => {
-            startGame();
-          }}
-        >
-          START
-        </button>
-      </div> */}
     </StyledGridWrapper>
   );
 };
@@ -320,10 +294,14 @@ Grid.propTypes = {
   startTurn: PropTypes.func.isRequired,
   nextMove: PropTypes.func.isRequired,
   resetTurn: PropTypes.func.isRequired,
+  humanCharacters: PropTypes.array,
+  aiCharacters: PropTypes.array,
 };
 
 Grid.defaultProps = {
   activeCharacter: null,
+  humanCharacters: [],
+  aiCharacters: [],
 };
 
 const mapStateToProps = state => ({
