@@ -91,6 +91,10 @@ const Grid = props => {
         }
       } else {
         setTimeout(() => {
+          setAction({
+            selected: grid.getIn([selected]),
+            skipped: true,
+          });
           nextMoveCheck(grid);
         }, 500);
       }
@@ -124,7 +128,13 @@ const Grid = props => {
   };
 
   const skipTurn = () => {
-    if (activeCharacter.player !== 'ai') nextMoveCheck(grid);
+    if (activeCharacter.player !== 'ai') {
+      setAction({
+        selected: grid.getIn([selected]),
+        skipped: true,
+      });
+      nextMoveCheck(grid);
+    }
   };
 
   const clearSelectedCharacter = () => {
