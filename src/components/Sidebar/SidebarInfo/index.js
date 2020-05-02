@@ -1,29 +1,48 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import StyledSidebarInfo from './styledSidebarInfo';
+import CharacterInfo from '../../CharacterInfo';
 
 const SidebarInfo = props => {
-  const { gameInProgress, activeCharacter } = props;
-
-  console.log('activeCharacter', activeCharacter);
+  const { gameInProgress, activeCharacter, hoverCharacter } = props;
 
   return (
     <>
       <StyledSidebarInfo>
-  <div>asdasd</div>
-        </StyledSidebarInfo>;
+        {activeCharacter.name && (
+          <CharacterInfo
+            name={activeCharacter.name}
+            attack={activeCharacter.attack}
+            hp={activeCharacter.hp}
+            ac={activeCharacter.ac}
+            speed={activeCharacter.speed}
+            image={activeCharacter.image}
+          />
+        )}
+        {hoverCharacter.name && (
+          <CharacterInfo
+            name={hoverCharacter.name}
+            attack={hoverCharacter.attack}
+            hp={hoverCharacter.hp}
+            ac={hoverCharacter.ac}
+            speed={hoverCharacter.speed}
+            image={hoverCharacter.image}
+          />
+        )}
+      </StyledSidebarInfo>
+      ;
     </>
   );
 };
 
 SidebarInfo.propTypes = {
   gameInProgress: PropTypes.bool,
-  activeCharacter: PropTypes.object,
+  activeCharacter: PropTypes.object.isRequired,
+  hoverCharacter: PropTypes.object.isRequired,
 };
 
 SidebarInfo.defaultProps = {
   gameInProgress: false,
-  activeCharacter: {},
 };
 
 export default SidebarInfo;

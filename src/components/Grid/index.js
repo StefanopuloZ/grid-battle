@@ -33,6 +33,7 @@ const Grid = props => {
   const [animationProgress, setAnimationProgress] = useState(false);
   const [playWalkingSound, setPlayWalkingSound] = useState(false);
   const [action, setAction] = useState();
+  const [hoverCharacter, setHoverCharacter] = useState({});
 
   const gameInProgress = useRef(false);
 
@@ -278,6 +279,11 @@ const Grid = props => {
                     onClick(cell);
                   }}
                   onMouseEnter={() => {
+                    if (cell && cell.stats && cell.stats.name && cell.stats.player) {
+                      setHoverCharacter(cell.stats);
+                    } else {
+                      setHoverCharacter({});
+                    }
                     isSelected &&
                       !animationProgress &&
                       activeCharacter.player !== 'ai' &&
@@ -289,7 +295,7 @@ const Grid = props => {
           : null}
       </StyledGrid>
 
-      <Sidebar action={action} gameInProgress={gameInProgress.current} activeCharacter={activeCharacter} />
+      <Sidebar action={action} gameInProgress={gameInProgress.current} activeCharacter={activeCharacter} hoverCharacter={hoverCharacter} />
     </StyledGridWrapper>
   );
 };
