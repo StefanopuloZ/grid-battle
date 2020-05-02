@@ -17,6 +17,7 @@ const SidebarInfo = props => {
             ac={activeCharacter.ac}
             speed={activeCharacter.speed}
             image={activeCharacter.image}
+            player={activeCharacter.player}
           />
         )}
         {hoverCharacter.name && (
@@ -27,6 +28,7 @@ const SidebarInfo = props => {
             ac={hoverCharacter.ac}
             speed={hoverCharacter.speed}
             image={hoverCharacter.image}
+            player={hoverCharacter.player}
           />
         )}
       </StyledSidebarInfo>

@@ -8,24 +8,24 @@ import {
 } from './styledCharacterInfo';
 
 const CharacterInfo = props => {
-  const { name, speed, image, hp, attack, ac } = props;
+  const { name, speed, image, hp, attack, ac, player } = props;
 
   return (
-    <StyledCharacterInfo>
+    <StyledCharacterInfo player={player}>
       <StyledCharacterInfoTitle>
         <StyledCharacterInfoImage image={image} />
         <h2>{name}</h2>
       </StyledCharacterInfoTitle>
-      <StyledCharacterInfoStat>
+      <StyledCharacterInfoStat player={player}>
         HP:<span>{hp}</span>
       </StyledCharacterInfoStat>
-      <StyledCharacterInfoStat>
+      <StyledCharacterInfoStat player={player}>
         Attack:<span>{attack}</span>
       </StyledCharacterInfoStat>
-      <StyledCharacterInfoStat>
+      <StyledCharacterInfoStat player={player}>
         AC:<span>{ac}</span>
       </StyledCharacterInfoStat>
-      <StyledCharacterInfoStat>
+      <StyledCharacterInfoStat player={player}>
         Speed:<span>{speed}</span>
       </StyledCharacterInfoStat>
     </StyledCharacterInfo>
@@ -39,6 +39,7 @@ CharacterInfo.propTypes = {
   hp: PropTypes.number.isRequired,
   attack: PropTypes.number.isRequired,
   ac: PropTypes.number.isRequired,
+  player: PropTypes.string.isRequired,
 };
 
 CharacterInfo.defaultProps = {};

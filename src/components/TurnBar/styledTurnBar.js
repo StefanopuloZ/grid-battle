@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, boxShadow, borderRadius } from '../../theme';
+import { colors, boxShadow, borderRadius, fonts } from '../../theme';
 import {
   StyledCellContent,
   StyledIndicator,
@@ -24,6 +24,7 @@ export const StyledTitle = styled.div`
   font-size: 14px;
   width: 60px;
   min-width: 60px;
+  font-family: ${fonts.bold};
 `;
 
 export const StyledTurnBar = styled.div`

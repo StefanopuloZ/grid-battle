@@ -7,6 +7,7 @@ export const StyledCharacterInfo = styled.div`
   display: flex;
   flex-direction: column;
   font-family: ${fonts.regular};
+  padding: 0 10px;
 
   h2 {
     font-size: 24px;
@@ -21,7 +22,7 @@ export const StyledCharacterInfo = styled.div`
 `;
 
 export const StyledCharacterInfoStat = styled.div`
-  width: 50%;
+  width: auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -36,11 +37,14 @@ export const StyledCharacterInfoStat = styled.div`
     justify-content: center;
     align-items: center;
     border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    box-shadow: ${boxShadow.standardInset};
+    width: 26px;
+    height: 26px;
+    box-shadow: ${props =>
+      props.player === 'ai'
+        ? boxShadow.standarInsetWithColor(colors.redTransparent)
+        : boxShadow.standarInsetWithColor(colors.greenTransparent)};
     margin-left: 10px;
-    font-size: 18px;
+    font-size: 16px;
   }
 `;
 
