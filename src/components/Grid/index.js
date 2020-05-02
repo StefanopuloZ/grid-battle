@@ -289,7 +289,7 @@ const Grid = props => {
           : null}
       </StyledGrid>
 
-      <Sidebar action={action} gameInProgress={gameInProgress.current} />
+      <Sidebar action={action} gameInProgress={gameInProgress.current} activeCharacter={activeCharacter} />
     </StyledGridWrapper>
   );
 };
