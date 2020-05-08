@@ -1,6 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, BrowserRouter } from 'react-router-dom';
-import GlobalFonts from '../fonts/fonts';
 import PageWrapper from './PageWrapper';
 import Home from '../pages/home';
 import Help from '../pages/help';
@@ -15,7 +14,6 @@ function App() {
     <BrowserRouter basename={process.env.PUBLIC_URL}>
       <Router>
         <ThemeProvider theme={theme}>
-          <GlobalFonts />
           <GlobalStyle />
           <PageWrapper>
             <Switch>

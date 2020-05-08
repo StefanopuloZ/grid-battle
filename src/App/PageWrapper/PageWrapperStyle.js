@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { backgroundImg } from "../../assets/images";
-import { colors, boxShadow, borderRadius } from '../../theme';
+import { colors, boxShadow, borderRadius, fonts } from '../../theme';
 
 export const Wrapper = styled.div`
   min-height: 100vh;
@@ -8,6 +8,7 @@ export const Wrapper = styled.div`
   flex-direction: column;
   background: url(${backgroundImg}) center center/cover no-repeat;
   overflow: hidden;
+  font-family: ${fonts.regular};
 `;
 
 export const FooterWrapper = styled.div`
