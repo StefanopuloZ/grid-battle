@@ -40,8 +40,6 @@ const randomiseFill = (grid, fill, rows) => {
     }
   }
 
-  console.log(randomisedFill);
-
   return randomisedFill;
 };
 
@@ -87,7 +85,7 @@ const fillGrid = (grid, fill, rows) => {
     newGrid[obstacle].terrain = 'grass';
   });
 
-  fill.characters.forEach(character => {
+  fill.characters().forEach(character => {
     newGrid[character.index].fill = character.fill;
     newGrid[character.index].image = character.image;
     newGrid[character.index].stats = character;
