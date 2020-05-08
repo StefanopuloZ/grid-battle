@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Wrapper, FooterWrapper } from './PageWrapperStyle';
-import Sounds from '../../assets/sounds';
-import AudioComponent from '../../components/AudioComponent';
 import Header from '../../components/Header';
 
 const PageWrapper = props => {
@@ -15,8 +13,6 @@ const PageWrapper = props => {
         !interacted && setInteracted(true);
       }}
     >
-      {interacted && <AudioComponent url={Sounds.theme_song1} loop />}
-
       <Header />
 
       {props.children}

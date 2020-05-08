@@ -6,8 +6,6 @@ import { GridActions, TurnActions } from '../../actions';
 import { GridHelper, Animations, AiFunctions } from '../../logic-functions';
 import Cell from '../Cell';
 import Sidebar from '../Sidebar';
-import AudioComponent from '../AudioComponent';
-import Sounds from '../../assets/sounds';
 import { waitFor } from '../../logic-functions/helper-functions';
 import GridHeader from '../GridHeader';
 
@@ -31,7 +29,6 @@ const Grid = props => {
   const [isSelected, setIsSelected] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState({});
   const [animationProgress, setAnimationProgress] = useState(false);
-  const [playWalkingSound, setPlayWalkingSound] = useState(false);
   const [action, setAction] = useState();
   const [hoverCharacter, setHoverCharacter] = useState({});
 
@@ -154,7 +151,6 @@ const Grid = props => {
 
   async function animateAndMove(path, attackResult, defenderIndex) {
     const isHit = attackResult && attackResult.attackResult.isHit;
-    setPlayWalkingSound(true);
     setAnimationProgress(true);
 
     updateGridCheck(
@@ -171,7 +167,6 @@ const Grid = props => {
 
     await waitFor(path.length * 300 + attackTime);
     clearSelectedCharacter();
-    setPlayWalkingSound(false);
 
     let newGrid = grid;
 
@@ -265,8 +260,6 @@ const Grid = props => {
         gameInProgress={gameInProgress.current}
       />
       <StyledGrid empty={allCharacters.length === 0}>
-        {playWalkingSound && <AudioComponent url={Sounds.walking} />}
-
         {allCharacters.length > 0
           ? grid.map(cell => {
               const cellSelected = cell.index === selected;
@@ -279,7 +272,12 @@ const Grid = props => {
                     onClick(cell);
                   }}
                   onMouseEnter={() => {
-                    if (cell && cell.stats && cell.stats.name && cell.stats.player) {
+                    if (
+                      cell &&
+                      cell.stats &&
+                      cell.stats.name &&
+                      cell.stats.player
+                    ) {
                       setHoverCharacter(cell.stats);
                     } else {
                       setHoverCharacter({});
@@ -295,7 +293,12 @@ const Grid = props => {
           : null}
       </StyledGrid>
 
-      <Sidebar action={action} gameInProgress={gameInProgress.current} activeCharacter={activeCharacter} hoverCharacter={hoverCharacter} />
+      <Sidebar
+        action={action}
+        gameInProgress={gameInProgress.current}
+        activeCharacter={activeCharacter}
+        hoverCharacter={hoverCharacter}
+      />
     </StyledGridWrapper>
   );
 };
