@@ -10,7 +10,7 @@ import { waitFor } from '../../logic-functions/helper-functions';
 import GridHeader from '../GridHeader';
 
 const Grid = props => {
-  let {
+  const {
     grid,
     updateGrid,
     settings,
@@ -31,6 +31,7 @@ const Grid = props => {
   const [animationProgress, setAnimationProgress] = useState(false);
   const [action, setAction] = useState();
   const [hoverCharacter, setHoverCharacter] = useState({});
+  const [gameId, setGameId] = useState(null);
 
   const gameInProgress = useRef(false);
 
@@ -61,7 +62,7 @@ const Grid = props => {
   // start turn
   useEffect(() => {
     if (allCharacters.length === 0 && grid.size > 0) {
-      startTurn(grid);
+      startTurn(grid, gameId);
     }
     // eslint-disable-next-line
   }, [grid]);
@@ -93,7 +94,7 @@ const Grid = props => {
             selected: grid.getIn([selected]),
             skipped: true,
           });
-          nextMoveCheck(grid);
+          nextMoveCheck(grid, gameId);
         }, 500);
       }
     }
@@ -101,21 +102,24 @@ const Grid = props => {
     // eslint-disable-next-line
   }, [selectedCharacter]);
 
-  const updateGridCheck = grid => {
+  const updateGridCheck = (grid, gameIdd) => {
     if (gameInProgress.current) {
-      updateGrid(grid);
+      updateGrid(grid, gameIdd);
     }
   };
 
-  const nextMoveCheck = grid => {
+  const nextMoveCheck = (grid, gameIdd) => {
     if (gameInProgress.current) {
-      nextMove(grid);
+      nextMove(grid, gameIdd);
     }
   };
 
   const startGame = () => {
+    const gameId = Date.now();
+    setGameId(gameId);
     gameInProgress.current = true;
-    createGrid(settings);
+    createGrid(settings, gameId);
+    resetTurn(gameId);
   };
 
   const endGame = () => {
@@ -131,7 +135,7 @@ const Grid = props => {
         selected: grid.getIn([selected]),
         skipped: true,
       });
-      nextMoveCheck(grid);
+      nextMoveCheck(grid, gameId);
     }
   };
 
@@ -139,14 +143,14 @@ const Grid = props => {
     setIsSelected(false);
     setSelected(null);
     setSelectedCharacter({});
-    updateGridCheck(GridHelper.clearPath(grid));
+    updateGridCheck(GridHelper.clearPath(grid, gameId));
   };
 
   const updateSelectedCharacter = cell => {
     setIsSelected(true);
     setSelected(cell.index);
     setSelectedCharacter(cell.stats);
-    updateGridCheck(GridHelper.clearPath(grid));
+    updateGridCheck(GridHelper.clearPath(grid, gameId));
   };
 
   async function animateAndMove(path, attackResult, defenderIndex) {
@@ -160,7 +164,8 @@ const Grid = props => {
           attackResult,
           defender: grid.getIn([defenderIndex]),
         })
-      )
+      ),
+      gameId
     );
 
     const attackTime = attackResult ? 900 : 0;
@@ -198,10 +203,10 @@ const Grid = props => {
       defender,
     });
 
-    updateGridCheck(newGrid);
+    updateGridCheck(newGrid, gameId);
     await waitFor(attackResult ? 500 : 0);
     setAnimationProgress(false);
-    nextMoveCheck(newGrid);
+    nextMoveCheck(newGrid, gameId);
   }
 
   const onClick = cell => {
@@ -240,7 +245,7 @@ const Grid = props => {
     let attackResult = false;
 
     if (result && result.grid) {
-      updateGridCheck(result.grid);
+      updateGridCheck(result.grid, gameId);
       path = result.result;
       attackResult = result.attackResult;
       moveAllowed = true;
@@ -335,11 +340,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateGrid: grid => dispatch(GridActions.updateGrid(grid)),
-  createGrid: settings => dispatch(GridActions.createGrid(settings)),
+  updateGrid: (grid, gameId) => dispatch(GridActions.updateGrid(grid, gameId)),
+  createGrid: (settings, gameId) =>
+    dispatch(GridActions.createGrid(settings, gameId)),
   destroyGrid: () => dispatch(GridActions.destroyGrid()),
-  startTurn: grid => dispatch(TurnActions.startTurn(grid)),
-  nextMove: grid => dispatch(TurnActions.nextMove(grid)),
+  startTurn: (grid, gameId) => dispatch(TurnActions.startTurn(grid, gameId)),
+  nextMove: (grid, gameId) => dispatch(TurnActions.nextMove(grid, gameId)),
   resetTurn: () => dispatch(TurnActions.resetTurn()),
 });
 

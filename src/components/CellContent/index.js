@@ -9,7 +9,7 @@ import {
 } from './styledCellContent';
 
 const CellContent = props => {
-  const { cell, selected, grid, updateGrid } = props;
+  const { cell, selected, grid, updateGrid, gameId } = props;
   const { index, stats } = cell;
   // const hp = stats && stats.hp ? stats.hp : null;
   const player = stats && stats.player;
@@ -18,7 +18,7 @@ const CellContent = props => {
     let newGrid = grid;
     setTimeout(() => {
       newGrid = newGrid.setIn([index, 'attack'], false);
-      updateGrid(newGrid);
+      updateGrid(newGrid, gameId);
     }, 500);
   }
 
@@ -40,10 +40,12 @@ CellContent.propTypes = {
   selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
   grid: PropTypes.object.isRequired,
   updateGrid: PropTypes.func.isRequired,
+  gameId: PropTypes.number,
 };
 
 CellContent.defaultProps = {
   selected: false,
+  gameId: null,
 };
 
 const mapStateToProps = state => ({

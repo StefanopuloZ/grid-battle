@@ -5,12 +5,21 @@ import { List } from 'immutable';
 //////////////////
 
 const DEFAULT_STATE = {
+  gameId: null,
   grid: new List([]),
 };
 
 const GridReducer = (state = DEFAULT_STATE, action) => {
   switch (action.type) {
     case ActionTypes.UPDATE_GRID: {
+      if (state.grid.size === 0) {
+        return { ...state };
+      }
+
+      if (state.gameId !== action.gameId) {
+        return { ...state };
+      }
+
       return {
         ...state,
         grid: action.grid,
@@ -20,6 +29,7 @@ const GridReducer = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         grid: GridHelper.makeGrid(action.settings),
+        gameId: action.gameId,
       };
     }
     case ActionTypes.DESTROY_GRID: {
