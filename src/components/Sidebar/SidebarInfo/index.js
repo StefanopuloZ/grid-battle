@@ -4,7 +4,7 @@ import StyledSidebarInfo from './styledSidebarInfo';
 import CharacterInfo from '../../CharacterInfo';
 
 const SidebarInfo = props => {
-  const { gameInProgress, activeCharacter, hoverCharacter } = props;
+  const { activeCharacter, hoverCharacter } = props;
 
   return (
     <>
@@ -14,6 +14,7 @@ const SidebarInfo = props => {
             name={activeCharacter.name}
             attack={activeCharacter.attack}
             hp={activeCharacter.hp}
+            maxHp={activeCharacter.maxHp}
             ac={activeCharacter.ac}
             speed={activeCharacter.speed}
             image={activeCharacter.image}
@@ -25,6 +26,7 @@ const SidebarInfo = props => {
             name={hoverCharacter.name}
             attack={hoverCharacter.attack}
             hp={hoverCharacter.hp}
+            maxHp={hoverCharacter.maxHp}
             ac={hoverCharacter.ac}
             speed={hoverCharacter.speed}
             image={hoverCharacter.image}
@@ -44,7 +46,6 @@ SidebarInfo.propTypes = {
 };
 
 SidebarInfo.defaultProps = {
-  gameInProgress: false,
 };
 
 export default SidebarInfo;

@@ -56,6 +56,7 @@ export const StyledTBCellContent = styled(StyledCellContent)``;
 export const StyledTBIndicator = styled(StyledIndicator)``;
 
 export const StyledTBContentWrapper = styled(StyledCellContentWrapper)`
+  position: relative;
   width: 50px;
   min-width: 50px;
   height: 50px;

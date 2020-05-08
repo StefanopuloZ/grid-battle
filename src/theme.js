@@ -8,7 +8,8 @@ export const colors = {
   greenTransparent: '#5ea56a',
   glassTransparent: 'rgba(190,255,247, 0.6)',
   glass: 'rgba(190,255,247, 0.8)',
-  redTransparent: '#df4646',
+  redMain: '#df4646',
+  redTransparent: 'rgba(255, 0, 0, 0.418)',
 };
 
 export const boxShadow = {

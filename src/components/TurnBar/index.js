@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import HpOverlay from '../HpOverlay';
 import {
   StyledTurnBar,
   StyledTBCellContent,
@@ -50,6 +51,8 @@ const TurnBar = props => {
     }
     return characters.map((character, index) => {
       const cellSelected = character.index === selected;
+      const hp = character.hp;
+      const maxHp = character.maxHp;
 
       return (
         <StyledTBContentWrapper
@@ -63,6 +66,7 @@ const TurnBar = props => {
             image={character.image}
             player={character.player}
           />
+          <HpOverlay hp={hp} maxHp={maxHp} />
           <StyledTBIndicator player={character.player} />
         </StyledTBContentWrapper>
       );

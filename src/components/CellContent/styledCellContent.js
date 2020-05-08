@@ -5,7 +5,7 @@ import { Animations } from '../../logic-functions';
 
 const playerBorders = {
   human: colors.greenTransparent,
-  ai: colors.redTransparent,
+  ai: colors.redMain,
 };
 
 const getAnimation = (selected, animation) => {
@@ -52,4 +52,20 @@ export const StyledIndicator = styled.div`
   border-radius: 50%;
   background-color: ${props =>
     props.player ? playerBorders[props.player] : ''};
+`;
+
+export const StyledCellHp = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  z-index: 99999;
+  overflow: hidden;
+
+  & > div {
+    flex: 1;
+    background-color: ${colors.redTransparent};
+  }
 `;

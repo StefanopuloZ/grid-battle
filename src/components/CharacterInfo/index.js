@@ -6,18 +6,24 @@ import {
   StyledCharacterInfoImage,
   StyledCharacterInfoStat,
 } from './styledCharacterInfo';
+import HpOverlay from '../HpOverlay';
 
 const CharacterInfo = props => {
-  const { name, speed, image, hp, attack, ac, player } = props;
+  const { name, speed, image, hp, maxHp, attack, ac, player } = props;
 
   return (
     <StyledCharacterInfo player={player}>
       <StyledCharacterInfoTitle>
-        <StyledCharacterInfoImage image={image} />
+        <StyledCharacterInfoImage image={image}>
+          <HpOverlay hp={hp} maxHp={maxHp} />
+        </StyledCharacterInfoImage>
         <h2>{name}</h2>
       </StyledCharacterInfoTitle>
       <StyledCharacterInfoStat player={player}>
-        HP:<span>{hp}</span>
+        HP:
+        <span>
+          {hp}/{maxHp}
+        </span>
       </StyledCharacterInfoStat>
       <StyledCharacterInfoStat player={player}>
         Attack:<span>{attack}</span>
@@ -40,6 +46,7 @@ CharacterInfo.propTypes = {
   attack: PropTypes.number.isRequired,
   ac: PropTypes.number.isRequired,
   player: PropTypes.string.isRequired,
+  maxHp: PropTypes.number.isRequired,
 };
 
 CharacterInfo.defaultProps = {};
