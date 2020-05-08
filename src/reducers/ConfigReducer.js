@@ -21,7 +21,7 @@ const DEFAULT_STATE = {
           fill: 'C',
           sound: 'warrior',
           maxHp: 4,
-          hp: 4,
+          hp: 2,
           attack: +2,
           ac: 0,
           damage: [2, 6],

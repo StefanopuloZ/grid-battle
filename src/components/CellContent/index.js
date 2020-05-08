@@ -7,11 +7,13 @@ import {
   StyledIndicator,
   StyledCellContentWrapper,
 } from './styledCellContent';
+import HpOverlay from '../HpOverlay';
 
 const CellContent = props => {
   const { cell, selected, grid, updateGrid, gameId } = props;
   const { index, stats } = cell;
-  // const hp = stats && stats.hp ? stats.hp : null;
+  const hp = stats && stats.hp ? stats.hp : null;
+  const maxHp = stats && stats.maxHp ? stats.maxHp : null;
   const player = stats && stats.player;
 
   if (cell.attack) {
@@ -29,7 +31,9 @@ const CellContent = props => {
         image={cell.image}
         attack={cell.attack}
         player={player}
-      ></StyledCellContent>
+      >
+        {hp && <HpOverlay hp={hp} maxHp={maxHp} />}
+      </StyledCellContent>
       <StyledIndicator player={player} />
     </StyledCellContentWrapper>
   );

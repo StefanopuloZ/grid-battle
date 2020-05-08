@@ -14,9 +14,7 @@ export const StyledCharacterInfo = styled.div`
     font-weight: bolder;
     text-shadow: 2px 2px 2px
       ${props =>
-        props.player === 'ai'
-          ? colors.redTransparent
-          : colors.greenTransparent};
+        props.player === 'ai' ? colors.redMain : colors.greenTransparent};
     margin: 10px auto;
   }
 `;
@@ -41,7 +39,7 @@ export const StyledCharacterInfoStat = styled.div`
     height: 26px;
     box-shadow: ${props =>
       props.player === 'ai'
-        ? boxShadow.standarInsetWithColor(colors.redTransparent)
+        ? boxShadow.standarInsetWithColor(colors.redMain)
         : boxShadow.standarInsetWithColor(colors.greenTransparent)};
     margin-left: 10px;
     font-size: 16px;
@@ -51,6 +49,7 @@ export const StyledCharacterInfoStat = styled.div`
 export const StyledCharacterInfoTitle = styled.div``;
 
 export const StyledCharacterInfoImage = styled.div`
+  position: relative;
   width: 70px;
   padding-top: 70px;
   border-radius: 50%;
