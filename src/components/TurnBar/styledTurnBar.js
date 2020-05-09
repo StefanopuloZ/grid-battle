@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { colors, boxShadow, borderRadius, fonts } from '../../theme';
+import { colors, boxShadow, borderRadius, fonts, media } from '../../theme';
 import {
   StyledCellContent,
   StyledIndicator,
@@ -30,14 +30,15 @@ export const StyledTitle = styled.div`
 export const StyledTurnBar = styled.div`
   display: flex;
   border: 1px solid darkgray;
-  width: 66.6%;
+  width: 100%;
   align-items: center;
-  height: 60px;
+  height: 50px;
   overflow-x: auto;
   overflow-y: hidden;
   box-shadow: ${boxShadow.standard};
   border-radius: ${borderRadius.standard};
   background-color: ${colors.glassTransparent};
+  margin-bottom: 10px;
 
   &::-webkit-scrollbar {
     -webkit-appearance: none;
@@ -48,6 +49,12 @@ export const StyledTurnBar = styled.div`
     border-radius: 4px;
     background-color: ${colors.gray};
     box-shadow: ${boxShadow.standard};
+  }
+
+  @media ${media.medium} {
+    height: 60px;
+    width: 66.6%;
+    margin-bottom: 0;
   }
 `;
 

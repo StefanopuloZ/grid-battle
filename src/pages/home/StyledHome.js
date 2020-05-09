@@ -8,6 +8,7 @@ export const StyledHome = styled.div`
   box-shadow: ${boxShadow.standard};
   display: flex;
   flex-direction: column;
+  padding: 10px;
   padding-bottom: 40px;
   margin-bottom: -12px;
 
