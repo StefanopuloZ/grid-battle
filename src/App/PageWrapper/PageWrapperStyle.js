@@ -24,3 +24,9 @@ export const FooterWrapper = styled.div`
   font-size: 14px;
   justify-content: center;
 `;
+
+export const IconWrapper = styled.span`
+  display: block;
+  width: 15px;
+  margin-left: 10px;
+`;
