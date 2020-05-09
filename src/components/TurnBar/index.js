@@ -9,7 +9,7 @@ import {
   StyledTBContentWrapper,
   StyledTitle,
 } from './styledTurnBar';
-import { waitFor } from '../../logic-functions/helper-functions';
+import { waitFor, copy } from '../../logic-functions/helper-functions';
 
 const TurnBar = props => {
   const { allCharacters, selected, gameInProgress } = props;
@@ -30,13 +30,13 @@ const TurnBar = props => {
   }, [allCharacters]);
 
   async function changeTurnOrder() {
-    let animatedCharacters = JSON.parse(JSON.stringify(characters));
+    let animatedCharacters = copy(characters);
     animatedCharacters[0].moved = 'first';
     setCharacters(animatedCharacters);
 
     await waitFor(1000);
 
-    animatedCharacters = JSON.parse(JSON.stringify(allCharacters));
+    animatedCharacters = copy(allCharacters);
     animatedCharacters[animatedCharacters.length - 1].moved = 'last';
     setCharacters(animatedCharacters);
 

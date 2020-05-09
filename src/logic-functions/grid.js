@@ -1,30 +1,50 @@
 import { List } from 'immutable';
-import { random } from './helper-functions';
+import { random, copy } from './helper-functions';
 
 // **** Map Generation Functions ***** //
 // **                               ** //
 
 const randomiseFill = (grid, fill, rows) => {
   const forbiddenTiles = [
-    2,
     3,
     4,
     5,
     6,
     7,
-    92,
     93,
     94,
     95,
-    95,
     96,
     97,
-    15,
-    25,
-    35,
-    45,
-    55,
-    65,
+    84,
+    85,
+    86,
+    13,
+    12,
+    22,
+    32,
+    31,
+    41,
+    51,
+    50,
+    60,
+    61,
+    62,
+    72,
+    82,
+    83,
+    17,
+    18,
+    28,
+    29,
+    39,
+    49,
+    48,
+    58,
+    57,
+    67,
+    66,
+    76,
     75,
     85,
   ];
@@ -47,7 +67,7 @@ const randomiseFill = (grid, fill, rows) => {
 // **                             ** //
 
 const makeAdjacentMatrix = (grid, rows, columns) => {
-  let newGrid = JSON.parse(JSON.stringify(grid));
+  let newGrid = copy(grid);
 
   newGrid.forEach((cell, index) => {
     let adjecent = [];
@@ -75,7 +95,7 @@ const makeAdjacentMatrix = (grid, rows, columns) => {
 };
 
 const fillGrid = (grid, fill, rows) => {
-  let newGrid = JSON.parse(JSON.stringify(grid));
+  let newGrid = copy(grid);
 
   const randomisedFill = randomiseFill(grid, fill, rows);
 
@@ -199,7 +219,7 @@ const searchForPath = (grid, start, target) => {
           !newGrid[adjecentCell.index].fill
         ) {
           newGrid[adjecentCell.index].visited = 1;
-          const newPath = JSON.parse(JSON.stringify(path));
+          const newPath = copy(path);
           newPath.push(newGrid[adjecentCell.index]);
           newPath[newPath.length - 1].direction = adjecentCell.direction;
           newPaths.push(newPath);
