@@ -21,6 +21,15 @@ export const StyledHome = styled.div`
       margin-bottom: 40px;
   }
 
+  h2 {
+      margin-top: 20px;
+      font-size: 36px;
+      text-align: center;
+      width: 100%;
+      font-family: ${fonts.bold};
+      margin-bottom: 40px;
+  }
+
   p {
       margin-top: 20px;
       font-size: 22px;
