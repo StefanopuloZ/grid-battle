@@ -1,12 +1,13 @@
 import styled from 'styled-components';
-import { colors, boxShadow, borderRadius } from '../../../theme';
+import { colors, boxShadow, borderRadius, media } from '../../../theme';
 
 const StyledConsole = styled.div`
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
   width: 100%;
-  height: calc(50% - 10px);
+  margin-left: auto;
+  height: 300px;
   max-height: 315px;
   padding: 4px 8px;
   margin-top: auto;
@@ -26,6 +27,15 @@ const StyledConsole = styled.div`
     border-radius: 4px;
     background-color: ${colors.gray};
     box-shadow: ${boxShadow.standard};
+  }
+
+  @media ${media.small} {
+    width: calc(50% - 5px);
+  }
+
+  @media ${media.medium} {
+    height: calc(50% - 10px);
+    width: 100%;
   }
 `;
 
