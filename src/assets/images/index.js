@@ -1,4 +1,4 @@
-import ground from './ground.jpeg';
+import ground from './ground.jpg';
 import warrior from './warrior.png';
 import tree from './tree.png';
 import goblin from './goblin_regular.png';

@@ -8,7 +8,7 @@ const Home = props => {
       <StyledHome>
         <h1>React.js Grid Battle</h1>
         <p>Welcome!</p>
-        <p>Battle AI in procedurally generated maps.</p>
+        <p>Battle against AI in a procedurally generated maps.</p>
       </StyledHome>
     </StyledContainer>
   );
