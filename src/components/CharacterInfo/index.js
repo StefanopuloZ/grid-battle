@@ -9,7 +9,7 @@ import {
 import HpOverlay from '../HpOverlay';
 
 const CharacterInfo = props => {
-  const { name, speed, image, hp, maxHp, attack, ac, player } = props;
+  const { damage, name, speed, image, hp, maxHp, attack, ac, player } = props;
 
   return (
     <StyledCharacterInfo player={player}>
@@ -34,6 +34,9 @@ const CharacterInfo = props => {
       <StyledCharacterInfoStat player={player}>
         Speed:<span>{speed}</span>
       </StyledCharacterInfoStat>
+      <StyledCharacterInfoStat player={player}>
+        Damage:<span>{damage[0] + '-' + damage[1]}</span>
+      </StyledCharacterInfoStat>
     </StyledCharacterInfo>
   );
 };
@@ -47,6 +50,7 @@ CharacterInfo.propTypes = {
   ac: PropTypes.number.isRequired,
   player: PropTypes.string.isRequired,
   maxHp: PropTypes.number.isRequired,
+  damage: PropTypes.array.isRequired,
 };
 
 CharacterInfo.defaultProps = {};
