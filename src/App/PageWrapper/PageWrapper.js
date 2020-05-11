@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
-import { Wrapper, FooterWrapper } from './PageWrapperStyle';
-import Sounds from '../../assets/sounds';
-import AudioComponent from '../../components/AudioComponent';
+import PropTypes from 'prop-types';
+import { Wrapper, FooterWrapper, IconWrapper } from './PageWrapperStyle';
 import Header from '../../components/Header';
+import Icon from '../../components/Icon';
 
 const PageWrapper = props => {
   const [interacted, setInteracted] = useState(false);
@@ -14,15 +14,33 @@ const PageWrapper = props => {
         !interacted && setInteracted(true);
       }}
     >
-      {interacted && <AudioComponent url={Sounds.theme_song1} loop />}
-
       <Header />
 
       {props.children}
 
-      <FooterWrapper>Created by - Stefan Deak</FooterWrapper>
+      <FooterWrapper>
+        Created by - Stefan Deak
+        <a href="https://www.linkedin.com/in/stefan-deak-ab7b99182/" target="_blank" rel="noopener noreferrer">
+          <IconWrapper>
+            <Icon icon="linkedin" />
+          </IconWrapper>
+        </a>
+        <a href="https://github.com/StefanopuloZ" target="_blank" rel="noopener noreferrer">
+          <IconWrapper>
+            <Icon icon="github" />
+          </IconWrapper>
+        </a>
+      </FooterWrapper>
     </Wrapper>
   );
+};
+
+PageWrapper.propTypes = {
+  children: PropTypes.object,
+};
+
+PageWrapper.defaultProps = {
+  childrenchildren: {},
 };
 
 const mapStateToProps = state => ({});

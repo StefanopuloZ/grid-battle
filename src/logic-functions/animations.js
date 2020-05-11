@@ -137,7 +137,37 @@ const selected = keyframes`
   
 `;
 
+const first = keyframes`
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+    width: 50px;
+    min-width: 50px;
+  }
+
+  100% {
+    width: 0px;
+    min-width: 0px;
+    opacity: 0;
+  }
+`;
+
+const last = keyframes`
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+`;
+
 export const Animations = {
   moveAnimationBuilder,
   selected,
+  first,
+  last,
 };

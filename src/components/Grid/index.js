@@ -6,12 +6,11 @@ import { GridActions, TurnActions } from '../../actions';
 import { GridHelper, Animations, AiFunctions } from '../../logic-functions';
 import Cell from '../Cell';
 import Sidebar from '../Sidebar';
-import AudioComponent from '../AudioComponent';
-import Sounds from '../../assets/sounds';
-import InforBar from '../InforBar';
+import { waitFor } from '../../logic-functions/helper-functions';
+import GridHeader from '../GridHeader';
 
 const Grid = props => {
-  let {
+  const {
     grid,
     updateGrid,
     settings,
@@ -30,11 +29,13 @@ const Grid = props => {
   const [isSelected, setIsSelected] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState({});
   const [animationProgress, setAnimationProgress] = useState(false);
-  const [playWalkingSound, setPlayWalkingSound] = useState(false);
   const [action, setAction] = useState();
+  const [hoverCharacter, setHoverCharacter] = useState({});
+  const [gameId, setGameId] = useState(null);
 
   const gameInProgress = useRef(false);
 
+  // end game calculator
   useEffect(() => {
     if (allCharacters.length > 0) {
       if (aiCharacters.length < 1) {
@@ -50,6 +51,7 @@ const Grid = props => {
     // eslint-disable-next-line
   }, [allCharacters]);
 
+  // update selected character
   useEffect(() => {
     if (activeCharacter && activeCharacter.name) {
       updateSelectedCharacter(grid.get(activeCharacter.index));
@@ -57,9 +59,10 @@ const Grid = props => {
     // eslint-disable-next-line
   }, [activeCharacter]);
 
+  // start turn
   useEffect(() => {
     if (allCharacters.length === 0 && grid.size > 0) {
-      startTurn(grid);
+      startTurn(grid, gameId);
     }
     // eslint-disable-next-line
   }, [grid]);
@@ -73,7 +76,7 @@ const Grid = props => {
         humanCharacters
       );
 
-      if (tileToMove) {
+      if (tileToMove || tileToMove === 0) {
         const searchResult = startSearch(grid.get(tileToMove));
 
         if (searchResult.path.length > 0) {
@@ -83,12 +86,15 @@ const Grid = props => {
               searchResult.attackResult,
               searchResult.defenderIndex
             );
-          }, 300);
+          }, 1300);
         }
       } else {
-        // setAnimationProgress(true);
         setTimeout(() => {
-          nextMoveCheck(grid);
+          setAction({
+            selected: grid.getIn([selected]),
+            skipped: true,
+          });
+          nextMoveCheck(grid, gameId);
         }, 500);
       }
     }
@@ -96,68 +102,76 @@ const Grid = props => {
     // eslint-disable-next-line
   }, [selectedCharacter]);
 
-  const updateGridCheck = grid => {
+  const updateGridCheck = (grid, gameIdd) => {
     if (gameInProgress.current) {
-      updateGrid(grid);
+      updateGrid(grid, gameIdd);
     }
   };
 
-  const nextMoveCheck = grid => {
+  const nextMoveCheck = (grid, gameIdd) => {
     if (gameInProgress.current) {
-      nextMove(grid);
+      nextMove(grid, gameIdd);
     }
   };
 
   const startGame = () => {
+    const gameId = Date.now();
+    setGameId(gameId);
     gameInProgress.current = true;
-    createGrid(settings);
+    createGrid(settings, gameId);
+    resetTurn(gameId);
   };
 
   const endGame = () => {
     gameInProgress.current = false;
+    setAction();
     destroyGrid();
     resetTurn();
+  };
+
+  const skipTurn = () => {
+    if (activeCharacter.player !== 'ai') {
+      setAction({
+        selected: grid.getIn([selected]),
+        skipped: true,
+      });
+      nextMoveCheck(grid, gameId);
+    }
   };
 
   const clearSelectedCharacter = () => {
     setIsSelected(false);
     setSelected(null);
     setSelectedCharacter({});
-    updateGridCheck(GridHelper.clearPath(grid));
+    updateGridCheck(GridHelper.clearPath(grid, gameId));
   };
 
   const updateSelectedCharacter = cell => {
     setIsSelected(true);
     setSelected(cell.index);
     setSelectedCharacter(cell.stats);
-    updateGridCheck(GridHelper.clearPath(grid));
-  };
-
-  const waitFor = time => {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve();
-      }, time);
-    });
+    updateGridCheck(GridHelper.clearPath(grid, gameId));
   };
 
   async function animateAndMove(path, attackResult, defenderIndex) {
     const isHit = attackResult && attackResult.attackResult.isHit;
-    setPlayWalkingSound(true);
     setAnimationProgress(true);
 
     updateGridCheck(
       grid.setIn(
         [selected, 'animation'],
-        Animations.moveAnimationBuilder(path, 300, {attackResult, defender: grid.getIn([defenderIndex])})
-      )
+        Animations.moveAnimationBuilder(path, 300, {
+          attackResult,
+          defender: grid.getIn([defenderIndex]),
+        })
+      ),
+      gameId
     );
 
     const attackTime = attackResult ? 900 : 0;
 
     await waitFor(path.length * 300 + attackTime);
     clearSelectedCharacter();
-    setPlayWalkingSound(false);
 
     let newGrid = grid;
 
@@ -189,10 +203,10 @@ const Grid = props => {
       defender,
     });
 
-    updateGridCheck(newGrid);
+    updateGridCheck(newGrid, gameId);
     await waitFor(attackResult ? 500 : 0);
     setAnimationProgress(false);
-    nextMoveCheck(newGrid);
+    nextMoveCheck(newGrid, gameId);
   }
 
   const onClick = cell => {
@@ -231,7 +245,7 @@ const Grid = props => {
     let attackResult = false;
 
     if (result && result.grid) {
-      updateGridCheck(result.grid);
+      updateGridCheck(result.grid, gameId);
       path = result.result;
       attackResult = result.attackResult;
       moveAllowed = true;
@@ -242,10 +256,15 @@ const Grid = props => {
 
   return (
     <StyledGridWrapper>
-      {/* <InforBar grid={grid} /> */}
+      <GridHeader
+        grid={grid}
+        selected={selected}
+        startGame={startGame}
+        endGame={endGame}
+        skipTurn={skipTurn}
+        gameInProgress={gameInProgress.current}
+      />
       <StyledGrid empty={allCharacters.length === 0}>
-        {playWalkingSound && <AudioComponent url={Sounds.walking} />}
-
         {allCharacters.length > 0
           ? grid.map(cell => {
               const cellSelected = cell.index === selected;
@@ -258,6 +277,16 @@ const Grid = props => {
                     onClick(cell);
                   }}
                   onMouseEnter={() => {
+                    if (
+                      cell &&
+                      cell.stats &&
+                      cell.stats.name &&
+                      cell.stats.player
+                    ) {
+                      setHoverCharacter(cell.stats);
+                    } else {
+                      setHoverCharacter({});
+                    }
                     isSelected &&
                       !animationProgress &&
                       activeCharacter.player !== 'ai' &&
@@ -269,30 +298,12 @@ const Grid = props => {
           : null}
       </StyledGrid>
 
-      <Sidebar action={action} />
-      <div>
-        <button
-          onClick={() => {
-            endGame();
-          }}
-        >
-          END GAME
-        </button>
-        <button
-          onClick={() => {
-            if (activeCharacter.player !== 'ai') nextMoveCheck(grid);
-          }}
-        >
-          SKIP TURN
-        </button>
-        <button
-          onClick={() => {
-            startGame();
-          }}
-        >
-          START
-        </button>
-      </div>
+      <Sidebar
+        action={action}
+        gameInProgress={gameInProgress.current}
+        activeCharacter={activeCharacter}
+        hoverCharacter={hoverCharacter}
+      />
     </StyledGridWrapper>
   );
 };
@@ -308,10 +319,14 @@ Grid.propTypes = {
   startTurn: PropTypes.func.isRequired,
   nextMove: PropTypes.func.isRequired,
   resetTurn: PropTypes.func.isRequired,
+  humanCharacters: PropTypes.array,
+  aiCharacters: PropTypes.array,
 };
 
 Grid.defaultProps = {
   activeCharacter: null,
+  humanCharacters: [],
+  aiCharacters: [],
 };
 
 const mapStateToProps = state => ({
@@ -325,11 +340,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  updateGrid: grid => dispatch(GridActions.updateGrid(grid)),
-  createGrid: settings => dispatch(GridActions.createGrid(settings)),
+  updateGrid: (grid, gameId) => dispatch(GridActions.updateGrid(grid, gameId)),
+  createGrid: (settings, gameId) =>
+    dispatch(GridActions.createGrid(settings, gameId)),
   destroyGrid: () => dispatch(GridActions.destroyGrid()),
-  startTurn: grid => dispatch(TurnActions.startTurn(grid)),
-  nextMove: grid => dispatch(TurnActions.nextMove(grid)),
+  startTurn: (grid, gameId) => dispatch(TurnActions.startTurn(grid, gameId)),
+  nextMove: (grid, gameId) => dispatch(TurnActions.nextMove(grid, gameId)),
   resetTurn: () => dispatch(TurnActions.resetTurn()),
 });
 

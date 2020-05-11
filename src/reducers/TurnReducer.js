@@ -5,6 +5,7 @@ import { TurnFunctions } from '../logic-functions';
 //////////////////
 
 const DEFAULT_STATE = {
+  gameId: null,
   turnInfo: new Map({
     currentPlayer: null,
     activeCharacter: {},
@@ -36,9 +37,18 @@ const TurnReducer = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         turnInfo,
+        gameId: action.gameId,
       };
     }
     case ActionTypes.NEXT_MOVE: {
+      if (state.turnInfo.get('allCharacters').length === 0) {
+        return { ...state };
+      }
+
+      if (state.gameId !== action.gameId) {
+        return { ...state };
+      }
+
       let {
         allCharacters,
         humanCharacters,
@@ -71,6 +81,7 @@ const TurnReducer = (state = DEFAULT_STATE, action) => {
       return {
         ...state,
         turnInfo,
+        gameId: action.gameId,
       };
     }
     default:

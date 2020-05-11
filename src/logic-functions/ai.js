@@ -1,8 +1,5 @@
 import { GridHelper } from './grid';
-
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-}
+import { random } from './helper-functions';
 
 const weightValues = {
   toHitChance: (attack, AC) => {
@@ -77,7 +74,6 @@ const checkPossibleMoves = (grid, activeCharacter, humanCharacters) => {
       });
 
       if (!canAttack && searchResult.attackResult) {
-        console.log('inininin');
         canAttack = true;
       }
     }

@@ -7,18 +7,20 @@ import {
   StyledIndicator,
   StyledCellContentWrapper,
 } from './styledCellContent';
+import HpOverlay from '../HpOverlay';
 
 const CellContent = props => {
-  const { cell, selected, grid, updateGrid } = props;
+  const { cell, selected, grid, updateGrid, gameId } = props;
   const { index, stats } = cell;
   const hp = stats && stats.hp ? stats.hp : null;
+  const maxHp = stats && stats.maxHp ? stats.maxHp : null;
   const player = stats && stats.player;
 
   if (cell.attack) {
     let newGrid = grid;
     setTimeout(() => {
       newGrid = newGrid.setIn([index, 'attack'], false);
-      updateGrid(newGrid);
+      updateGrid(newGrid, gameId);
     }, 500);
   }
 
@@ -30,22 +32,25 @@ const CellContent = props => {
         attack={cell.attack}
         player={player}
       >
-        {/* <p
-        style={{
-          backgroundColor: hp ? 'rgba(94, 94, 94, 0.6)' : '',
-        }}
-      >{`${hp ? 'hp:' + hp : ''}`}</p> */}
+        {hp && <HpOverlay hp={hp} maxHp={maxHp} />}
       </StyledCellContent>
       <StyledIndicator player={player} />
     </StyledCellContentWrapper>
   );
 };
 
-Element.propTypes = {
+CellContent.propTypes = {
   cell: PropTypes.object.isRequired,
+  selected: PropTypes.oneOfType([PropTypes.bool, PropTypes.number]),
+  grid: PropTypes.object.isRequired,
+  updateGrid: PropTypes.func.isRequired,
+  gameId: PropTypes.number,
 };
 
-Element.defaultProps = {};
+CellContent.defaultProps = {
+  selected: false,
+  gameId: null,
+};
 
 const mapStateToProps = state => ({
   grid: state.GridReducer.grid,

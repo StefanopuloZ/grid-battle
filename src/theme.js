@@ -5,10 +5,11 @@ export const colors = {
   blue: '#007ce0',
   navy: '#004175',
   gray: '#5c5c5c50',
-  greenTransparent: 'rgba(0, 155, 26, 0.6)',
+  greenTransparent: '#5ea56a',
   glassTransparent: 'rgba(190,255,247, 0.6)',
   glass: 'rgba(190,255,247, 0.8)',
-  redTransparent: 'rgba(255, 0, 0, 0.6)',
+  redMain: '#df4646',
+  redTransparent: 'rgba(255, 0, 0, 0.418)',
 };
 
 export const boxShadow = {
@@ -16,6 +17,7 @@ export const boxShadow = {
   large: '5px 0px 10px 5px rgba(0, 0, 0, 0.8)',
   standardInset: 'inset 1px 1px 5px -2px rgba(0, 0, 0, 0.8)',
   largeInset: 'inset 1px 1px 20px -4px rgba(0, 0, 0, 0.8)',
+  standarInsetWithColor: color => `inset 1px 1px 20px -4px ${color}`,
 };
 
 export const borderRadius = {
@@ -23,12 +25,13 @@ export const borderRadius = {
   large: '20px',
 };
 
-const breakpoints = ['425px'];
+const breakpoints = ['425px', '900px'];
 
 breakpoints.sm = breakpoints[0];
 
 export const media = {
   small: `(min-width: ${breakpoints[0]})`,
+  medium: `(min-width: ${breakpoints[1]})`,
 };
 
 export const fonts = {

@@ -1,14 +1,11 @@
 import styled from 'styled-components';
-import warrior from './assets/warrior.png';
-import tree from './assets/tree.png';
-import goblin from './assets/goblin_regular.png';
+import { characterImg } from '../../assets/images';
 import { colors, boxShadow } from '../../theme';
 import { Animations } from '../../logic-functions';
 
-const background = { warrior, tree, goblin };
 const playerBorders = {
   human: colors.greenTransparent,
-  ai: colors.redTransparent,
+  ai: colors.redMain,
 };
 
 const getAnimation = (selected, animation) => {
@@ -23,12 +20,12 @@ const getAnimation = (selected, animation) => {
 
 export const StyledCellContentWrapper = styled.div`
   position: relative;
-  z-index: ${props => props.animation ? '200' : '100'};
+  z-index: ${props => (props.animation ? '200' : '100')};
   width: 100%;
   height: 100%;
-  animation: ${props =>
-    getAnimation(props.selected, props.animation)[0]} ${props =>
-  getAnimation(props.selected, props.animation)[1]};
+  animation: ${props => getAnimation(props.selected, props.animation)[0]}
+    // eslint-disable-next-line
+    ${props => getAnimation(props.selected, props.animation)[1]};
 `;
 
 export const StyledCellContent = styled.div`
@@ -40,7 +37,7 @@ export const StyledCellContent = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url(${props => background[props.image]}) center center/cover
+  background: url(${props => characterImg[props.image]}) center center/cover
     no-repeat;
   box-shadow: ${props => (props.player ? boxShadow.standard : '')};
   transform: ${props => (props.player ? 'scale(0.9)' : '')};
@@ -55,4 +52,20 @@ export const StyledIndicator = styled.div`
   border-radius: 50%;
   background-color: ${props =>
     props.player ? playerBorders[props.player] : ''};
+`;
+
+export const StyledCellHp = styled.div`
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  z-index: 99999;
+  overflow: hidden;
+
+  & > div {
+    flex: 1;
+    background-color: ${colors.redTransparent};
+  }
 `;

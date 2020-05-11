@@ -1,16 +1,53 @@
-import { List } from "immutable";
-
-// **** Helper Functions ***** //
-// **                       ** //
-function random(min, max) {
-  return Math.floor(Math.random() * (max - min) + min);
-};
+import { List } from 'immutable';
+import { random, copy } from './helper-functions';
 
 // **** Map Generation Functions ***** //
 // **                               ** //
 
 const randomiseFill = (grid, fill, rows) => {
-  const forbiddenTiles = [2, 3, 4, 5, 6, 7, 92, 93, 94, 95, 95, 96, 97, 15, 25, 35, 45, 55, 65, 75, 85];
+  const forbiddenTiles = [
+    3,
+    4,
+    5,
+    6,
+    7,
+    93,
+    94,
+    95,
+    96,
+    97,
+    84,
+    85,
+    86,
+    13,
+    12,
+    22,
+    32,
+    31,
+    41,
+    51,
+    50,
+    60,
+    61,
+    62,
+    72,
+    82,
+    83,
+    17,
+    18,
+    28,
+    29,
+    39,
+    49,
+    48,
+    58,
+    57,
+    67,
+    66,
+    76,
+    75,
+    85,
+  ];
   let randomisedFill = [];
 
   for (let i = 0; i < fill.obstacles(); ++i) {
@@ -21,10 +58,8 @@ const randomiseFill = (grid, fill, rows) => {
     } else {
       randomisedFill.push(randomFill);
     }
-  };
+  }
 
-  console.log(randomisedFill);
-  
   return randomisedFill;
 };
 
@@ -32,26 +67,26 @@ const randomiseFill = (grid, fill, rows) => {
 // **                             ** //
 
 const makeAdjacentMatrix = (grid, rows, columns) => {
-  let newGrid = JSON.parse(JSON.stringify(grid));
+  let newGrid = copy(grid);
 
   newGrid.forEach((cell, index) => {
     let adjecent = [];
 
     let up = index - columns;
-    up > -1 && adjecent.push({ index: up, direction: "up" });
+    up > -1 && adjecent.push({ index: up, direction: 'up' });
 
     let down = index + columns;
-    down < newGrid.length && adjecent.push({ index: down, direction: "down" });
+    down < newGrid.length && adjecent.push({ index: down, direction: 'down' });
 
     let left = index - 1;
     left >= 0 &&
       index % columns !== 0 &&
-      adjecent.push({ index: left, direction: "left" });
+      adjecent.push({ index: left, direction: 'left' });
 
     let right = index + 1;
     right < newGrid.length &&
       right % columns !== 0 &&
-      adjecent.push({ index: right, direction: "right" });
+      adjecent.push({ index: right, direction: 'right' });
 
     cell.adjecent = adjecent;
   });
@@ -60,17 +95,17 @@ const makeAdjacentMatrix = (grid, rows, columns) => {
 };
 
 const fillGrid = (grid, fill, rows) => {
-  let newGrid = JSON.parse(JSON.stringify(grid));
+  let newGrid = copy(grid);
 
   const randomisedFill = randomiseFill(grid, fill, rows);
 
   randomisedFill.forEach(obstacle => {
-    newGrid[obstacle].fill = "X";
-    newGrid[obstacle].image = "tree";
-    newGrid[obstacle].terrain = "grass";
+    newGrid[obstacle].fill = 'X';
+    newGrid[obstacle].image = 'tree';
+    newGrid[obstacle].terrain = 'grass';
   });
 
-  fill.characters.forEach(character => {
+  fill.characters().forEach(character => {
     newGrid[character.index].fill = character.fill;
     newGrid[character.index].image = character.image;
     newGrid[character.index].stats = character;
@@ -85,15 +120,15 @@ const makeGrid = ({ rows, columns, fill }) => {
     for (let j = 0; j < columns; ++j) {
       grid.push({
         index: i * columns + j,
-        fill: "",
+        fill: '',
         adjecent: [],
         visited: 0,
         path: 0,
-        image: "",
-        terrain: "grass",
+        image: '',
+        terrain: 'grass',
         animation: null,
         direction: null,
-        sound: "click",
+        sound: 'click',
       });
     }
   }
@@ -155,7 +190,7 @@ const fillPath = (grid, path) => {
 
   return newGrid.withMutations(newGrid => {
     path.forEach(cell => {
-      newGrid.setIn([cell.index, "path"], 1);
+      newGrid.setIn([cell.index, 'path'], 1);
     });
   });
 };
@@ -184,7 +219,7 @@ const searchForPath = (grid, start, target) => {
           !newGrid[adjecentCell.index].fill
         ) {
           newGrid[adjecentCell.index].visited = 1;
-          const newPath = JSON.parse(JSON.stringify(path));
+          const newPath = copy(path);
           newPath.push(newGrid[adjecentCell.index]);
           newPath[newPath.length - 1].direction = adjecentCell.direction;
           newPaths.push(newPath);
@@ -198,13 +233,13 @@ const searchForPath = (grid, start, target) => {
   do {
     ++counter;
     if (counter > 299) {
-      console.log("time out!");
+      console.log('time out!');
     }
     paths = searchStep();
     if (finalPath) {
       return finalPath;
     } else if (paths.length === 0) {
-      console.log("path impossible!");
+      console.log('path impossible!');
       return false;
     }
   } while (!finalPath && counter < 300);
@@ -253,23 +288,23 @@ const startSearch = (grid, start, target, character) => {
 
 const moveCharacter = (grid, character, target) =>
   grid
-    .setIn([character.index, "fill"], "")
-    .setIn([character.index, "image"], "")
-    .setIn([character.index, "stats"], "")
-    .setIn([target.index, "image"], character.image)
-    .setIn([target.index, "fill"], character.fill)
-    .setIn([target.index, "stats"], character)
-    .setIn([target.index, "stats", "index"], target.index);
+    .setIn([character.index, 'fill'], '')
+    .setIn([character.index, 'image'], '')
+    .setIn([character.index, 'stats'], '')
+    .setIn([target.index, 'image'], character.image)
+    .setIn([target.index, 'fill'], character.fill)
+    .setIn([target.index, 'stats'], character)
+    .setIn([target.index, 'stats', 'index'], target.index);
 
 const clearTile = (grid, tile) =>
   grid
-    .setIn([tile, "image"], "")
-    .setIn([tile, "stats"], "")
-    .setIn([tile, "fill"], "")
-    .setIn([tile, "sound"], "click");
+    .setIn([tile, 'image'], '')
+    .setIn([tile, 'stats'], '')
+    .setIn([tile, 'fill'], '')
+    .setIn([tile, 'sound'], 'click');
 
 const updateCharacter = (grid, character) =>
-  grid.setIn([character.index, "stats"], character.stats);
+  grid.setIn([character.index, 'stats'], character.stats);
 
 export const GridHelper = {
   makeGrid,
