@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "07a022c5ac4ee91d99203cad9f1de941",
+    "revision": "a12486a4b4f5d29c67988d30c23c3f0e",
     "url": "/grid-battle/index.html"
   },
   {
