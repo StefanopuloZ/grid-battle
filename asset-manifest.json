@@ -1,28 +1,28 @@
 {
   "files": {
-    "main.css": "/static/css/main.6dba48e9.chunk.css",
-    "main.js": "/static/js/main.3a9c1cbf.chunk.js",
-    "main.js.map": "/static/js/main.3a9c1cbf.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.5bfbf044.js",
-    "runtime-main.js.map": "/static/js/runtime-main.5bfbf044.js.map",
-    "static/js/2.c277790e.chunk.js": "/static/js/2.c277790e.chunk.js",
-    "static/js/2.c277790e.chunk.js.map": "/static/js/2.c277790e.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.d2922d0215fbb1ed30a69a1979af4041.js": "/precache-manifest.d2922d0215fbb1ed30a69a1979af4041.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/main.6dba48e9.chunk.css.map": "/static/css/main.6dba48e9.chunk.css.map",
-    "static/media/fonts.scss": "/static/media/Lora-Bold.5d77e2a2.woff",
-    "static/media/fortuna.png": "/static/media/fortuna.2fdac4a2.png",
-    "static/media/goblin_regular.png": "/static/media/goblin_regular.c800bdd9.png",
-    "static/media/golem.png": "/static/media/golem.a0b06764.png",
-    "static/media/ground.jpg": "/static/media/ground.a122af34.jpg",
-    "static/media/tree.png": "/static/media/tree.f7e58740.png",
-    "static/media/warrior.png": "/static/media/warrior.d8b023eb.png"
+    "main.css": "/grid-battle/static/css/main.4bf48267.chunk.css",
+    "main.js": "/grid-battle/static/js/main.3f8a8c95.chunk.js",
+    "main.js.map": "/grid-battle/static/js/main.3f8a8c95.chunk.js.map",
+    "runtime-main.js": "/grid-battle/static/js/runtime-main.5026a2c7.js",
+    "runtime-main.js.map": "/grid-battle/static/js/runtime-main.5026a2c7.js.map",
+    "static/js/2.0b38ff1e.chunk.js": "/grid-battle/static/js/2.0b38ff1e.chunk.js",
+    "static/js/2.0b38ff1e.chunk.js.map": "/grid-battle/static/js/2.0b38ff1e.chunk.js.map",
+    "index.html": "/grid-battle/index.html",
+    "precache-manifest.5017cda37c4987bada9519b3b77b4bdc.js": "/grid-battle/precache-manifest.5017cda37c4987bada9519b3b77b4bdc.js",
+    "service-worker.js": "/grid-battle/service-worker.js",
+    "static/css/main.4bf48267.chunk.css.map": "/grid-battle/static/css/main.4bf48267.chunk.css.map",
+    "static/media/fonts.scss": "/grid-battle/static/media/Lora-Bold.5d77e2a2.woff",
+    "static/media/fortuna.png": "/grid-battle/static/media/fortuna.2fdac4a2.png",
+    "static/media/goblin_regular.png": "/grid-battle/static/media/goblin_regular.c800bdd9.png",
+    "static/media/golem.png": "/grid-battle/static/media/golem.a0b06764.png",
+    "static/media/ground.jpg": "/grid-battle/static/media/ground.a122af34.jpg",
+    "static/media/tree.png": "/grid-battle/static/media/tree.f7e58740.png",
+    "static/media/warrior.png": "/grid-battle/static/media/warrior.d8b023eb.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.5bfbf044.js",
-    "static/js/2.c277790e.chunk.js",
-    "static/css/main.6dba48e9.chunk.css",
-    "static/js/main.3a9c1cbf.chunk.js"
+    "static/js/runtime-main.5026a2c7.js",
+    "static/js/2.0b38ff1e.chunk.js",
+    "static/css/main.4bf48267.chunk.css",
+    "static/js/main.3f8a8c95.chunk.js"
   ]
 }
