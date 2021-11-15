@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/grid-battle/static/css/main.4bf48267.chunk.css",
-    "main.js": "/grid-battle/static/js/main.3f8a8c95.chunk.js",
-    "main.js.map": "/grid-battle/static/js/main.3f8a8c95.chunk.js.map",
+    "main.js": "/grid-battle/static/js/main.e9c36757.chunk.js",
+    "main.js.map": "/grid-battle/static/js/main.e9c36757.chunk.js.map",
     "runtime-main.js": "/grid-battle/static/js/runtime-main.5026a2c7.js",
     "runtime-main.js.map": "/grid-battle/static/js/runtime-main.5026a2c7.js.map",
     "static/js/2.0b38ff1e.chunk.js": "/grid-battle/static/js/2.0b38ff1e.chunk.js",
     "static/js/2.0b38ff1e.chunk.js.map": "/grid-battle/static/js/2.0b38ff1e.chunk.js.map",
     "index.html": "/grid-battle/index.html",
-    "precache-manifest.3e21af48048ff5a0a829ff865a88c45b.js": "/grid-battle/precache-manifest.3e21af48048ff5a0a829ff865a88c45b.js",
+    "precache-manifest.103f6b8cf29f0523cd543e4ea7882f09.js": "/grid-battle/precache-manifest.103f6b8cf29f0523cd543e4ea7882f09.js",
     "service-worker.js": "/grid-battle/service-worker.js",
     "static/css/main.4bf48267.chunk.css.map": "/grid-battle/static/css/main.4bf48267.chunk.css.map",
     "static/media/fonts.scss": "/grid-battle/static/media/Lora-Bold.5d77e2a2.woff",
@@ -23,6 +23,6 @@
     "static/js/runtime-main.5026a2c7.js",
     "static/js/2.0b38ff1e.chunk.js",
     "static/css/main.4bf48267.chunk.css",
-    "static/js/main.3f8a8c95.chunk.js"
+    "static/js/main.e9c36757.chunk.js"
   ]
 }
