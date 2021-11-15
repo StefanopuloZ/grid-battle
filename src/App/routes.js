@@ -1,5 +1,7 @@
+const base = "/grid-battle";
+
 export default {
-    home: '/',
-    battle: '/battle',
-    about: '/about',
-}
+  home: `${base}/`,
+  battle: `${base}/battle`,
+  about: `${base}/about`,
+};

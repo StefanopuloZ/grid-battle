@@ -2,7 +2,7 @@
   "name": "grid-battle",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://gridbattle.in.rs/",
+  "homepage": "https://stefanopuloz.github.io/grid-battle/",
   "dependencies": {
     "@babel/core": "7.6.0",
     "@babel/runtime": "^7.6.3",
